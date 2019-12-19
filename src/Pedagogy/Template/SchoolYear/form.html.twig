@@ -1,0 +1,30 @@
+{% extends "@manager/form.html.twig" %}
+{% block form %}
+    <div class="form-group {% if (form_errors(form.label) is not empty) %} has-danger{% endif %}">
+        <label for="label">Libellé *
+            <small>(format : aaaa-aaaa)</small>
+        </label>
+        {{ form_widget(form.label, {'attr': { 'id':'label'}}) }}
+        <div class="form-control-feedback amber-text">
+            {{ form_errors(form.label) }}
+        </div>
+    </div>
+    <div class="form-group {% if (form_errors(form.startDate) is not empty) %} has-danger{% endif %}">
+        <label for="dateDebut">Date de début *
+
+        </label>
+        {{ form_widget(form.startDate, {'attr': {'id':'startDate'}}) }}
+        <div class="form-control-feedback amber-text">
+            {{ form_errors(form.startDate) }}
+        </div>
+    </div>
+    <div class="form-group {% if (form_errors(form.endDate) is not empty) %} has-danger{% endif %}">
+        <label for="endDate">Date de fin *
+
+        </label>
+        {{ form_widget(form.endDate, {'attr': {'id':'endDate'}}) }}
+        <div class="form-control-feedback amber-text">
+            {{ form_errors(form.endDate) }}
+        </div>
+    </div>
+{% endblock %}

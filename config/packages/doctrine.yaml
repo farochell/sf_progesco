@@ -16,9 +16,63 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            App:
+            gedmo_translatable:
+                type: annotation
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+                is_bundle: false
+            gedmo_translator:
+                type: annotation
+                prefix: Gedmo\Translator\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+                is_bundle: false
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                is_bundle: false
+            gedmo_tree:
+                type: annotation
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                alias: GedmoTree # (optional) it will default to the name set for the mapping
+                is_bundle: false
+            Configuration:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Configuration/Entity'
+                prefix: 'App\Configuration\Entity'
+                alias: Configuration
+            Student:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Student/Entity'
+                prefix: 'App\Student\Entity'
+                alias: Student
+            Pedagogy:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Pedagogy/Entity'
+                prefix: 'App\Pedagogy\Entity'
+                alias: Pedagogy
+            Classroom:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Classroom/Entity'
+                prefix: 'App\Classroom\Entity'
+                alias: Classroom
+            Teacher:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Teacher/Entity'
+                prefix: 'App\Teacher\Entity'
+                alias: Teacher
+            Security:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Security/Entity'
+                prefix: 'App\Security\Entity'
+                alias: Security

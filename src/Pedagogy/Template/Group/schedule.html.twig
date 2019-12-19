@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex flex-row justify-content-between">
+                        <h4>Emploi du temps du groupe {{ group }} - {{ agenda }}</h4>
+                        <div class="">
+                            <a title="Mois précédent"
+                               href="{{ path("group_schedule", {"id":id, "month": previousMonth(agenda).month, "year": previousMonth(agenda).year}) }}"
+                               class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+                            <a title="Mois suivant"
+                               href="{{ path("group_schedule", {"id":id,  "month": nextMonth(agenda).month, "year": nextMonth(agenda).year}) }}"
+                               class="btn btn-primary"><i class="fas fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="calendar calendar-weeks-{{ agenda.weeks }}">
+                                {% for week in 0..agenda.weeks %}
+                                    {% if week < agenda.weeks %}
+                                        <tr>
+                                            {% for k, day in agenda.days %}
+                                                {% set dateJ = calculDay(agenda.startingDayFormated, k, week) %}
+                                                {% set events = getEventDay(schedules, dateJ) %}
+                                                <td class="align-top {{ (withinMonth(dateJ, agenda))==false ? 'overMonth':'' }}">
+                                                    <div class="card">
+                                                        <div class="card-header {{ (withinMonth(dateJ, agenda))==false ? '':'grey lighten-1 grey-text text-darken-4' }}">
+                                                            <div class="info-date ">
+                                                                <span class="day"> {{ day }} </span>
+                                                                <span class="small">{{ dateJ | date("d") }}</span> <br/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body text-justify">
+                                                            {% for event in events %}
+                                                                {% if isAM(event.startHour) == true %}
+                                                                    <div class="small">
+                                                                        <div class="lime-text text-accent-2 text-justify">
+                                                                            {{ event.startHour | date("H:i") ~ ' - ' ~ event.endHour | date("H:i") }}
+                                                                            <br/>
+                                                                            {{ event.teaching.label }}
+                                                                            <br/>
+                                                                            {{ event.classroom.label }}
+                                                                            <br/>
+                                                                        </div>
+                                                                    </div>
+                                                                {% else %}
+                                                                    <div class="small">
+                                                                        <div class="lime-text text-accent-2 mb-2">
+                                                                            {{ event.startHour | date("H:i") ~ ' - ' ~ event.endHour | date("H:i") }}
+                                                                            <br/>
+                                                                            {{ event.teaching.label }}
+                                                                            <br/>
+                                                                            {{ event.classroom.label }}
+                                                                            <br/>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche de la classe <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+     <div class="row">
+         <div class="col col-sm-12 mt-2">
+             <!-- Infos -->
+             <div id="accordioninfo" role="tablist" aria-multiselectable="true">
+                 <div class="card">
+                     <div class="card-header grey darken-3" role="tab" id="headingOne">
+                         <a class="header-accordion" data-toggle="collapse" data-parent="#accordioninfo" href="#infoGen"
+                            aria-expanded="true" aria-controls="collapseOne">
+                             Informations générales
+                         </a>
+                     </div>
+                     <div id="infoGen" class="collapseblock show" role="tabpanel" aria-labelledby="headingOne">
+                         <ul class="list-group list-group-flush">
+                             <li class="list-group-item"><label class="col-sm-2">Libellé</label>
+                                 <span class="blue-text text-accent-1">{{ data.label }}</span>
+                             </li>
+                             <li class="list-group-item"><label class="col-sm-2">Filière</label>
+                                 <span class="blue-text text-accent-1">
+						        {{ data.study }}
+					        </span>
+                             </li>
+                             <li class="list-group-item"><label class="col-sm-2">Niveau</label>
+                                 <span class="blue-text text-accent-1">
+						        {{ data.level }}
+					        </span>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ {% endblock %}

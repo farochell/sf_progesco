@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {{ form_start(form , {'attr': {'id': 'form', 'novalidate':'novalidate'}}) }}
+    {% if not form.vars.valid %}
+    <div class="alert alert-warning" role="alert">
+        {{ form_errors(form) }}
+    </div>
+        {% endif %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card grey darken-3">
+                <div class="card-header dark darken-1 white-text text-lighten-4">Formulaire</div>
+                <div class="card-body  brown-text text-lighten-4">
+                    {% block form %}
+                        {{ form_widget(form) }}
+                    {% endblock %}
+                </div>
+                <div class="card-footer dark darken-1">
+                    {% block action %}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <a href="{{ previousUrl }}" class="btn btn-sm red white-text text-lighten-4 ">
+                                    <i class="fa fa-reply"></i>  Annuler</a>
+                            </div>
+                            <div class="col-sm-12 col-md-6 ">
+                                <button type="submit" class=" float-right btn btn-sm green white-text text-lighten-4 ">
+                                    <i class="fa fa-check"></i>  Enregistrer</button>
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

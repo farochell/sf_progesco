@@ -1,0 +1,10 @@
+{% if buttons is defined %}
+    {% if buttons is not empty %}
+        {% for button in buttons %}
+            {% for butt in button %}
+                {{ include('@ihm/Button/button-'~butt.type~'.html.twig') }}
+
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endif %}

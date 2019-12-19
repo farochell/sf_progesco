@@ -1,0 +1,77 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche du professeur <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+    <div class="row">
+        <div class="col col-sm-12 mt-2">
+            <!-- Infos -->
+            <div id="accordioninfo" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header grey darken-3" role="tab" id="headingOne">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordioninfo" href="#infoGen"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            Informations générales
+                        </a>
+                    </div>
+                    <div id="infoGen" class="collapseblock show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Matricule</label>
+                                        <span class="blue-text text-accent-1">{{ data.matricule }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Prénom</label>
+                                        <span class="blue-text text-accent-1">{{ data.firstName }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Nom</label>
+                                        <span class="blue-text text-accent-1">{{ data.lastName }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Date de naissance</label>
+                                        <span class="blue-text text-accent-1">{{ data.birthDate | date ("d-m-Y")}}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Téléphone 1</label>
+                                        <span class="blue-text text-accent-1">{{ data.phone1 }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Téléphone 2</label>
+                                        <span class="blue-text text-accent-1">{{ data.phone2 }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Adresse email</label>
+                                        <span class="blue-text text-accent-1">{{ data.email }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Niveau d'étude</label>
+                                        <span class="blue-text text-accent-1">{{ data.studyLevel }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Nationalité</label>
+                                        <span class="blue-text text-accent-1">{{ data.nationality }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Adresse</label>
+                                        <span class="blue-text text-accent-1">{{ data.address }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Ville</label>
+                                        <span class="blue-text text-accent-1">{{ data.city }}</span>
+                                    </li>
+                                    <li class="list-group-item"><label class="col-sm-12 col-md-4">Spécialités</label>
+                                        <span class="blue-text text-accent-1">
+                                            <ul>
+                                                {% for speciality in data.specialities %}
+                                                    <li>
+                                                    {{ speciality }}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% if wo_breadcrumbs()|length %}
+    {%- spaceless -%}
+        <nav class="breadcrumb">
+            {% for b in breadcrumbs %}
+                {% if b.url and not loop.last %}
+                    <a href="{{ b.url }}" itemprop="item"{% if linkRel is defined and linkRel|length %} rel="{{ linkRel }}"{% endif %}>
+                {% endif %}
+                <span itemprop="name">&nbsp;{% if b.translate is defined and b.translate == true %}{{- b.text | trans(b.translationParameters, translation_domain, locale) -}}{% else %}{{- b.text -}}{% endif %}</span>
+                {% if b.url and not loop.last %}
+                    </a>
+                {% endif %}
+                {% if separator is not null and not loop.last %}
+                    <span class='{{ separatorClass }}'>&nbsp;{{ separator }} </span>
+                {% endif %}
+            {% endfor %}
+        </nav>
+    {%- endspaceless -%}
+{% endif %}
