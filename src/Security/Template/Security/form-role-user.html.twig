@@ -1,0 +1,25 @@
+{% extends "@manager/form.html.twig" %}
+{% block form %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                   <div class="form-group col-sm-12 {% if (form_errors(form.user) is not empty) %} has-danger {% endif %}">
+                       <label for="user">Identifiant *</label>
+                       {{ form_widget(form.user, {'attr': {'class': 'form-control', 'id':'user'}}) }}
+                       <div class="form-control-feedback">
+                           {{ form_errors(form.user) }}
+                       </div>
+                   </div>
+            </div>
+            <div class="row">
+                   <div class="form-group col-sm-12 {% if (form_errors(form.roles) is not empty) %} has-danger {% endif %}">
+                       <label for="roles">Rôle *</label>
+                       {{ form_widget(form.roles, {'attr': {'class': 'form-control', 'id':'roles'}}) }}
+                       <div class="form-control-feedback">
+                           {{ form_errors(form.roles) }}
+                       </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

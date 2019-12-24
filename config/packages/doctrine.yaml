@@ -76,3 +76,15 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Security/Entity'
                 prefix: 'App\Security\Entity'
                 alias: Security
+            Schooling:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Schooling/Entity'
+                prefix: 'App\Schooling\Entity'
+                alias: Schooling
+            Accounting:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Accounting/Entity'
+                prefix: 'App\Accounting\Entity'
+                alias: Accounting

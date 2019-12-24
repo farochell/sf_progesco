@@ -53,7 +53,7 @@ class Classroom extends ManagerController
         $this->setService($classroomService);
         $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
-        $breads[] = ['name' => 'Salles de classe', 'url' => 'speciality_homepage'];
+        $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $this->setBreadcrumbs($breads);
         
         $this->addAction(['function' => 'show', 'params' => []]);

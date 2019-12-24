@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class Teacher
@@ -41,7 +42,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher", name="teacher_homepage")
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_SHOW')")
      * @param TeacherService $teacherService
      *
      * @param Breadcrumbs  $breadcrumbs
@@ -53,7 +54,7 @@ class Teacher extends ManagerController
         $this->setService($teacherService);
         $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
-        $breads[] = ['name' => 'Professeurs', 'url' => 'speciality_homepage'];
+        $breads[] = ['name' => 'Professeurs', 'url' => 'teacher_homepage'];
         $this->setBreadcrumbs($breads);
         
         $this->addAction(['function' => 'show', 'params' => []]);
@@ -74,7 +75,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/add", name="teacher_add")
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_ADD')")
      *
      * @param OrmService  $ormService
      *
@@ -97,7 +98,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/update", name="teacher_upd")
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_UPD')")
      *
      * @param OrmService  $ormService
      *
@@ -120,7 +121,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/delete", name="teacher_del")
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_DEL')")
      * @param OrmService $ormService
      *
      * @return JsonResponse|RedirectResponse
@@ -135,6 +136,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/edit", name="teacher_edit")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_SHOW')")
      * @param TeacherService $teacherService
      * @param Breadcrumbs  $breadcrumbs
      *

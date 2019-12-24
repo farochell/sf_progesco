@@ -1,0 +1,44 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche de <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card">
+			<div class="card-header">Information générale</div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item"><label class="col-sm-2">Nom</label>
+					<span class="blue-text text-accent-1">{{ data.lastName }}</span>
+				</li>
+				<li class="list-group-item"><label class="col-sm-2">Prénom</label> 
+					<span class="blue-text text-accent-1">
+						{{ data.firstName }}
+					</span>
+				</li>
+                <li class="list-group-item"><label class="col-sm-2">Identifiant</label> 
+					<span class="blue-text text-accent-1">
+						{{ data.username }}
+					</span>
+				</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">Liste des rôles</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3 mb-1 ">
+                        <a href="{{ path('add_role_user',{'id':data.id}) }}" class="btn blue-grey darken-1 text-white">
+                            <i class="fa fa-plus"></i> Ajouter un rôle</a>
+                    </div>                         
+                </div>
+                {{ render(controller('App\\Security\\Controller\\Security:listUserRoles',{ 'user_id': data.id })) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

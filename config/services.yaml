@@ -4,199 +4,222 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'fr'
-    app_copyright: '&copy; 2019 - PROGESCO'
-    app_version: 'v1.0'
-    # Titre du projet
-    app_title: 'PROGESCO'
-    # Hôte LDAP
-    ldap_host: '%env(LDAP_HOST)%'
-    # Base LDAP
-    ldap_baseDn: '%env(LDAP_BASEDN)%'
-    # Identifiant de connexion au serveur LDAP
-    ldap_identifier: '%env(LDAP_IDENTIFIER)%'
-    # Mot de passe de l'identifiant de connexion au serveur LDAP
-    ldap_password: '%env(LDAP_PASSWORD)%'
-    # Numéro de port du serveur LDAP
-    ldap_port: '%env(LDAP_PORT)%'
-    # Numéro de version du protocol LDAP
-    ldap_protocol_version: 3
-    # Permet de définir les groupes de sécurité qui ont accès à l'application. Si pas de restriction
-    # laisser le tableau vide
-    ldap_authorized_groups: []
-    # URL de redirection par défaut après l'authentification
-    default_redirection: 'homepage'
-    button_alignment: 'd-flex justify-content-center'
+  locale: 'fr'
+  app_copyright: '&copy; 2019 - PROGESCO'
+  app_version: 'v1.0'
+  # Titre du projet
+  app_title: 'PROGESCO'
+  # Hôte LDAP
+  ldap_host: '%env(LDAP_HOST)%'
+  # Base LDAP
+  ldap_baseDn: '%env(LDAP_BASEDN)%'
+  # Identifiant de connexion au serveur LDAP
+  ldap_identifier: '%env(LDAP_IDENTIFIER)%'
+  # Mot de passe de l'identifiant de connexion au serveur LDAP
+  ldap_password: '%env(LDAP_PASSWORD)%'
+  # Numéro de port du serveur LDAP
+  ldap_port: '%env(LDAP_PORT)%'
+  # Numéro de version du protocol LDAP
+  ldap_protocol_version: 3
+  # Permet de définir les groupes de sécurité qui ont accès à l'application. Si pas de restriction
+  # laisser le tableau vide
+  ldap_authorized_groups: []
+  # URL de redirection par défaut après l'authentification
+  default_redirection: 'homepage'
+  button_alignment: 'd-flex justify-content-center'
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: '../src/*'
+    exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags:
-            - { name: twig.extension }
+  twig.extension.intl:
+    class: Twig_Extensions_Extension_Intl
+    tags:
+      - { name: twig.extension }
 
-    App\Calendar\Twig\CalendarExtension:
-        arguments: ['@service_container']
-        public: true
-        tags:
-            - { name: twig.extension}
+  App\Calendar\Twig\CalendarExtension:
+    arguments: ['@service_container']
+    public: true
+    tags:
+      - { name: twig.extension}
 
-    orm.service:
-        class: App\Manager\Service\OrmService
-        autowire: false
-        public: true
-        arguments:
-            - '@service_container'
+  orm.service:
+    class: App\Manager\Service\OrmService
+    autowire: false
+    public: true
+    arguments:
+      - '@service_container'
 
-    schoolyear.helper:
-        class: App\Pedagogy\Helper\SchoolYearHelper
-        autowire: false
-        public: true
-        arguments: ['@service_container']
+  schoolyear.helper:
+    class: App\Pedagogy\Helper\SchoolYearHelper
+    autowire: false
+    public: true
+    arguments: ['@service_container']
 
-    gender.service:
-        class: App\Configuration\Service\GenderService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  gender.service:
+    class: App\Configuration\Service\GenderService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    marital_status.service:
-        class: App\Configuration\Service\MaritalStatusService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  marital_status.service:
+    class: App\Configuration\Service\MaritalStatusService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    study.service:
-        class: App\Pedagogy\Service\StudyService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  study.service:
+    class: App\Pedagogy\Service\StudyService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    level.service:
-        class: App\Pedagogy\Service\LevelService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  level.service:
+    class: App\Pedagogy\Service\LevelService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    grade.service:
-        class: App\Pedagogy\Service\GradeService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  grade.service:
+    class: App\Pedagogy\Service\GradeService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    schoolyear.service:
-        class: App\Pedagogy\Service\SchoolYearService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  schoolyear.service:
+    class: App\Pedagogy\Service\SchoolYearService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    courseperiod.service:
-        class: App\Pedagogy\Service\CoursePeriodService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  courseperiod.service:
+    class: App\Pedagogy\Service\CoursePeriodService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    group.service:
-        class: App\Pedagogy\Service\GroupService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  group.service:
+    class: App\Pedagogy\Service\GroupService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    speciality.service:
-        class: App\Pedagogy\Service\SpecialityService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  speciality.service:
+    class: App\Pedagogy\Service\SpecialityService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    teaching.service:
-        class: App\Pedagogy\Service\TeachingService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  teaching.service:
+    class: App\Pedagogy\Service\TeachingService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    classroom.service:
-        class: App\Classroom\Service\ClassroomService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  classroom.service:
+    class: App\Classroom\Service\ClassroomService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    semester.service:
-        class: App\Pedagogy\Service\SemesterService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  semester.service:
+    class: App\Pedagogy\Service\SemesterService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    course.service:
-        class: App\Pedagogy\Service\CourseService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  course.service:
+    class: App\Pedagogy\Service\CourseService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    teacher.service:
-        class: App\Teacher\Service\TeacherService
-        autowire: true
-        public: true
-        arguments: ['@service_container','@schoolyear.helper']
+  teacher.service:
+    class: App\Teacher\Service\TeacherService
+    autowire: true
+    public: true
+    arguments: ['@service_container','@schoolyear.helper']
 
-    teacher.listener:
-        class: App\Teacher\Listener\TeacherListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: doctrine.event_listener, event: prePersist, lazy: true }
-            - { name: doctrine.event_listener, event: postPersist, lazy: true }
+  teacher.listener:
+    class: App\Teacher\Listener\TeacherListener
+    arguments: ["@service_container"]
+    tags:
+      - { name: doctrine.event_listener, event: prePersist, lazy: true }
+      - { name: doctrine.event_listener, event: postPersist, lazy: true }
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
+  create-user.command:
+    class: App\Security\Command\CreateUserCommand
+    autowire: true
+    public: true
+    arguments: ['@service_container', '@security.user_password_encoder.generic']
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
 
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
 
 knp_paginator:
-    default_options:
-        page_name: page                # page query parameter name
-        sort_field_name: sort          # sort field query parameter name
-        sort_direction_name: direction # sort direction query parameter name
-        filter_field_name: filterField  # filter field query parameter name
-        filter_value_name: filterValue  # filter value query paameter name
-    template:
-        pagination: '@KnpPaginator/Pagination/sliding.html.twig'
-        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig'
-        filtration: '@KnpPaginator/Pagination/filtration.html.twig'
+  default_options:
+    page_name: page                # page query parameter name
+    sort_field_name: sort          # sort field query parameter name
+    sort_direction_name: direction # sort direction query parameter name
+    filter_field_name: filterField  # filter field query parameter name
+    filter_value_name: filterValue  # filter value query paameter name
+  template:
+    pagination: '@KnpPaginator/Pagination/sliding.html.twig'
+    sortable: '@KnpPaginator/Pagination/sortable_link.html.twig'
+    filtration: '@KnpPaginator/Pagination/filtration.html.twig'
 
 knp_menu:
-    # use "twig: false" to disable the Twig extension and the TwigRenderer
-    twig:
-        template: KnpMenuBundle::menu.html.twig
-    #  if true, enables the helper for PHP templates
-    templating: false
-    # the renderer to use, list is also available by default
-    default_renderer: twig
+  # use "twig: false" to disable the Twig extension and the TwigRenderer
+  twig:
+    template: KnpMenuBundle::menu.html.twig
+  #  if true, enables the helper for PHP templates
+  templating: false
+  # the renderer to use, list is also available by default
+  default_renderer: twig
 
 white_october_breadcrumbs:
-    separator:          '>'
-    separatorClass:     'separator'
-    listId:             'wo-breadcrumbs'
-    listClass:          'breadcrumb'
-    itemClass:          ''
-    linkRel:            ''
-    locale:             ~ # defaults to null, so the default locale is used
-    translation_domain: ~ # defaults to null, so the default domain is used
+  separator:          '>'
+  separatorClass:     'separator'
+  listId:             'wo-breadcrumbs'
+  listClass:          'breadcrumb'
+  itemClass:          ''
+  linkRel:            ''
+  locale:             ~ # defaults to null, so the default locale is used
+  translation_domain: ~ # defaults to null, so the default domain is used
 
 lexik_form_filter:
-    where_method: ~
-    condition_pattern: text.starts
-    listeners:
-        doctrine_orm: true
-        doctrine_dbal: false
-        doctrine_mongodb: false
+  where_method: ~
+  condition_pattern: text.starts
+  listeners:
+    doctrine_orm: true
+    doctrine_dbal: false
+    doctrine_mongodb: false
+
+# config/packages/prod/monolog.yaml
+monolog:
+  handlers:
+    # this "file_log" key could be anything
+    file_log:
+      type: stream
+      # log to var/log/(environment).log
+      path: "%kernel.logs_dir%/%kernel.environment%.log"
+      # log *all* messages (debug is lowest level)
+      level: debug
+
+    syslog_handler:
+      type: syslog
+      # log error-level messages and higher
+      level: error
+

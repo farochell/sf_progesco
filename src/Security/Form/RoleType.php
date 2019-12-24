@@ -23,7 +23,7 @@ class RoleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('label', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('description', TextareaType::class, ['attr' => ['class' => 'form-control']])
             ->add('menu', TextType::class, [ 'attr' => ['class' => 'form-control']]);
     }

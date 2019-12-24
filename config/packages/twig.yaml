@@ -9,6 +9,8 @@ twig:
         '%kernel.project_dir%/src/Classroom/Template': classroom
         '%kernel.project_dir%/src/Teacher/Template': teacher
         '%kernel.project_dir%/src/Security/Template': security
+        '%kernel.project_dir%/src/Schooling/Template': schooling
+        '%kernel.project_dir%/src/Accounting/Template': accounting
     debug: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
     strict_variables: '%kernel.debug%'

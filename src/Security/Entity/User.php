@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * Class User
@@ -25,7 +24,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  * @UniqueEntity(fields="email", message="Email déjà utilisé")
  * @UniqueEntity(fields="username", message="Identifiant déjà utilisé")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -130,7 +129,7 @@ class User
     {
         $roles = [];
         foreach ($this->roles as $role) {
-            $roles[] = $role->getLibelle();
+            $roles[] = $role->getLabel();
         }
         $roles[] = 'ROLE_USER';
         return $roles;
@@ -306,6 +305,8 @@ class User
     
     /**
      * Set the value of firstName
+     *
+     * @param string $firstName
      *
      * @return  self
      */

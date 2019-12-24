@@ -8,18 +8,25 @@
 namespace App\Security\Controller;
 
 use App\Manager\Controller\ManagerController;
+use App\Manager\Service\OrmService;
+use App\Security\Service\RoleService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * Class Role
  *
  * @package App\Security\Controller
- *
+ * @Route("/admin")
  */
 class Role extends ManagerController
 {
+    /**
+     * Role constructor.
+     */
     public function __construct()
     {
         $this->setController('Role');
@@ -30,53 +37,87 @@ class Role extends ManagerController
         $this->setEntityName('Role');
         $this->setTag('@security');
     }
-
+    
     /**
      * @Route("/roles", name="role_homepage")
      * @Security("has_role('ROLE_ADMIN')")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param RoleService $roleService
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
      */
-    public function index()
+    public function home(RoleService $roleService, Breadcrumbs $breadcrumbs)
     {
+        $this->setService($roleService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $breads   = [];
+        $breads[] = ['name' => 'Liste des rôles', 'url' => 'role_homepage'];
+        $this->setBreadcrumbs($breads);
+    
+        $this->addAction(['function' => 'show', 'params' => []]);
+        $this->setCardTitle("Liste des rôles");
         return parent::index();
     }
-
+    
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param $params
+     *
+     * @return Response
      */
-    public function show(){
-        return parent::listRecord();
+    public function show($params){
+        return parent::customFunction("findAll", $params);
     }
-
+    
     /**
      * @Route("/role-ajout", name="role_add")
      * @Security("has_role('ROLE_ADMIN')")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param OrmService  $ormService
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
      */
-    public function add ()
+    public function add (OrmService $ormService, Breadcrumbs $breadcrumbs)
     {
+        $this->setOrmService($ormService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $breads   = [];
+        $breads[] = ['name' => 'Liste des rôles', 'url' => 'role_homepage'];
+        $breads[] = ['name' => 'Formulaire ajout', 'url' => 'role_add'];
+        $this->setBreadcrumbs($breads);
         $this->setUrl('role_homepage');
         return parent::addRecord();
     }
-
+    
     /**
      * @Route("/role-modification", name="role_upd")
      * @Security("has_role('ROLE_ADMIN')")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param OrmService  $ormService
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return Response
      */
-    public function update(){
+    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs){
+        $this->setOrmService($ormService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $breads   = [];
+        $breads[] = ['name' => 'Liste des rôles', 'url' => 'role_homepage'];
+        $breads[] = ['name' => 'Formulaire modification', 'url' => 'role_upd'];
+        $this->setBreadcrumbs($breads);
         $this->setUrl('role_homepage');
         return parent::updateRecord();
     }
-
+    
     /**
      * @Route("/role-suppression", name="role_del")
      * @Security("has_role('ROLE_ADMIN')")
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param OrmService $ormService
+     *
+     * @return Response
      */
-    public function delete(){
+    public function delete(OrmService $ormService){
+        $this->setOrmService($ormService);
         $this->setUrl('role_homepage');
-        return parent::delete();
+        return parent::deleteRecord();
     }
 }

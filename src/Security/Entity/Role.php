@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @package App\Security\Entity
  * @ORM\Table(name="role")
  * @ORM\Entity(repositoryClass="App\Security\Repository\RoleRepository")
- * @UniqueEntity("libelle",message="Ce nom est déjà utilisé pour un autre role")
+ * @UniqueEntity("label",message="Ce nom est déjà utilisé pour un autre role")
  * @ORM\HasLifecycleCallbacks()
  */
 class Role
@@ -41,10 +41,10 @@ class Role
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="string", length=100, unique=true)
+     * @ORM\Column(name="label", type="string", length=100, unique=true)
      * @Assert\NotNull(message="Ce champ doit être renseigné")
      */
-    private $libelle;
+    private $label;
     
     /**
      * @var string
@@ -81,17 +81,17 @@ class Role
     /**
      * @return string
      */
-    public function getLibelle()
+    public function getLabel()
     {
-        return $this->libelle;
+        return $this->label;
     }
     
     /**
-     * @param string $libelle
+     * @param string $label
      */
-    public function setLibelle($libelle)
+    public function setLabel($label)
     {
-        $this->libelle = $libelle;
+        $this->label = $label;
     }
     
     /**
@@ -114,7 +114,7 @@ class Role
      * @return string
      */
     public function __toString(){
-        return $this->libelle;
+        return $this->label;
     }
     
     /**

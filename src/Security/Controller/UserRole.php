@@ -7,15 +7,19 @@
 
 namespace App\Security\Controller;
 
+use App\Manager\Util\Constant;
 use App\Security\Entity\Role;
 use App\Security\Entity\User;
 use Symfony\Component\Form\FormError;
 use App\Security\Form\AddUserRoleType;
 use App\Manager\Controller\ManagerController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * UserRole class
@@ -39,18 +43,25 @@ class UserRole extends ManagerController
         $this->setOrmService('execute_service');
     }
     
-    public function listUserRoles() {
-        return parent::customFunction("listUserRoles");
-    }
-
     /**
      * addUserRole function
-     * @Route("user-role-ajout", name="add_role_user")
+     * @Route("/user-role-ajout", name="add_role_user")
      * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Breadcrumbs $breadcrumbs
+     *
+     * @return RedirectResponse|Response
      */
-    public function addUserRole() {
-        $this->setController('SecurityApp');
+    public function addUserRole(Breadcrumbs $breadcrumbs) {
         $params = $this->getParams();
+        $this->setBreadcrumbService($breadcrumbs);
+        $breads   = [];
+        $breads[] = ['name' => 'Utilisateurs', 'url' => 'user_homepage'];
+        $breads[] = ['name' => 'Fiche', 'url' => 'user_edit', 'params' => ['id' => $params['id']]];
+        $breads[] = ['name' => 'Formulaire ajout', 'url' => 'user_add'];
+        $this->setBreadcrumbs($breads);
+        $this->setController('Security');
+        
         $form = $this->createForm(AddUserRoleType::class, null, $params);
         $response = new JsonResponse();
         $form->handleRequest($this->getRequest());
@@ -67,7 +78,7 @@ class UserRole extends ManagerController
                           
                 $em->flush();
                 
-                return $this->redirectToRoute('user_detail', ['id' => $user->getId()]);
+                return $this->redirectToRoute('user_edit', ['id' => $user->getId()]);
             } catch(\Exception $e) {
                 $form->get('roles')->addError(new FormError($e->getMessage()));
             }
@@ -77,7 +88,8 @@ class UserRole extends ManagerController
         return $this->render($this->getTag() . '\\' . $this->getController() . '\\' . $this->getTemplate(), [
             'form' => $form->createView(),
             'menuItem' => $this->getMenuItem(),
-            'menuGroup' => $this->getMenuGroup()
+            'menuGroup' => $this->getMenuGroup(),
+            Constant::PREVIOUSURL_LABEL => $this->getPreviousUri()
         ]);
     }
 

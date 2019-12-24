@@ -7,6 +7,7 @@ use App\Manager\Controller\ManagerController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AdminController
@@ -29,7 +30,7 @@ class AdminController extends ManagerController
     /**
      * @Route("/admin", name="admin_homepage")
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function home()
     {
