@@ -9,7 +9,6 @@
 
 namespace App\Classroom\Controller;
 
-
 use App\Classroom\Service\ClassroomService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class Classroom
@@ -29,9 +28,16 @@ class Classroom extends ManagerController
 {
     /**
      * ClassroomController constructor.
+     *
+     * @param OrmService       $ormService
+     * @param ClassroomService $classroomService
+     * @param Breadcrumbs      $breadcrumbs
      */
-    public function __construct()
+    public function __construct(OrmService $ormService, ClassroomService $classroomService, Breadcrumbs $breadcrumbs)
     {
+        $this->setOrmService($ormService);
+        $this->setService($classroomService);
+        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Classroom');
         $this->setBundle('App\\Classroom\\Controller');
         $this->setEntityNamespace('App\\Classroom');
@@ -40,18 +46,13 @@ class Classroom extends ManagerController
     }
     
     /**
-     * @Route("/classroom", name="classroom_homepage")
-     *
-     * @param ClassroomService $classroomService
-     *
-     * @param Breadcrumbs  $breadcrumbs
+     * @Route("/classrooms", name="classroom_homepage")
      *
      * @return Response
      */
-    public function home(ClassroomService $classroomService, Breadcrumbs $breadcrumbs)
+    public function home()
     {
-        $this->setService($classroomService);
-        $this->setBreadcrumbService($breadcrumbs);
+        
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $this->setBreadcrumbs($breads);
@@ -73,19 +74,13 @@ class Classroom extends ManagerController
     }
     
     /**
-     * @Route("/classroom/add", name="classroom_add")
+     * @Route("/classrooms/add", name="classroom_add")
      *
-     *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function add()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'classroom_add'];
@@ -96,19 +91,13 @@ class Classroom extends ManagerController
     }
     
     /**
-     * @Route("/classroom/update", name="classroom_upd")
+     * @Route("/classrooms/update", name="classroom_upd")
      *
-     *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
      *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function update()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'classroom_upd'];
@@ -119,30 +108,22 @@ class Classroom extends ManagerController
     }
     
     /**
-     * @Route("/classroom/delete", name="classroom_del")
-     *
-     * @param OrmService $ormService
+     * @Route("/classrooms/delete", name="classroom_del")
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
+    public function delete()
     {
-        $this->setOrmService($ormService);
         $this->setUrl('classroom_homepage');
         
         return parent::deleteRecord();
     }
     
     /**
-     * @Route("/classroom/edit", name="classroom_edit")
-     * @param ClassroomService $classroomService
-     * @param Breadcrumbs  $breadcrumbs
-     *
+     * @Route("/classrooms/edit", name="classroom_edit")
      * @return Response
      */
-    public function detail(ClassroomService $classroomService, Breadcrumbs $breadcrumbs){
-        $this->setService($classroomService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function detail(){
         $breads = array();
         $breads[] = array('name'=>'Salles de classe','url'=>'classroom_homepage');
         $breads[] = array('name'=>'Fiche','url'=>'classroom_edit');

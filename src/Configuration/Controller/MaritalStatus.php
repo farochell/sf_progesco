@@ -13,7 +13,8 @@ use App\Configuration\Service\MaritalStatusService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class MaritalStatus
@@ -37,8 +38,10 @@ class MaritalStatus extends ManagerController
     
     /**
      * @Route("/marital-status", name="marital-status_homepage")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param MaritalStatusService $maritalStatusService
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function home(MaritalStatusService $maritalStatusService){
         $this->setService($maritalStatusService);
@@ -58,9 +61,11 @@ class MaritalStatus extends ManagerController
     
     /**
      * @Route("/marital-status/add", name="marital-status_add")
+     * @Security("is_granted('ROLE_ADMIN')")
      *
+     * @param OrmService $ormService
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function add(OrmService $ormService)
     {
@@ -75,9 +80,11 @@ class MaritalStatus extends ManagerController
     
     /**
      * @Route("/marital-status/update", name="marital-status_upd")
+     * @Security("is_granted('ROLE_ADMIN')")
      *
+     * @param OrmService $ormService
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function update(OrmService $ormService)
     {

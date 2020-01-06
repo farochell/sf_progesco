@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAno;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Class Security
@@ -62,7 +63,7 @@ class Security extends ManagerController
     
     /**
      * @Route("/register", name="user_add")
-     * @SecurityAno("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      *
@@ -108,7 +109,7 @@ class Security extends ManagerController
     
     /**
      * @Route("/admin/users", name="user_homepage")
-     * @SecurityAno("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param UserService $userService
      * @param Breadcrumbs $breadcrumbs
      *
@@ -128,7 +129,7 @@ class Security extends ManagerController
     }
     
     /**
-     * @SecurityAno("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param $params
      *
      * @return Response
@@ -139,7 +140,7 @@ class Security extends ManagerController
     
     /**
      * @Route("/admin/user/update", name="user_upd")
-     * @SecurityAno("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param Breadcrumbs                  $breadcrumbs
@@ -182,7 +183,7 @@ class Security extends ManagerController
     
     /**
      * @Route("/user/edit", name="user_edit")
-     * @SecurityAno("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param UserService $userService
      * @param Breadcrumbs $breadcrumbs

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -41,7 +41,7 @@ class Speciality extends ManagerController
     }
     
     /**
-     * @Route("/speciality", name="speciality_homepage")
+     * @Route("/specialities", name="speciality_homepage")
      *
      * @param SpecialityService $specialityService
      *
@@ -70,7 +70,7 @@ class Speciality extends ManagerController
     }
     
     /**
-     * @Route("/speciality/add", name="speciality_add")
+     * @Route("/specialities/add", name="speciality_add")
      *
      *
      * @param OrmService  $ormService
@@ -92,7 +92,7 @@ class Speciality extends ManagerController
     }
     
     /**
-     * @Route("/speciality/update", name="speciality_upd")
+     * @Route("/specialities/update", name="speciality_upd")
      *
      *
      * @param OrmService  $ormService
@@ -114,7 +114,7 @@ class Speciality extends ManagerController
     }
     
     /**
-     * @Route("/speciality/delete", name="speciality_del")
+     * @Route("/specialities/delete", name="speciality_del")
      *
      * @param OrmService $ormService
      *

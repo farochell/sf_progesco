@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -41,7 +41,7 @@ class Semester extends ManagerController
     }
     
     /**
-     * @Route("/semester", name="semester_homepage")
+     * @Route("/semesters", name="semester_homepage")
      *
      * @param SemesterService $semesterService
      *
@@ -73,7 +73,7 @@ class Semester extends ManagerController
     }
     
     /**
-     * @Route("/semester/add", name="semester_add")
+     * @Route("/semesters/add", name="semester_add")
      *
      *
      * @param OrmService  $ormService
@@ -96,7 +96,7 @@ class Semester extends ManagerController
     }
     
     /**
-     * @Route("/semester/update", name="semester_upd")
+     * @Route("/semesters/update", name="semester_upd")
      *
      *
      * @param OrmService  $ormService
@@ -119,7 +119,7 @@ class Semester extends ManagerController
     }
     
     /**
-     * @Route("/semester/delete", name="semester_del")
+     * @Route("/semesters/delete", name="semester_del")
      *
      * @param OrmService $ormService
      *

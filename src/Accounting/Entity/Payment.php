@@ -10,6 +10,7 @@
 namespace App\Accounting\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,7 +28,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Payment
 {
     const ACTIVE              = 1;
-    const CANCELED            = 2;
+    const CLOSED              = 2;
+    const CANCELED            = 3;
     
     /**
      * @var int
@@ -84,10 +86,16 @@ class Payment
     private $status;
     
     /**
+     * @ORM\OneToMany(targetEntity="App\Accounting\Entity\PaymentPlan", mappedBy="payment", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $paymentPlans;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
@@ -95,7 +103,7 @@ class Payment
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
     
@@ -107,9 +115,21 @@ class Payment
     private $deletedAt;
     
     /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userCreation;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userModification;
+    
+    /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -157,7 +177,7 @@ class Payment
     /**
      * @return float
      */
-    public function getTuition(): float
+    public function getTuition(): ?float
     {
         return $this->tuition;
     }
@@ -189,7 +209,7 @@ class Payment
     /**
      * @return float
      */
-    public function getReduction(): float
+    public function getReduction(): ?float
     {
         return $this->reduction;
     }
@@ -271,5 +291,76 @@ class Payment
      */
     public function __construct() {
         $this->status = self::ACTIVE;
+        $this->paymentPlans = new ArrayCollection();
     }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserCreation()
+    {
+        return $this->userCreation;
+    }
+    
+    /**
+     * @param mixed $userCreation
+     */
+    public function setUserCreation($userCreation): void
+    {
+        $this->userCreation = $userCreation;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserModification()
+    {
+        return $this->userModification;
+    }
+    
+    /**
+     * @param mixed $userModification
+     */
+    public function setUserModification($userModification): void
+    {
+        $this->userModification = $userModification;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString(){
+        return 'Payement N°'. $this->reference;
+    }
+    
+    /**
+     * Remove planpayment
+     *
+     * @param PaymentPlan $paymentPlan
+     */
+    public function removePaymentPlan(PaymentPlan $paymentPlan)
+    {
+        $this->paymentPlans->removeElement($paymentPlan);
+    }
+    
+    /**
+     * @param PaymentPlan $paymentPlan
+     *
+     * @return $this
+     */
+    public function addPaymentPlan(PaymentPlan $paymentPlan)
+    {
+        $this->paymentPlans[] = $paymentPlan;
+        
+        return $this;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getPaymentPlans()
+    {
+        return $this->paymentPlans;
+    }
+    
 }

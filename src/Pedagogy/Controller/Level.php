@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -28,7 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class Level extends ManagerController
 {
     /**
-     * GenderController constructor.
+     * Level constructor.
      */
     public function __construct()
     {
@@ -40,7 +40,7 @@ class Level extends ManagerController
     }
     
     /**
-     * @Route("/level", name="level_homepage")
+     * @Route("/levels", name="level_homepage")
      *
      * @param LevelService $levelService
      * @param Breadcrumbs  $breadcrumbs
@@ -71,7 +71,7 @@ class Level extends ManagerController
     }
     
     /**
-     * @Route("/level/add", name="level_add")
+     * @Route("/levels/add", name="level_add")
      *
      *
      * @param OrmService  $ormService
@@ -93,7 +93,7 @@ class Level extends ManagerController
     }
     
     /**
-     * @Route("/level/update", name="level_upd")
+     * @Route("/levels/update", name="level_upd")
      *
      *
      * @param OrmService  $ormService
@@ -115,7 +115,7 @@ class Level extends ManagerController
     }
     
     /**
-     * @Route("/level/delete", name="level_del")
+     * @Route("/levels/delete", name="level_del")
      *
      * @return JsonResponse|RedirectResponse
      */

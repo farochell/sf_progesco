@@ -205,10 +205,34 @@ class Student
     private $maritalStatus;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Student\Entity\StudentPhoto", mappedBy="student")
+     */
+    private $studentPhotos;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userCreation;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userModification;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
@@ -216,7 +240,7 @@ class Student
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
     
@@ -303,7 +327,7 @@ class Student
     /**
      * @return string
      */
-    public function getBirthPlace(): string
+    public function getBirthPlace(): ?string
     {
         return $this->birthPlace;
     }
@@ -343,7 +367,7 @@ class Student
     /**
      * @return \DateTime
      */
-    public function getRegistrationDate(): \DateTime
+    public function getRegistrationDate(): ?\DateTime
     {
         return $this->registrationDate;
     }
@@ -363,7 +387,7 @@ class Student
     /**
      * @return string
      */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
@@ -383,7 +407,7 @@ class Student
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -403,7 +427,7 @@ class Student
     /**
      * @return string
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
@@ -423,7 +447,7 @@ class Student
     /**
      * @return string
      */
-    public function getFatherLastname(): string
+    public function getFatherLastname(): ?string
     {
         return $this->fatherLastname;
     }
@@ -443,7 +467,7 @@ class Student
     /**
      * @return string
      */
-    public function getFatherFirstname(): string
+    public function getFatherFirstname(): ?string
     {
         return $this->fatherFirstname;
     }
@@ -463,7 +487,7 @@ class Student
     /**
      * @return string
      */
-    public function getMotherLastname(): string
+    public function getMotherLastname(): ?string
     {
         return $this->motherLastname;
     }
@@ -483,7 +507,7 @@ class Student
     /**
      * @return string
      */
-    public function getMotherFirstname(): string
+    public function getMotherFirstname(): ?string
     {
         return $this->motherFirstname;
     }
@@ -503,7 +527,7 @@ class Student
     /**
      * @return string
      */
-    public function getFatherProfession(): string
+    public function getFatherProfession(): ?string
     {
         return $this->fatherProfession;
     }
@@ -523,7 +547,7 @@ class Student
     /**
      * @return string
      */
-    public function getMotherProfession(): string
+    public function getMotherProfession(): ?string
     {
         return $this->motherProfession;
     }
@@ -543,7 +567,7 @@ class Student
     /**
      * @return int
      */
-    public function getNbChild(): int
+    public function getNbChild(): ?int
     {
         return $this->nbChild;
     }
@@ -563,7 +587,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianLastname(): string
+    public function getGuardianLastname(): ?string
     {
         return $this->guardianLastname;
     }
@@ -583,7 +607,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianFirstname(): string
+    public function getGuardianFirstname(): ?string
     {
         return $this->guardianFirstname;
     }
@@ -603,7 +627,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianAddress(): string
+    public function getGuardianAddress(): ?string
     {
         return $this->guardianAddress;
     }
@@ -623,7 +647,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianPhone1(): string
+    public function getGuardianPhone1(): ?string
     {
         return $this->guardianPhone1;
     }
@@ -643,7 +667,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianPhone2(): string
+    public function getGuardianPhone2(): ?string
     {
         return $this->guardianPhone2;
     }
@@ -663,7 +687,7 @@ class Student
     /**
      * @return string
      */
-    public function getGuardianProfession(): string
+    public function getGuardianProfession(): ?string
     {
         return $this->guardianProfession;
     }
@@ -758,6 +782,70 @@ class Student
         $this->updated = $updated;
         
         return $this;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserCreation()
+    {
+        return $this->userCreation;
+    }
+    
+    /**
+     * @param mixed $userCreation
+     */
+    public function setUserCreation($userCreation): void
+    {
+        $this->userCreation = $userCreation;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserModification()
+    {
+        return $this->userModification;
+    }
+    
+    /**
+     * @param mixed $userModification
+     */
+    public function setUserModification($userModification): void
+    {
+        $this->userModification = $userModification;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+    
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getStudentPhotos()
+    {
+        return $this->studentPhotos;
+    }
+    
+    /**
+     * @param mixed $studentPhotos
+     */
+    public function setStudentPhotos($studentPhotos): void
+    {
+        $this->studentPhotos = $studentPhotos;
     }
     
     /**

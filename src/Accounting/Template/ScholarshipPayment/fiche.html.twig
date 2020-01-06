@@ -1,0 +1,19 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche de <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card  grey darken-3">
+            <div class="card-header grey darken-3">
+                <div class="row">
+                    <div class="col-sm-10">
+                        Fiche de payement de l'étudiant(e) <b>{{ data.registration.student }}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

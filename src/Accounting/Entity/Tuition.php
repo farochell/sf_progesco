@@ -20,11 +20,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @package App\Accounting\Entity
  * @ORM\Table(name="tuition")
  * @ORM\Entity(repositoryClass="App\Accounting\Repository\TuitionRepository")
- * @UniqueEntity(
- *     fields={"schoolYear", "level"},
- *     errorPath="level",
- *     message="Le tarif pour ce niveau a déjà été renseigné"
- * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Tuition
@@ -64,10 +59,22 @@ class Tuition
     private $studies;
     
     /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userCreation;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userModification;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
@@ -75,7 +82,7 @@ class Tuition
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
     
@@ -105,7 +112,7 @@ class Tuition
     /**
      * @return float
      */
-    public function getFees(): float
+    public function getFees(): ?float
     {
         return $this->fees;
     }
@@ -113,7 +120,7 @@ class Tuition
     /**
      * @param float $fees
      */
-    public function setFees(float $fees): void
+    public function setFees(?float $fees): void
     {
         $this->fees = $fees;
     }
@@ -212,5 +219,44 @@ class Tuition
     public function setDeletedAt(\DateTime $deletedAt): void
     {
         $this->deletedAt = $deletedAt;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserCreation()
+    {
+        return $this->userCreation;
+    }
+    
+    /**
+     * @param mixed $userCreation
+     */
+    public function setUserCreation($userCreation): void
+    {
+        $this->userCreation = $userCreation;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserModification()
+    {
+        return $this->userModification;
+    }
+    
+    /**
+     * @param mixed $userModification
+     */
+    public function setUserModification($userModification): void
+    {
+        $this->userModification = $userModification;
+    }
+    
+    /**
+     * Tuition constructor.
+     */
+    public function __construct() {
+        $this->fees = 0.0;
     }
 }

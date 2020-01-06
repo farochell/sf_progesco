@@ -16,7 +16,7 @@ use App\Pedagogy\Service\TeachingService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
@@ -39,7 +39,7 @@ class Teaching extends ManagerController
     }
     
     /**
-     * @Route("/teaching", name="teaching_homepage")
+     * @Route("/teachings", name="teaching_homepage")
      *
      * @param TeachingService $teachingService
      *
@@ -66,7 +66,7 @@ class Teaching extends ManagerController
     }
     
     /**
-     * @Route("/teaching/add", name="teaching_add")
+     * @Route("/teachings/add", name="teaching_add")
      *
      *
      * @param OrmService  $ormService
@@ -89,7 +89,7 @@ class Teaching extends ManagerController
     }
     
     /**
-     * @Route("/teaching/update", name="teaching_upd")
+     * @Route("/teachings/update", name="teaching_upd")
      *
      *
      * @param OrmService $ormService
@@ -110,7 +110,7 @@ class Teaching extends ManagerController
     }
     
     /**
-     * @Route("/teaching/delete", name="teaching_del")
+     * @Route("/teachings/delete", name="teaching_del")
      *
      * @return JsonResponse|RedirectResponse
      */

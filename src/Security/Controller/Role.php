@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Class Role
@@ -40,7 +41,7 @@ class Role extends ManagerController
     
     /**
      * @Route("/roles", name="role_homepage")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param RoleService $roleService
      * @param Breadcrumbs $breadcrumbs
      *
@@ -60,7 +61,6 @@ class Role extends ManagerController
     }
     
     /**
-     * @Security("has_role('ROLE_ADMIN')")
      * @param $params
      *
      * @return Response
@@ -71,7 +71,7 @@ class Role extends ManagerController
     
     /**
      * @Route("/role-ajout", name="role_add")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param OrmService  $ormService
      * @param Breadcrumbs $breadcrumbs
      *
@@ -91,7 +91,7 @@ class Role extends ManagerController
     
     /**
      * @Route("/role-modification", name="role_upd")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param OrmService  $ormService
      * @param Breadcrumbs $breadcrumbs
      *
@@ -110,7 +110,7 @@ class Role extends ManagerController
     
     /**
      * @Route("/role-suppression", name="role_del")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      * @param OrmService $ormService
      *
      * @return Response

@@ -64,10 +64,15 @@ class Level
     private $groups;
     
     /**
+     * @ORM\OneToMany(targetEntity="App\Pedagogy\Entity\Grade", mappedBy="level")
+     */
+    private $grades;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
@@ -75,7 +80,7 @@ class Level
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
     
@@ -229,6 +234,22 @@ class Level
     public function setGroups($groups): void
     {
         $this->groups = $groups;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getGrades()
+    {
+        return $this->grades;
+    }
+    
+    /**
+     * @param mixed $grades
+     */
+    public function setGrades($grades): void
+    {
+        $this->grades = $grades;
     }
     
 }

@@ -2,7 +2,7 @@
 	<div class="card-header"> {{ cardTitle }}</div>
 	<div class="card-body">
 		{% if table is not empty %}
-			<table class="mui-table  mui-table--bordered black-text  {{ table.id }}" cellspacing="0" width="100%">
+			<table class="mui-table  mui-table--bordered ajaxtable {{ table.id }}" cellspacing="0" width="100%">
 				{% if table.headers %}
 					<thead class="">
 					<tr>
@@ -17,7 +17,7 @@
 					{% if table.rows %}
 						<tbody>
 						{% for row in table.rows %} {% set idElement = row.id %}
-							<tr id="{{ table.id }}_{{ row.id }}">
+							<tr class="grey darken-4" id="{{ table.id }}_{{ row.id }}">
 								{% for cell in row.cells %} {% if cell.cellAction is not empty %}
 									<td class="action">{% if cell.cellAction.type == 'link' %} {% if cell.cellAction.cellattribute.url is not empty %} {% if cell.cellAction.cellattribute.params
 											is not empty %}
@@ -48,7 +48,7 @@
 											</a> {% endif %} {% endif %}</td>
 								{% else %}
 									<td>{% if cell.type == "string" %} {{ cell.value | raw }} {% endif %} {% if cell.type == "money" %} {{ cell.value | number_format(2,
-											',', ' ') ~ ' EUR' }} {% endif %} {% if cell.type == "time" %} {{ cell.value|date("H:i:s") }} {% endif %} {% if cell.type
+											',', ' ') ~ ' CFA' }} {% endif %} {% if cell.type == "time" %} {{ cell.value|date("H:i:s") }} {% endif %} {% if cell.type
 											== "date" %} {% if cell.value is not empty%} {{ cell.value|date("d/m/Y") }} {% endif %} {% endif %} {% if cell.type
 											== "image" %}
 											<img src="{{ asset('uploads/'~cell.value) }}" width="30px"> {% endif %}

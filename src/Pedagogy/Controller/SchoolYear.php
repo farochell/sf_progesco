@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -40,7 +40,7 @@ class SchoolYear extends ManagerController
     }
     
     /**
-     * @Route("/schoolyear", name="schoolyear_homepage")
+     * @Route("/schoolyears", name="schoolyear_homepage")
      *
      * @param SchoolYearService $schoolyearService
      * @param Breadcrumbs       $breadcrumbs
@@ -71,7 +71,7 @@ class SchoolYear extends ManagerController
     }
     
     /**
-     * @Route("/schoolyear/add", name="schoolyear_add")
+     * @Route("/schoolyears/add", name="schoolyear_add")
      *
      *
      * @return Response
@@ -90,7 +90,7 @@ class SchoolYear extends ManagerController
     }
     
     /**
-     * @Route("/schoolyear/update", name="schoolyear_upd")
+     * @Route("/schoolyears/update", name="schoolyear_upd")
      *
      *
      * @param OrmService  $ormService
@@ -112,7 +112,7 @@ class SchoolYear extends ManagerController
     }
     
     /**
-     * @Route("/schoolyear/delete", name="schoolyear_del")
+     * @Route("/schoolyears/delete", name="schoolyear_del")
      *
      * @return JsonResponse|RedirectResponse
      */

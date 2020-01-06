@@ -1,0 +1,58 @@
+{% extends '@manager/form.html.twig' %}
+{% block form %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            {{ form_row(form.registrationDate) }}
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.birthDate) }}
+            {{ form_row(form.nbChild) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.address) }}
+        </div>
+        <div class="col-sm-12 col-md-6">
+            {{ form_row(form.gender) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.birthPlace) }}
+            {{ form_row(form.maritalStatus) }}
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+    <fieldset>
+        <legend>Informations des parents</legend>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.fatherLastname) }}
+                {{ form_row(form.fatherProfession) }}
+            </div>
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.fatherFirstname) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.motherLastname) }}
+                {{ form_row(form.motherProfession) }}
+            </div>
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.motherFirstname) }}
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Informations des tuteurs</legend>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.guardianLastname) }}
+                {{ form_row(form.guardianPhone1) }}
+                {{ form_row(form.guardianAddress) }}
+            </div>
+            <div class="col-sm-12 col-md-6">
+                {{ form_row(form.guardianFirstname) }}
+                {{ form_row(form.guardianPhone2) }}
+                {{ form_row(form.guardianProfession) }}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_end(form) }}
+{% endblock %}

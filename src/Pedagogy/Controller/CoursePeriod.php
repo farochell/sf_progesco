@@ -10,7 +10,7 @@ namespace App\Pedagogy\Controller;
 
 use App\Pedagogy\Service\CoursePeriodService;
 use App\Manager\Service\OrmService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +39,7 @@ class CoursePeriod extends ManagerController
     }
     
     /**
-     * @Route("/courseperiod", name="courseperiod_homepage")
+     * @Route("/courseperiods", name="courseperiod_homepage")
      *
      * @param CoursePeriodService $courseperiodService
      *
@@ -62,7 +62,7 @@ class CoursePeriod extends ManagerController
     }
     
     /**
-     * @Route("/courseperiod/add", name="courseperiod_add")
+     * @Route("/courseperiods/add", name="courseperiod_add")
      *
      *
      * @param OrmService $ormService
@@ -81,7 +81,7 @@ class CoursePeriod extends ManagerController
     }
     
     /**
-     * @Route("/courseperiod/update", name="courseperiod_upd")
+     * @Route("/courseperiods/update", name="courseperiod_upd")
      *
      *
      * @param OrmService $ormService
@@ -100,7 +100,7 @@ class CoursePeriod extends ManagerController
     }
     
     /**
-     * @Route("/courseperiod/delete", name="courseperiod_del")
+     * @Route("/courseperiods/delete", name="courseperiod_del")
      *
      * @return JsonResponse|RedirectResponse
      */

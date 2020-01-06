@@ -36,7 +36,7 @@ $.fn.datepicker.dates['fr'] = {
 };
 
 $(document).ready(function () {
-    $('.mui-table').DataTable({
+    $('.ajaxtable').DataTable({
         language:{
             "decimal":        "",
             "emptyTable":     "Aucune donnée disponible",

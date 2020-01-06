@@ -10,7 +10,7 @@ namespace App\Pedagogy\Controller;
 
 use App\Pedagogy\Service\StudyService;
 use App\Manager\Service\OrmService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ class Study extends ManagerController
     }
     
     /**
-     * @Route("/study", name="study_homepage")
+     * @Route("/studies", name="study_homepage")
      *
      * @param StudyService $studyService
      *
@@ -74,7 +74,7 @@ class Study extends ManagerController
     }
     
     /**
-     * @Route("/study/add", name="study_add")
+     * @Route("/studies/add", name="study_add")
      *
      *
      * @param OrmService  $ormService
@@ -97,7 +97,7 @@ class Study extends ManagerController
     }
     
     /**
-     * @Route("/study/update", name="study_upd")
+     * @Route("/studies/update", name="study_upd")
      *
      *
      * @param OrmService  $ormService
@@ -120,7 +120,7 @@ class Study extends ManagerController
     }
     
     /**
-     * @Route("/study/delete", name="study_del")
+     * @Route("/studies/delete", name="study_del")
      *
      * @param OrmService $ormService
      *

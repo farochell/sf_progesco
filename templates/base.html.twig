@@ -104,19 +104,46 @@
                     </ul>
                 </li>
             {% endif %}
-
-            <!-- MENU STUDENT -->
-            <li class="active">
-                <a href="#studentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="fas fa-user-graduate"></i>
-                    <span class="CTAs">Etudiants</span>
-                </a>
-                <ul class="collapse list-unstyled" id="studentSubmenu">
-                    <li>
-                        <a href="">Liste des étudiants</a>
-                    </li>
-                </ul>
-            </li>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_SHOW') %}
+                <!-- MENU STUDENT -->
+                <li class="active">
+                    <a href="#studentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-user-graduate"></i>
+                        <span class="CTAs">Etudiants</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="studentSubmenu">
+                        <li>
+                            <a href="{{ path('student_homepage') }}">Liste des étudiants</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
+                <!-- MENU ACCOUNTING -->
+                <li class="active">
+                    <a href="#accountingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-money-bill-alt"></i>
+                        <span class="CTAs">Comptabilité</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="accountingSubmenu">
+                        <li>
+                            <a href="{{ path('tuition_homepage') }}">Frais de scolarité</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('registration_to_be_valided_homepage') }}">Inscriptions à valider</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('payment_homepage') }}">Paiements des étudiants réguliers</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('scholarshippayment_homepage') }}">Paiements des étudiants boursiers</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('paymentplan_pending_operations') }}">Opérations en attente</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
             {% if is_granted('ROLE_ADMIN') %}
                 <!-- MENU SECURITY -->

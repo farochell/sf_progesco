@@ -1,1 +1,11 @@
-{% extends "@ihm/Table/table.ajax.html.twig" %}
+<div class="card">
+    <div class="card-header">
+        {% if cardTitle is defined %} {{ cardTitle}} {% endif %}
+    </div>
+    <div class="card-body">
+        {% if form is defined %}
+            {% if form is not empty %} {{ include('@manager/form.recherche.html.twig') }}{% endif %}
+        {% endif %}
+        {{ include('@ihm/Table/' ~ tableType) }}
+    </div>
+</div>

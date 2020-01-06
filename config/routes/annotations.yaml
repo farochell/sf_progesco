@@ -1,39 +1,47 @@
 ihm:
-    resource: ../../src/IHM/
-    type: annotation
+  resource: ../../src/IHM/
+  type: annotation
 
 manager:
-    resource: ../../src/Manager/
-    type: annotation
+  resource: ../../src/Manager/
+  type: annotation
 
 admin:
-    resource: ../../src/Admin/
-    type: annotation
+  resource: ../../src/Admin/
+  type: annotation
 
 configuration:
-    resource: ../../src/Configuration/
-    type: annotation
+  resource: ../../src/Configuration/
+  type: annotation
 
 student:
-    resource: ../../src/Student/
-    type: annotation
+  resource: ../../src/Student/
+  type: annotation
 
 pedagogy:
-    resource: ../../src/Pedagogy/
-    type: annotation
+  resource: ../../src/Pedagogy/
+  type: annotation
 
 classroom:
-    resource: ../../src/Classroom/
-    type: annotation
+  resource: ../../src/Classroom/
+  type: annotation
 
 calendar:
-    resource: ../../src/Calendar/
-    type: annotation
+  resource: ../../src/Calendar/
+  type: annotation
 
 teacher:
-    resource: ../../src/Teacher/
-    type: annotation
+  resource: ../../src/Teacher/
+  type: annotation
 
 security:
-    resource: ../../src/Security/
-    type: annotation
+  resource: ../../src/Security/
+  type: annotation
+
+accounting:
+  resource: ../../src/Accounting/
+  type: annotation
+
+schooling:
+  resource: ../../src/Schooling/
+  type: annotation

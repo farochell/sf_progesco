@@ -9,10 +9,11 @@
 namespace App\Configuration\Controller;
 use App\Configuration\Service\GenderService;
 use App\Manager\Service\OrmService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
@@ -37,9 +38,12 @@ class Gender extends ManagerController
     }
     
     /**
-     * @Route("/gender", name="gender_homepage")
+     * @Route("/genders", name="gender_homepage")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param GenderService $genderService
+     * @param Breadcrumbs   $breadcrumbs
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function home(GenderService $genderService, Breadcrumbs $breadcrumbs){
         $this->setService($genderService);
@@ -63,10 +67,13 @@ class Gender extends ManagerController
     }
     
     /**
-     * @Route("/gender/add", name="gender_add")
+     * @Route("/genders/add", name="gender_add")
+     * @Security("is_granted('ROLE_ADMIN')")
      *
+     * @param OrmService  $ormService
+     * @param Breadcrumbs $breadcrumbs
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
     {
@@ -82,10 +89,13 @@ class Gender extends ManagerController
     }
     
     /**
-     * @Route("/gender/update", name="gender_upd")
+     * @Route("/genders/update", name="gender_upd")
+     * @Security("is_granted('ROLE_ADMIN')")
      *
+     * @param OrmService  $ormService
+     * @param Breadcrumbs $breadcrumbs
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
     {
@@ -101,9 +111,11 @@ class Gender extends ManagerController
     }
     
     /**
-     * @Route("/gender/delete", name="gender_del")
+     * @Route("/genders/delete", name="gender_del")
+     * @Security("is_granted('ROLE_ADMIN')")
+     * @param OrmService $ormService
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse|RedirectResponse
      */
     public function delete(OrmService $ormService)
     {

@@ -11,7 +11,7 @@ namespace App\Pedagogy\Controller;
 use App\Calendar\Service\CalendarService;
 use App\Pedagogy\Service\GroupService;
 use App\Manager\Service\OrmService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +43,7 @@ class Group extends ManagerController
     }
     
     /**
-     * @Route("/group", name="group_homepage")
+     * @Route("/groups", name="group_homepage")
      *
      * @param GroupService $groupService
      *
@@ -75,7 +75,7 @@ class Group extends ManagerController
     }
     
     /**
-     * @Route("/group/add", name="group_add")
+     * @Route("/groups/add", name="group_add")
      *
      *
      * @param OrmService  $ormService
@@ -98,7 +98,7 @@ class Group extends ManagerController
     }
     
     /**
-     * @Route("/group/update", name="group_upd")
+     * @Route("/groups/update", name="group_upd")
      *
      *
      * @param OrmService  $ormService
@@ -121,7 +121,7 @@ class Group extends ManagerController
     }
     
     /**
-     * @Route("/group/delete", name="group_del")
+     * @Route("/groups/delete", name="group_del")
      *
      * @param OrmService $ormService
      *
@@ -136,7 +136,7 @@ class Group extends ManagerController
     }
     
     /**
-     * @Route("/group/scheduler/{id}/{month}/{year}", name="group_schedule")
+     * @Route("/groups/scheduler/{id}/{month}/{year}", name="group_schedule")
      * @ParamConverter("group", options={"id" = "id"})
      * @param GroupEntity     $group
      * @param null            $month

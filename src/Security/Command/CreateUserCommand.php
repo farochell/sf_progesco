@@ -11,11 +11,13 @@ namespace App\Security\Command;
 
 
 use App\Security\Entity\User;
+use App\Security\Service\UserPasswordEncoderService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 /**
  * Class CreateUserCommand

@@ -1,0 +1,289 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche de l'étudiant <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+    <div class="row mb-2">
+        <div class="col-sm-12">
+            <div id="accordionInfoGen" role="tablist" aria-multiselectable="true">
+                <div class="card ">
+                    <div class="card-header grey darken-3" role="tab" id="headingInfoGen">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionInfoGen"
+                           href="#infoGen"
+                           aria-expanded="false" aria-controls="collapseInfoGen">
+                            Informations générales - {{ data }}
+                        </a>
+                    </div>
+                    <div id="infoGen" class="collapse" role="tabpanel" aria-labelledby="headingInfoGen">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <div class="row">
+                                                        <div class="col-sm-5">
+                                                            Informations générales
+                                                        </div>
+                                                        <div class="col-sm-7 mui--text-right">
+                                                            <div class="mui-dropdown">
+                                                                <button class="mui-btn blue-grey white-text"
+                                                                        data-mui-toggle="dropdown">
+                                                                    <i class="fas fa-ellipsis-v"></i>
+                                                                </button>
+                                                                <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                                                                    <li>
+                                                                        <a href="{{ path('student_upd',{'id': data.id}) }}">
+                                                                            <i class="fa fa-edit"></i> Modifier
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="{# path('etudiant_add_document',
+                                                                        {'etudiant_id': data
+                                                                            .id}) #}">
+                                                                            <i class="far fa-image"></i> Ajouter une
+                                                                            pièce
+                                                                            jointe
+                                                                        </a>
+                                                                    </li>
+                                                                    {% if is_granted('ROLE_ADMIN') %}
+                                                                        <li>
+                                                                            <a href="#"
+                                                                               onclick="deleteEtudiant('{# path('etudiant_information_del',{'id': data.id}) #}')">
+                                                                                <i class="fa fa-trash"></i> Supprimer
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    {% for photo in data.studentPhotos %}
+                                                                        {% if photo.typeDocument is not empty and photo
+                                                                            .typeDocument.id == 3 %}
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12">
+                                                                                    <img width="100%"
+                                                                                         src="{{ asset('media/students/' ~
+                                                                                             photo
+                                                                                             .image) }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mt-2">
+                                                                                <div class="col-sm-6 align-content-center">
+                                                                                    <a href="{# path('download_etudiant_carte', {'id':
+                                                                                    data.id}) #}"
+                                                                                       class="btn blue
+                                                                col-sm-12"
+                                                                                       title="Télécharger la carte d'étudiant">
+                                                                                        <i class="fas fa-address-card"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="col-sm-6 align-content-center">
+                                                                                    <a href="{# path('del_etudiant_carte',
+                                                                                    {'etudiant_id':
+                                                                                        data.id, 'photo_id': photo.id}) #}"
+                                                                                       class="btn red
+                                                                col-sm-12"
+                                                                                       title="Supprimer la photo">
+                                                                                        <i class="fas fa-trash"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-2">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <ul class="list-group list-group-flush">
+                                                                <li class="list-group-item">
+                                                                    <label class="col-sm-6">Matricule</label>
+                                                                    <span class="blue-text text-accent-1">{{ data.matricule }}</span>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <label class="col-sm-6">Date d'inscription</label>
+                                                                    <span class="blue-text text-accent-1">
+							                                            {{ data.registrationDate | date('d/m/Y') }}
+							                                        </span>
+                                                                </li>
+                                                                <li class="list-group-item"><label
+                                                                            class="col-sm-6">Nom</label>
+                                                                    <span class="blue-text text-accent-1">{{ data.lastname }}</span>
+                                                                </li>
+                                                                <li class="list-group-item"><label class="col-sm-6">Prénom</label>
+                                                                    <span class="blue-text text-accent-1">{{ data.firstname }}</span>
+                                                                </li>
+                                                                <li class="list-group-item"><label
+                                                                            class="col-sm-6">Sexe</label>
+                                                                    <span class="blue-text text-accent-1">{{ data.gender }}</span>
+                                                                </li>
+                                                                <li class="list-group-item"><label class="col-sm-6">Date
+                                                                        de naissance</label>
+                                                                    <span class="blue-text text-accent-1">
+								                                        {{ data.birthDate | date('d/m/Y') }}
+                                                                    </span>
+                                                                </li>
+                                                                <li class="list-group-item"><label class="col-sm-6">Lieu
+                                                                        de naissance</label> <span
+                                                                            class="blue-text text-accent-1">{{ data.birthPlace }}</span>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">Situation de famille</div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item"><label class="col-sm-6">Nombre
+                                                            d'enfants</label>
+                                                        <span class="blue-text text-accent-1">{{ data.nbChild }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Situation
+                                                            matrimoniale</label>
+                                                        <span class="blue-text text-accent-1">{{ data.maritalStatus }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Nom
+                                                            du père</label><span
+                                                                class="blue-text text-accent-1"> {{ data.fatherLastname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Prénom
+                                                            du père</label>
+                                                        <span class="blue-text text-accent-1">{{ data.fatherFirstname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Profession
+                                                            du père</label>
+                                                        <span class="blue-text text-accent-1">{{ data.fatherProfession }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Nom
+                                                            de la mère</label><span
+                                                                class="blue-text text-accent-1"> {{ data.motherLastname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Prénom
+                                                            de la mère</label> <span
+                                                                class="blue-text text-accent-1">{{ data.motherFirstname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Profession
+                                                            de la mère</label><span
+                                                                class="blue-text text-accent-1"> {{ data.motherProfession }}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">Adresse</div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item"><label
+                                                                class="col-sm-6">Téléphone</label>
+                                                        <span class="blue-text text-accent-1">{{ data.phone }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">E-mail</label>
+                                                        <span class="blue-text text-accent-1">{{ data.email }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Adresse</label>
+                                                        <span class="blue-text text-accent-1">{{ data.address }}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-header">Tuteur</div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item"><label class="col-sm-6">Nom
+                                                            du tuteur</label>
+                                                        <span class="blue-text text-accent-1"> {{ data.guardianLastname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Prénom
+                                                            du tuteur</label>
+                                                        <span class="blue-text text-accent-1">{{ data.guardianFirstname }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Profession
+                                                            du tuteur</label>
+                                                        <span class="blue-text text-accent-1">{{ data.guardianProfession }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Tél.
+                                                            1 du tuteur</label>
+                                                        <span class="blue-text text-accent-1"> {{ data.guardianPhone1 }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Tél.
+                                                            2 du tuteur</label>
+                                                        <span class="blue-text text-accent-1"> {{ data.guardianPhone2 }}</span>
+                                                    </li>
+                                                    <li class="list-group-item"><label class="col-sm-6">Adresse
+                                                            2 du tuteur</label> <span
+                                                                class="blue-text text-accent-1">{{ data.guardianAddress }}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-sm-12">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="card  grey darken-3 mt-2">
+                    <div class="card-header grey darken-3" role="tab" id="headingInscription">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordion" href="#inscription"
+                           aria-expanded="false" aria-controls="collapseInscription">
+                            Pédagogie
+                        </a>
+                    </div>
+                    <div id="inscription" class="collapse" role="tabpanel" aria-labelledby="headingInscription">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mui--text-right">
+                                    <div class="mui-dropdown">
+                                        <button class="mui-btn blue-grey white-text" data-mui-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                                            <li>
+                                                <a href="{{ path('registration_add', {'student-id': data.id})}}"><i class="fa fa-plus"></i> Effectuer une inscription</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% set params = {'id': data.id} %}
+                            {{ render(controller('App\\Schooling\\Controller\\Registration:getRegistrationsByStudent', { 'params': params })) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

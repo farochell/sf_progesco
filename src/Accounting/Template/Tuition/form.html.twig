@@ -1,0 +1,33 @@
+{% extends "@manager/form.html.twig" %}
+{% block form %}
+    {{ form_start(form) }}
+    
+    {{ form_end(form) }}
+    <script>
+        /***** groups selection *********/
+        var $tuition = $('#tuition_level');
+        // When sport gets selected ...
+        $tuition.change(function() {
+            // ... retrieve the corresponding form.
+            var $form = $(this).closest('form');
+            // Simulate form data, but only include the selected sport value.
+            var data = {};
+
+            data[$tuition.attr('name')] = $tuition.val();
+            // Submit data via AJAX to the form's action path.
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+                    // Replace current position field ...
+                    $('#tuition_studies').replaceWith(
+                        // ... with the returned one from the AJAX response.
+                        $(html).find('#tuition_studies')
+                    );
+                    // Position field now displays the appropriate positions.
+                }
+            });
+        });
+    </script>
+{% endblock %}

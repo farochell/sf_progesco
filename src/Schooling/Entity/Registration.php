@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @package App\Registration\Entity
  * @ORM\Table(name="registration")
- * @ORM\Entity(repositoryClass="App\Registration\Repository\RegistrationRepository")
+ * @ORM\Entity(repositoryClass="App\Schooling\Repository\RegistrationRepository")
  * @UniqueEntity(
  *     fields={"schoolYear", "student"},
  *     errorPath="student",
@@ -69,7 +69,7 @@ class Registration
      * @ORM\Column(name="date_inscription", type="date")
      * @Assert\NotNull(message="Ce champ doit être renseigné")
      */
-    private $dateInscription;
+    private $registrationDate;
     
     /**
      * @var integer
@@ -79,10 +79,29 @@ class Registration
     private $status;
     
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="has_state_scholarship", type="integer")
+     */
+    private $hasStateScholarship;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userCreation;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Security\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userModification;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
@@ -90,7 +109,7 @@ class Registration
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
     
@@ -100,6 +119,8 @@ class Registration
      * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
      */
     private $deletedAt;
+    
+    private $level;
     
     /**
      * @return int
@@ -168,17 +189,17 @@ class Registration
     /**
      * @return \DateTime
      */
-    public function getDateInscription(): \DateTime
+    public function getRegistrationDate(): ?\DateTime
     {
-        return $this->dateInscription;
+        return $this->registrationDate;
     }
     
     /**
-     * @param \DateTime $dateInscription
+     * @param \DateTime $registrationDate
      */
-    public function setDateInscription(\DateTime $dateInscription): void
+    public function setRegistrationDate(?\DateTime $registrationDate): void
     {
-        $this->dateInscription = $dateInscription;
+        $this->registrationDate = $registrationDate;
     }
     
     /**
@@ -246,11 +267,85 @@ class Registration
     }
     
     /**
+     * @return mixed
+     */
+    public function getUserCreation()
+    {
+        return $this->userCreation;
+    }
+    
+    /**
+     * @param mixed $userCreation
+     */
+    public function setUserCreation($userCreation): void
+    {
+        $this->userCreation = $userCreation;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getUserModification()
+    {
+        return $this->userModification;
+    }
+    
+    /**
+     * @param mixed $userModification
+     */
+    public function setUserModification($userModification): void
+    {
+        $this->userModification = $userModification;
+    }
+    
+    /**
      * Registration constructor.
      */
     public function __construct() {
         $this->status = self::NOT_VALIDED;
+        $this->hasStateScholarship = 0;
+        $this->registrationDate = new \DateTime('now');
     }
     
+    /**
+     * @return mixed
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+    
+    /**
+     * @param mixed $level
+     */
+    public function setLevel($level): void
+    {
+        $this->level = $level;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getHasStateScholarship(): int
+    {
+        return $this->hasStateScholarship;
+    }
+    
+    /**
+     * @param int $hasStateScholarship
+     */
+    public function setHasStateScholarship(?int $hasStateScholarship): void
+    {
+        $this->hasStateScholarship = $hasStateScholarship;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'Année scolaire: ' . $this->getSchoolYear()->getLabel() . '- Classe:' . $this->getGrade(
+            )->getLabel();
+    }
     
 }

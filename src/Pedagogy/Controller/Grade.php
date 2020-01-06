@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -40,7 +40,7 @@ class Grade extends ManagerController
     }
     
     /**
-     * @Route("/grade", name="grade_homepage")
+     * @Route("/grades", name="grade_homepage")
      *
      * @param GradeService $gradeService
      * @param Breadcrumbs  $breadcrumbs
@@ -71,7 +71,7 @@ class Grade extends ManagerController
     }
     
     /**
-     * @Route("/grade/add", name="grade_add")
+     * @Route("/grades/add", name="grade_add")
      *
      *
      * @param OrmService  $ormService
@@ -93,7 +93,7 @@ class Grade extends ManagerController
     }
     
     /**
-     * @Route("/grade/update", name="grade_upd")
+     * @Route("/grades/update", name="grade_upd")
      *
      *
      * @param OrmService  $ormService
@@ -115,7 +115,7 @@ class Grade extends ManagerController
     }
     
     /**
-     * @Route("/grade/delete", name="grade_del")
+     * @Route("/grades/delete", name="grade_del")
      *
      * @return JsonResponse|RedirectResponse
      */
@@ -128,7 +128,7 @@ class Grade extends ManagerController
     }
     
     /**
-     * @Route("/grade/edit", name="grade_edit")
+     * @Route("/grades/edit", name="grade_edit")
      * @param GradeService $gradeService
      * @param Breadcrumbs  $breadcrumbs
      *

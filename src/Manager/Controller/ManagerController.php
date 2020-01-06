@@ -496,7 +496,7 @@ class ManagerController extends AbstractController
     /**
      * Fonction permettant d'afficher la page principale d'un menu
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index()
     {
@@ -521,7 +521,8 @@ class ManagerController extends AbstractController
      * Allow to show records list
      *
      * @param array $param
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @return Response
      */
     public function listRecord(array $param = [])
     {
@@ -535,19 +536,24 @@ class ManagerController extends AbstractController
 
         return $this->render('@manager/list.html.twig', [
             'pagination' => $response['pagination'],
-            'table' => $response['table']
+            'table' => $response['table'],
+            'cardTitle'  => $this->getCardTitle(),
+            'tableType'  => $this->getTableType(),
+            'form'       => (isset($response['form']) ? $response['form'] : ''),
         ]);
     }
-
+    
     /**
      * Allow tow show record with a call of custom function
+     *
      * @param string $functionName
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param null   $params
+     *
+     * @return Response
      */
-    public function customFunction($functionName)
+    public function customFunction($functionName, $params = null)
     {
-        $response = $this->getService()->$functionName();
-
+        $response = $this->getService()->$functionName($params);
         return $this->render('@manager/list.html.twig', [
             Constant::PAGINATION_LABEL => $response['pagination'],
             Constant::CARDTITLE_LABEL => $this->getCardTitle(),
@@ -562,7 +568,7 @@ class ManagerController extends AbstractController
     /**
      * Allow to add a new record
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addRecord()
     {
@@ -620,7 +626,7 @@ class ManagerController extends AbstractController
     /**
      * Fonction permettant de mettre à jour un enregistrement
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function updateRecord()
     {
@@ -818,7 +824,7 @@ class ManagerController extends AbstractController
     /**
      * @return string
      */
-    public function getCardTitle(): string
+    public function getCardTitle(): ?string
     {
         return $this->cardTitle;
     }
@@ -840,6 +846,9 @@ class ManagerController extends AbstractController
      */
     public function getTableType(): ? string
     {
+        if ($this->tableType == null) {
+            $this->tableType = 'table.ajax.html.twig';
+        }
         return $this->tableType;
     }
     

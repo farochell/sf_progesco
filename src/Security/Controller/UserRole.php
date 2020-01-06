@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * UserRole class
@@ -46,7 +47,7 @@ class UserRole extends ManagerController
     /**
      * addUserRole function
      * @Route("/user-role-ajout", name="add_role_user")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param Breadcrumbs $breadcrumbs
      *
@@ -96,7 +97,7 @@ class UserRole extends ManagerController
     /**
      * updUserRole function
      * @Route("user-role-suppression", name="user_role_del")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delUserRole() {
         $user = $this->getDoctrine()->getRepository(User::class)->find($this->getRequest()->get('user_id'));

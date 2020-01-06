@@ -9,7 +9,6 @@
 
 namespace App\Teacher\Controller;
 
-
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use App\Teacher\Service\TeacherService;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
@@ -42,7 +41,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher", name="teacher_homepage")
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_SHOW')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_SHOW')")
      * @param TeacherService $teacherService
      *
      * @param Breadcrumbs  $breadcrumbs
@@ -75,7 +74,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/add", name="teacher_add")
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_ADD')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_ADD')")
      *
      * @param OrmService  $ormService
      *
@@ -98,7 +97,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/update", name="teacher_upd")
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_UPD')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_UPD')")
      *
      * @param OrmService  $ormService
      *
@@ -121,7 +120,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/delete", name="teacher_del")
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_DEL')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_DEL')")
      * @param OrmService $ormService
      *
      * @return JsonResponse|RedirectResponse
@@ -136,7 +135,7 @@ class Teacher extends ManagerController
     
     /**
      * @Route("/teacher/edit", name="teacher_edit")
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_TEACHER_SHOW')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_SHOW')")
      * @param TeacherService $teacherService
      * @param Breadcrumbs  $breadcrumbs
      *
