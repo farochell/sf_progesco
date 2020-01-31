@@ -31,9 +31,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class ScholarshipPaymentPlan
 {
     const PAYMENT_INIT = 1;
-    const PAYMENT_PAD  = 2;
-    const PAYMENT_WAT  = 3;
-    const PAYMENT_CNL  = -1;
+    const PAYMENT_CASH              = 2;
+    const PAYMENT_CHQ_W             = 30;
+    const PAYMENT_CHQ_V             = 31;
+    const PAYMENT_CHQ_C             = 33;
+    const PAYMENT_BANK_TFT_W        = 40;
+    const PAYMENT_BANK_TFT_V        = 41;
+    const PAYMENT_BANK_TFT_C        = 42;
+    const PAYMENT_CNL               = -1;
     /**
      * @var int
      *
@@ -94,6 +99,18 @@ class ScholarshipPaymentPlan
     private $status;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=50, nullable=true)
+     */
+    private $reference;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Accounting\Entity\Cheque", mappedBy="scholarshipPaymentPlan", cascade={"persist", "remove"})
+     */
+    private $cheque;
+    
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -131,7 +148,7 @@ class ScholarshipPaymentPlan
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -179,7 +196,7 @@ class ScholarshipPaymentPlan
     /**
      * @return float
      */
-    public function getAmount(): float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
@@ -227,7 +244,7 @@ class ScholarshipPaymentPlan
     /**
      * @return string
      */
-    public function getComment(): string
+    public function getComment():?string
     {
         return $this->comment;
     }
@@ -341,7 +358,39 @@ class ScholarshipPaymentPlan
      */
     public function __toString()
     {
-        return $this->label;
+        return $this->label. ' (Paiement N°' . $this->getScholarshipPayment()->getReference(). ')';;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+    
+    /**
+     * @param string $reference
+     */
+    public function setReference(string $reference): void
+    {
+        $this->reference = $reference;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getCheque()
+    {
+        return $this->cheque;
+    }
+    
+    /**
+     * @param mixed $cheque
+     */
+    public function setCheque($cheque): void
+    {
+        $this->cheque = $cheque;
     }
     
     /**
@@ -349,7 +398,6 @@ class ScholarshipPaymentPlan
      * @throws \Exception
      */
     public function __construct() {
-        $this->comment          = "";
         $this->label            = "";
         $this->registrationDate = new \DateTime('now');
         $this->dateOfCollection = new \DateTime('now');

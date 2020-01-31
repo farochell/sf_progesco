@@ -58,6 +58,13 @@ class PaymentPlan
     private $label;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reference", type="string", length=50, nullable=true)
+     */
+    private $reference;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="App\Accounting\Entity\Payment", inversedBy="paymentPlans")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -98,6 +105,11 @@ class PaymentPlan
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Accounting\Entity\Cheque", mappedBy="paymentPlan", cascade={"persist", "remove"})
+     */
+    private $cheque;
     
     /**
      * @var \DateTime $created
@@ -347,7 +359,39 @@ class PaymentPlan
      */
     public function __toString()
     {
-        return $this->label . ' (Payement N°' . $this->getPayment()->getReference(). ')';
+        return $this->label . ' (Paiement N°' . $this->getPayment()->getReference(). ')';
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getCheque()
+    {
+        return $this->cheque;
+    }
+    
+    /**
+     * @param mixed $cheque
+     */
+    public function setCheque($cheque): void
+    {
+        $this->cheque = $cheque;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+    
+    /**
+     * @param string $reference
+     */
+    public function setReference(string $reference): void
+    {
+        $this->reference = $reference;
     }
     
     /**

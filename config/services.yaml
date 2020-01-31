@@ -51,6 +51,11 @@ services:
         tags:
             - { name: twig.extension}
 
+    App\Twig\AppExtension:
+        public: true
+        tags:
+            - { name: twig.extension}
+
     orm.service:
         class: App\Manager\Service\OrmService
         autowire: false
@@ -148,6 +153,12 @@ services:
         public: true
         arguments: ['@service_container','@schoolyear.helper']
 
+    organization.service:
+        class: App\Configuration\Service\OrganizationService
+        autowire: true
+        public: true
+        arguments: ['@service_container','@schoolyear.helper']
+
     teacher.listener:
         class: App\Teacher\Listener\TeacherListener
         arguments: ["@service_container"]
@@ -168,12 +179,10 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
 
     App\Accounting\Listener\AddFeesFieldSubscriber:
-        arguments: ['@form.factory', '@doctrine.orm.entity_manager','@security.authorization_checker','@schoolyear.helper']
         autowire: false
         public: true
 
     App\Accounting\Listener\AddFeesFieldScholarshipSubscriber:
-        arguments: ['@form.factory', '@doctrine.orm.entity_manager','@security.authorization_checker','@schoolyear.helper']
         autowire: false
         public: true
 
@@ -183,11 +192,46 @@ services:
         public: true
         tags: [form.type]
 
+    App\Accounting\Form\PaymentPlanType:
+        autowire: false
+        public: true
+        tags: [form.type]
+
+    App\Accounting\Form\ScholarshipPaymentPlanType:
+        autowire: false
+        public: true
+        tags: [form.type]
+
     App\Accounting\Form\ScholarshipPaymentType:
         arguments: ['@doctrine.orm.entity_manager','@security.authorization_checker','@schoolyear.helper']
         autowire: false
         public: true
         tags: [form.type]
+
+    App\Accounting\Form\TuitionType:
+        autowire: false
+        public: true
+        tags: [form.type]
+
+    App\Schooling\Form\RegistrationType:
+        arguments: ['@doctrine.orm.entity_manager','@schoolyear.helper']
+        autowire: false
+        public: true
+        tags: [form.type]
+
+    App\Accounting\Form\ExpenseLineType:
+        arguments: ['@doctrine.orm.entity_manager','@schoolyear.helper']
+        autowire: false
+        public: true
+        tags: [form.type]
+
+    App\Accounting\Listener\AddScholarshipAmountFieldSubscriber:
+        autowire: false
+        public: true
+
+    App\Accounting\Listener\addAmountFieldSubscriber:
+        autowire: false
+        public: true
 
     payement.listener:
         class: App\Accounting\Listener\PaymentListener
@@ -204,6 +248,7 @@ services:
             - { name: doctrine.event_listener, event: prePersist, lazy: true }
             - { name: doctrine.event_listener, event: postPersist, lazy: true }
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: preRemove }
 
     scholarshippayement.listener:
         class: App\Accounting\Listener\ScholarshipPaymentListener
@@ -215,6 +260,15 @@ services:
 
     scholarshippayementplan.listener:
         class: App\Accounting\Listener\ScholarshipPaymentPlanListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, lazy: true }
+            - { name: doctrine.event_listener, event: postPersist, lazy: true }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: preRemove }
+
+    expenseline.listener:
+        class: App\Accounting\Listener\ExpenseLineListener
         arguments: ["@service_container"]
         tags:
             - { name: doctrine.event_listener, event: prePersist, lazy: true }
@@ -235,6 +289,20 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist, lazy: true }
 
+    organization.listener:
+        class: App\Configuration\Listener\OrganizationListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, lazy: true }
+            - { name: doctrine.event_listener, event: postPersist, lazy: true }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    knp_snappy.pdf:
+        class: Knp\Snappy\Pdf
+        public: true
+
+    Knp\Snappy\Pdf:
+        alias: knp_snappy.pdf
 
     Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface: ~
 
@@ -243,6 +311,7 @@ services:
     App\Security\Service\UserPasswordEncoderService: ~
 
     Symfony\Component\Security\Core\Authorization\AuthorizationChecker: ~
+
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

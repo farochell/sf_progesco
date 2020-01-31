@@ -28,7 +28,7 @@ class GenderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('label', TextType::class, ['label' => 'Libellé', 'attr' => ['class' => 'form-control']]);
+        $builder->add('label', TextType::class, ['label' => 'Libellé', 'attr' => ['class' => 'form-control col-sm-12 col-md-4']]);
     }
     
     /**

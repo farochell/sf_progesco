@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Payment
@@ -23,12 +22,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="payment")
  * @ORM\Entity(repositoryClass="App\Accounting\Repository\PaymentRepository")
  * @ORM\HasLifecycleCallbacks()
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Payment
 {
     const ACTIVE              = 1;
-    const CLOSED              = 2;
+    const PAID              = 2;
     const CANCELED            = 3;
     
     /**
@@ -94,7 +92,6 @@ class Payment
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -102,7 +99,6 @@ class Payment
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -330,7 +326,7 @@ class Payment
      * @return string
      */
     public function __toString(){
-        return 'Payement N°'. $this->reference;
+        return 'Paiement N°'. $this->reference;
     }
     
     /**

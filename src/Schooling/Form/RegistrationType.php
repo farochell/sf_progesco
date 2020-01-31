@@ -47,7 +47,7 @@ class RegistrationType extends AbstractType
     private $entityManager;
     
     /**
-     * TuitionType constructor.
+     * RegistrationType constructor.
      *
      * @param EntityManagerInterface $em
      * @param SchoolYearHelper       $schoolYearHelper

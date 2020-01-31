@@ -9,7 +9,6 @@
 
 namespace App\Accounting\Controller;
 
-
 use App\Accounting\Service\PaymentPlanService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
@@ -55,7 +54,7 @@ class PaymentPlan extends ManagerController
     public function pendingOperations()
     {
         $breads   = [];
-        $breads[] = [ 'name' => 'Opérations de paiement en attente de validation', 'url' => 'paymentplan_pending_operations' ];
+        $breads[] = ['name' => 'Opérations de paiement en attente de validation', 'url' => 'paymentplan_pending_operations'];
         $this->setBreadcrumbs($breads);
         $this->addAction(['function' => 'pendingPaymentPlan', 'params' => []]);
         $this->addAction(['function' => 'noValidBankTransfert', 'params' => []]);
@@ -65,27 +64,80 @@ class PaymentPlan extends ManagerController
     }
     
     /**
+     * @Route("/paymentplans/valided-operations", name="paymentplan_valided_operations")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
      * @return Response
      */
-    public function pendingPaymentPlan() {
+    public function validedOperations()
+    {
+        $breads   = [];
+        $breads[] = ['name' => 'Opérations de paiement validées', 'url' => 'paymentplan_valided_operations'];
+        $this->setBreadcrumbs($breads);
+        $this->addAction(['function' => 'cashValidedPaymentPlan', 'params' => []]);
+        $this->addAction(['function' => 'chequeValidedPaymentPlan', 'params' => []]);
+        $this->addAction(['function' => 'transfertValidedPaymentPlan', 'params' => []]);
+    
+        return parent::index();
+    }
+    
+    /**
+     * @return Response
+     */
+    public function pendingPaymentPlan()
+    {
         $this->setCardTitle("Liste des plans de paiements en attente de validations");
+        
         return parent::customFunction('pendingPaymentPlan');
     }
     
     /**
      * @return Response
      */
-    public function noValidBankTransfert() {
+    public function noValidBankTransfert()
+    {
         $this->setCardTitle("Liste des virements en attente de validation");
+        
         return parent::customFunction('noValidBankTransfert');
     }
     
     /**
      * @return Response
      */
-    public function pendingCheque() {
+    public function pendingCheque()
+    {
         $this->setCardTitle("Liste des chèques à encaisser");
+        
         return parent::customFunction('pendingCheque');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function cashValidedPaymentPlan()
+    {
+        $this->setCardTitle("Liste des paiements en espèce validés");
+    
+        return parent::customFunction('cashValidedPaymentPlan');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function chequeValidedPaymentPlan()
+    {
+        $this->setCardTitle("Liste des paiements par chèque validés");
+        
+        return parent::customFunction('chequeValidedPaymentPlan');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function transfertValidedPaymentPlan()
+    {
+        $this->setCardTitle("Liste des paiements par transferts bancaires validés");
+        
+        return parent::customFunction('transfertValidedPaymentPlan');
     }
     
     /**
@@ -95,7 +147,7 @@ class PaymentPlan extends ManagerController
      *
      * @return Response
      */
-    public function add( )
+    public function add()
     {
         $breads   = [];
         $breads[] = ['name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage'];
@@ -109,7 +161,8 @@ class PaymentPlan extends ManagerController
     /**
      * @return Response
      */
-    public function getByPayment() {
+    public function getByPayment()
+    {
         return parent::customFunction('getByPayment');
     }
     
@@ -124,7 +177,7 @@ class PaymentPlan extends ManagerController
     {
         $this->getService()->updateStatus();
         $redirect = $this->getRequest()->get('redirect');
-        if(isset($redirect)) {
+        if (isset($redirect)) {
             return $this->redirectToRoute($redirect, []);
         } else {
             return $this->redirectToRoute('payment_edit', ['id' => $this->getRequest()->get('payment_id')]);
@@ -141,6 +194,7 @@ class PaymentPlan extends ManagerController
      */
     public function delete()
     {
+        $this->setUrl('payment_edit',  ['id' => $this->getRequest()->get('payment_id')]);
         return parent::deleteRecord();
     }
 }

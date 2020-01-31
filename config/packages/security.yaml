@@ -3,9 +3,10 @@ security:
         App\Security\Entity\User: bcrypt
     # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        proto_provider:
+        users:
             entity:
                 class:    App\Security\Entity\User
+                property: 'username'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -13,7 +14,7 @@ security:
         main:
             anonymous: ~
             pattern:    ^/
-            provider: proto_provider
+            provider: users
             form_login:
                 login_path: login
                 check_path: login

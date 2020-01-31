@@ -13,7 +13,6 @@
 </head>
 <body>
 <div class="wrapper">
-
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
@@ -33,6 +32,9 @@
                     </li>
                     <li>
                         <a href="{{ path('marital-status_homepage') }}">Situations maritales</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('organization_homepage') }}">Etablissement</a>
                     </li>
                 </ul>
             </li>
@@ -133,13 +135,37 @@
                             <a href="{{ path('registration_to_be_valided_homepage') }}">Inscriptions à valider</a>
                         </li>
                         <li>
-                            <a href="{{ path('payment_homepage') }}">Paiements des étudiants réguliers</a>
+                            <a href="{{ path('payment_homepage') }}">Réguliers: Paiements</a>
                         </li>
                         <li>
-                            <a href="{{ path('scholarshippayment_homepage') }}">Paiements des étudiants boursiers</a>
+                            <a href="{{ path('paymentplan_pending_operations') }}">Réguliers: Opérations en attente</a>
                         </li>
                         <li>
-                            <a href="{{ path('paymentplan_pending_operations') }}">Opérations en attente</a>
+                            <a href="{{ path('scholarshippayment_homepage') }}">Boursiers: Paiements</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path('paymentplan_valided_operations') }}">Opérations validées</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
+                <!-- MENU EXPENSE -->
+                <li class="active">
+                    <a href="#expenseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-money-bill-wave-alt"></i>
+                        <span class="CTAs">Dépenses</span>
+                    </a>
+                    <ul class="collapse list-unstyled" id="expenseSubmenu">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('expensetype_homepage') }}">Types de dépense</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ path('expenseline_homepage') }}">Dépenses</a>
                         </li>
                     </ul>
                 </li>

@@ -50,7 +50,9 @@ class PaymentListener
         $user          = $this->container->get('security.token_storage')->getToken()->getUser();
         
         $leftToPay     = $object->getTuition() - $object->getReduction();
-        
+        if ($leftToPay == 0) {
+            $object->setStatus(Payment::PAID);
+        }
         $object->setBalance($leftToPay);
     
         $object->setUserCreation($user);
@@ -78,7 +80,7 @@ class PaymentListener
         }
         
         $objectManager = $args->getObjectManager();
-        $reference = 'PA'.date('mdY').'-'.$object->getId();
+        $reference = 'PAYnB'.date('mdY').'-'.$object->getId();
         $object->setReference($reference);
         
         $objectManager->flush();
@@ -96,6 +98,11 @@ class PaymentListener
         
         if (!$object instanceof Payment) {
             return;
+        }
+    
+        $leftToPay = $object->getBalance();
+        if ($leftToPay == 0) {
+            $object->setStatus(Payment::PAID);
         }
         $object->setUpdated(new \DateTime('now'));
         $user = $this->container->get('security.token_storage')->getToken()->getUser();

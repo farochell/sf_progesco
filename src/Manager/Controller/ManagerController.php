@@ -8,6 +8,7 @@ use App\Manager\Util\Constant;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -482,7 +483,7 @@ class ManagerController extends AbstractController
      */
     public function getUseDefault()
     {
-        return ($this->useDefault === null) ? false: $this->useDefault;
+        return ($this->useDefault === null) ? true: $this->useDefault;
     }
     
     /**
@@ -568,7 +569,7 @@ class ManagerController extends AbstractController
     /**
      * Allow to add a new record
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|RedirectResponse|Response
      */
     public function addRecord()
     {
@@ -583,7 +584,7 @@ class ManagerController extends AbstractController
         $response = new JsonResponse();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($this->getUseDefault() == false) {
+            if($this->getUseDefault() == true) {
                 $response = $this->getOrmService()->add($form, $entity, $response);
             } else {
                 $response = $this->getService()->add($form, $entity, $response);
@@ -626,7 +627,7 @@ class ManagerController extends AbstractController
     /**
      * Fonction permettant de mettre à jour un enregistrement
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|RedirectResponse|Response
      */
     public function updateRecord()
     {
@@ -677,7 +678,7 @@ class ManagerController extends AbstractController
     }
 
     /**
-     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse|RedirectResponse
      */
     protected function deleteRecord()
     {
@@ -688,6 +689,7 @@ class ManagerController extends AbstractController
             ->find($id);
         $response = new JsonResponse();
         $return = $this->getOrmService()->delete($entity, $response);
+       
         // Decodage du json renvoyé
         $content = json_decode($return->getContent());
         if ($content->status == 'OK') {
@@ -703,6 +705,8 @@ class ManagerController extends AbstractController
                     return $this->redirectToRoute($this->url->getUrl(), $this->url->getParams());
                 }
             }
+        } else {
+            return $this->redirectToRoute($this->url->getUrl(), $this->url->getParams());
         }
 
     }

@@ -9,6 +9,7 @@
 
 namespace App\Accounting\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,9 +26,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ScholarshipPayment
 {
-    const NO_PAID         = 1;
-    const PAID            = 2;
-    const CANCELED        = 3;
+    const NO_PAID  = 1;
+    const PAID     = 2;
+    const CANCELED = 3;
     /**
      * @var int
      *
@@ -71,6 +72,12 @@ class ScholarshipPayment
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Accounting\Entity\ScholarshipPaymentPlan", mappedBy="scholarshipPayment", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $scholarshipPaymentPlans;
     
     /**
      * @var \DateTime $created
@@ -286,14 +293,47 @@ class ScholarshipPayment
     /**
      * ScholarshipPayment constructor.
      */
-    public function __construct() {
-        $this->status = self::NO_PAID;
+    public function __construct()
+    {
+        $this->status                  = self::NO_PAID;
+        $this->scholarshipPaymentPlans = new ArrayCollection();
     }
     
     /**
      * @return string
      */
-    public function __toString(){
-        return 'Payement N°'. $this->reference;
+    public function __toString()
+    {
+        return 'Paiement N°'.$this->reference;
+    }
+    
+    /**
+     * Remove planpayment
+     *
+     * @param ScholarshipPayment $scholarshipPaymentPlan
+     */
+    public function removePaymentPlan(ScholarshipPayment $scholarshipPaymentPlan)
+    {
+        $this->scholarshipPaymentPlans->removeElement($scholarshipPaymentPlan);
+    }
+    
+    /**
+     * @param ScholarshipPayment $scholarshipPaymentPlan
+     *
+     * @return $this
+     */
+    public function addScholarshipPaymentPlan(ScholarshipPayment $scholarshipPaymentPlan)
+    {
+        $this->scholarshipPaymentPlans[] = $scholarshipPaymentPlan;
+        
+        return $this;
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getScholarshipPaymentPlans()
+    {
+        return $this->scholarshipPaymentPlans;
     }
 }

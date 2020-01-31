@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 
+
 /**
  * Class AdminController
  * @package App\Admin\Controller
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminController extends ManagerController
 {
+    
     /**
      * AdminController constructor.
      */

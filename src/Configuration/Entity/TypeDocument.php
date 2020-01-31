@@ -12,7 +12,6 @@ namespace App\Configuration\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class TypeDocument
@@ -21,7 +20,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="type_document")
  * @ORM\Entity(repositoryClass="App\Configuration\Repository\TypeDocumentRepository")
  * @UniqueEntity("label",message="Ce nom est déjà utilisé pour un autre type de genre")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class TypeDocument
 {
@@ -45,7 +43,6 @@ class TypeDocument
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -53,7 +50,6 @@ class TypeDocument
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;

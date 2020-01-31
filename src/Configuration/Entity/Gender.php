@@ -5,8 +5,9 @@ namespace App\Configuration\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Class Gender
@@ -16,8 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="gender")
  * @ORM\Entity(repositoryClass="App\Configuration\Repository\GenderRepository")
- * @UniqueEntity("label",message="Ce nom est déjà utilisé pour un autre type de genre")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ * @UniqueEntity(fields={"label"},message="Ce nom est déjà utilisé pour un autre type de genre")
  */
 class Gender
 {
@@ -41,7 +41,7 @@ class Gender
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -49,7 +49,7 @@ class Gender
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;

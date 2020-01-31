@@ -11,7 +11,6 @@ namespace App\Configuration\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class MaritalStatus
@@ -19,7 +18,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @package App\Configuration\Entity
  * @ORM\Table(name="marital_status")
  * @ORM\Entity(repositoryClass="App\Configuration\Repository\MaritalStatusRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
 class MaritalStatus
 {
@@ -43,7 +41,6 @@ class MaritalStatus
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -51,7 +48,6 @@ class MaritalStatus
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;

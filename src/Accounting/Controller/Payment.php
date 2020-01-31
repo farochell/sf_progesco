@@ -106,7 +106,7 @@ class Payment extends ManagerController
     public function detail() {
         $breads   = [];
         $breads[] = ['name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage'];
-        $breads[] = ['name' => 'Fiche', 'url' => 'payment_add'];
+        $breads[] = ['name' => 'Fiche', 'url' => 'payment_edit'];
         $this->setBreadcrumbs($breads);
         
         return parent::edit();

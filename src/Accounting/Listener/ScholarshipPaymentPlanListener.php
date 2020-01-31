@@ -10,6 +10,8 @@
 namespace App\Accounting\Listener;
 
 
+use App\Accounting\Entity\ScholarshipPayment;
+use App\Accounting\Entity\ScholarshipPaymentPlan;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -61,7 +63,15 @@ class ScholarshipPaymentPlanListener
      */
     public function postPersist(LifecycleEventArgs $args)
     {
-    
+        $object = $args->getObject();
+        
+        if (!$object instanceof ScholarshipPaymentPlan) {
+            return;
+        }
+        $reference = 'PPB'.str_pad($object->getId(), 10, "0", STR_PAD_LEFT);
+        $object->setReference($reference);
+        $objectManager = $args->getObjectManager();
+        $objectManager->flush();
     }
     
     /**
@@ -71,7 +81,6 @@ class ScholarshipPaymentPlanListener
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        
         $object = $args->getObject();
         
         if (!$object instanceof ScholarshipPaymentPlan) {
@@ -81,5 +90,29 @@ class ScholarshipPaymentPlanListener
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $object->setUserModification($user);
         
+    }
+    
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        
+        if (!$object instanceof ScholarshipPaymentPlan) {
+            return;
+        }
+        $status = $object->getStatus();
+        if ($status == ScholarshipPaymentPlan::PAYMENT_BANK_TFT_V
+            || $status == ScholarshipPaymentPlan::PAYMENT_CHQ_V
+            || $status == ScholarshipPaymentPlan::PAYMENT_CASH) {
+            $amount  = $object->getAmount();
+            $payment = $object->getScholarshipPayment();
+            $balance = $payment->getBalance() + $amount;
+            $payment->setBalance($balance);
+            $payment->setStatus(ScholarshipPayment::ACTIVE);
+            $objectManager = $args->getObjectManager();
+            $objectManager->flush();
+        }
     }
 }

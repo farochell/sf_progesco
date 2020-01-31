@@ -28,8 +28,15 @@ class Gender extends ManagerController
 {
     /**
      * GenderController constructor.
+     *
+     * @param OrmService    $ormService
+     * @param GenderService $genderService
+     * @param Breadcrumbs   $breadcrumbs
      */
-    public function __construct() {
+    public function __construct(OrmService $ormService, GenderService $genderService, Breadcrumbs $breadcrumbs) {
+        $this->setOrmService($ormService);
+        $this->setService($genderService);
+        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Gender');
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
@@ -40,14 +47,10 @@ class Gender extends ManagerController
     /**
      * @Route("/genders", name="gender_homepage")
      * @Security("is_granted('ROLE_ADMIN')")
-     * @param GenderService $genderService
-     * @param Breadcrumbs   $breadcrumbs
      *
      * @return Response
      */
-    public function home(GenderService $genderService, Breadcrumbs $breadcrumbs){
-        $this->setService($genderService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home(){
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des genres");
         $breads   = [];
@@ -70,15 +73,10 @@ class Gender extends ManagerController
      * @Route("/genders/add", name="gender_add")
      * @Security("is_granted('ROLE_ADMIN')")
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function add()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = [ 'name' => 'Genres', 'url' => 'gender_homepage' ];
         $breads[] = [ 'name' => 'Formulaire ajout', 'url' => 'gender_add' ];
@@ -92,15 +90,10 @@ class Gender extends ManagerController
      * @Route("/genders/update", name="gender_upd")
      * @Security("is_granted('ROLE_ADMIN')")
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function update()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = [ 'name' => 'Genres', 'url' => 'gender_homepage' ];
         $breads[] = [ 'name' => 'Formulaire modification', 'url' => 'gender_upd' ];
@@ -113,13 +106,11 @@ class Gender extends ManagerController
     /**
      * @Route("/genders/delete", name="gender_del")
      * @Security("is_granted('ROLE_ADMIN')")
-     * @param OrmService $ormService
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
+    public function delete()
     {
-        $this->setOrmService($ormService);
         $this->setUrl('gender_homepage');
         return parent::deleteRecord();
     }

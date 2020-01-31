@@ -12,7 +12,6 @@ namespace App\Classroom\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Classroom
@@ -20,7 +19,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @package App\Classroom\Entity
  * @ORM\Table(name="classroom")
  * @ORM\Entity(repositoryClass="App\Classroom\Repository\ClassroomRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  * @UniqueEntity("label",message="Ce nom est déjà utilisé.")
  */
 class Classroom
@@ -45,7 +43,6 @@ class Classroom
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $created;
@@ -53,7 +50,6 @@ class Classroom
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated;

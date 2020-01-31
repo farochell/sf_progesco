@@ -42,16 +42,43 @@ class PaymentPlanService extends ManagerService
     }
     
     /**
+     * @return array
+     */
+    public function cashValidedPaymentPlan()
+    {
+        $records = $this->getEm()->getRepository(PaymentPlan::class)->findBy(['status' => PaymentPlan::PAYMENT_CASH]);
+        return $this->getValidedPaymentPlan($records);
+    }
+    
+    /**
+     * @return array
+     */
+    public function chequeValidedPaymentPlan()
+    {
+        $records = $this->getEm()->getRepository(PaymentPlan::class)->findBy(['status' => PaymentPlan::PAYMENT_CHQ_V]);
+        return $this->getValidedPaymentPlan($records);
+    }
+    
+    /**
+     * @return array
+     */
+    public function transfertValidedPaymentPlan()
+    {
+        $records = $this->getEm()->getRepository(PaymentPlan::class)->findBy(['status' => PaymentPlan::PAYMENT_BANK_TFT_V]);
+        return $this->getValidedPaymentPlan($records);
+    }
+    /**
      * @param $records
      *
      * @return array
      */
     public function getPendingPaymentPlan($records) {
         $headers = [
+            'Référence',
             'Libellé',
             'Montant',
             'Date d\'enregistrement',
-            'Date de payement',
+            'Date de paiement',
             'Statut',
             '',
             '',
@@ -65,6 +92,7 @@ class PaymentPlanService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
+                $row->addCells($this->getCell("reference", $record->getReference()));
                 $row->addCells($this->getCell("libelle", $record->getLabel()));
                 $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
                 $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
@@ -169,7 +197,8 @@ class PaymentPlanService extends ManagerService
                 $cell       = $this->getCell("action");
                 $cellAction = $this->getCellAction("delete", "link");
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger"));
+                $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger", "", $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             
@@ -178,6 +207,54 @@ class PaymentPlanService extends ManagerService
             }
         }
     
+        return [
+            'table'      => $table,
+            'pagination' => null,
+        ];
+    }
+    
+    /**
+     * @param $records
+     *
+     * @return array
+     */
+    public function getValidedPaymentPlan($records) {
+        $headers = [
+            'Référence',
+            'Libellé',
+            'Montant',
+            'Date d\'enregistrement',
+            'Date de paiement',
+            'Statut',
+            ''
+        
+        ];
+        $table   = $this->getTable("validedpayementplan");
+        $table->addHeaders($headers);
+        
+        if ($records) {
+            foreach ($records as $record) {
+                $row = $this->getRow($record->getId());
+                $row->addCells($this->getCell("reference", $record->getReference()));
+                $row->addCells($this->getCell("libelle", $record->getLabel()));
+                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+               
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("delete", "link");
+                // Dell attribute
+                $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger", "", $params));
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+                
+                
+                $table->addRows($row);
+            }
+        }
+        
         return [
             'table'      => $table,
             'pagination' => null,
@@ -220,6 +297,15 @@ class PaymentPlanService extends ManagerService
                 $this->getEm()->flush();
             }
             
+            if ($mode == 'CHQ_VALID') {
+                $payment = $paymentPlan->getPayment();
+                $balance = $payment->getBalance() - $paymentPlan->getAmount();
+                $payment->setBalance($balance);
+                $this->getEm()->flush();
+                $paymentPlan->setStatus(PaymentPlan::PAYMENT_CHQ_V);
+                $this->getEm()->flush();
+            }
+            
             $this->getRequest()->getSession()->getFlashBag()->add(
                 'notice',
                 'Opération effectuée !'
@@ -256,7 +342,7 @@ class PaymentPlanService extends ManagerService
             'Libellé',
             'Montant',
             'Date d\'enregistrement',
-            'Date de payement',
+            'Date de paiement',
             'Statut',
             '',
             '',
@@ -321,13 +407,10 @@ class PaymentPlanService extends ManagerService
             'Libellé',
             'Montant',
             'Date d\'enregistrement',
-            'Date de payement',
+            'Date de paiement',
             'Statut',
             '',
             '',
-            '',
-            '',
-        
         ];
         $table   = $this->getTable("pendingCheque");
         $table->addHeaders($headers);
@@ -340,6 +423,34 @@ class PaymentPlanService extends ManagerService
                 $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
                 $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
                 $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("pay", "link");
+                $params = ['paymentplan_id' => $record->getId(),
+                           'payment_id' => $record->getPayment()->getId(),
+                           'mode' => 'CHQ_VALID',
+                           'redirect' => 'paymentplan_pending_operations'
+                ];
+                $cellAction->setCellattribute(
+                    $this->getCellAttribute(
+                        "far fa-credit-card",
+                        "Valider l'encaissement du chèque",
+                        "paymentplan_update_status",
+                        "green darken-2",
+                        "",
+                        $params
+                    )
+                );
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+    
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("delete", "link");
+                // Dell attribute
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger"));
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+    
+                $table->addRows($row);
             }
         }
         

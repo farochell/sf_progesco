@@ -3,17 +3,100 @@
     Fiche de <b>{{ data }}</b>
 {% endblock %}
 {% block cardbody %}
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card  grey darken-3">
-            <div class="card-header grey darken-3">
-                <div class="row">
-                    <div class="col-sm-10">
-                        Fiche de payement de l'étudiant(e) <b>{{ data.registration.student }}</b>
+    <!-- infos -->
+    <div class="row">
+        <div class="col col-sm-12 mt-2">
+            <div id="accordioninfo" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header grey darken-3" role="tab" id="headingOne">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordioninfo" href="#infoGen"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            Informations générales
+                        </a>
+                    </div>
+                    <div id="infoGen" class="collapseblock show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Référence</label>
+                                            <span class="blue-text text-accent-1">{{ data.reference }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Date de création</label>
+                                            <span class="blue-text text-accent-1">{{ data.created | date('d/m/Y') }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Frais de scolarité</label>
+                                            <span class="blue-text text-accent-1">{{ data.tuition |number_format(2, ',', ' ') }} F CFA</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Solde</label>
+                                            <span class="blue-text text-accent-1">{{ data.balance |number_format(2, ',', ' ') }} F CFA</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Année scolaire</label>
+                                            <span class="blue-text text-accent-1">{{ data.registration.schoolYear }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-6">Classe</label>
+                                            <span class="blue-text text-accent-1">{{ data.registration.grade }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- paymentPlan -->
+    <div class="row">
+        <div class="col-sm-12 mt-2">
+            <div id="accordionpaymentplan" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                    <div class="card-header grey darken-3" role="tab" id="headingOne">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionpaymentplan" href="#paymentplan"
+                           aria-expanded="true" aria-controls="collapseOne">
+                            Plans de paiements
+                        </a>
+                    </div>
+                    <div id="paymentplan" class="collapseblock show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mui--text-right">
+                                    <div class="mui--text-right">
+                                        <div class="mui-dropdown">
+                                            <button class="mui-btn blue-grey white-text" data-mui-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                                                {% if data.balance > 0 %}
+                                                    <li><a href="{{ path('scholarshippaymentplan_add',{'id':data.id}) }}"><i
+                                                                    class="fa fa-plus"></i> Ajouter un plan de
+                                                            payement</a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    {{ render(controller('App\\Accounting\\Controller\\ScholarshipPaymentPlan:getByPayment', { 'id': data.id })) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

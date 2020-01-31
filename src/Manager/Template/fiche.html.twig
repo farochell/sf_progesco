@@ -2,6 +2,30 @@
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    {% if label == 'notice' %}
+                        <div class="alert alert-info" role="alert">
+                            {{ message|raw }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                    {% if label == 'danger' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message|raw }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div class="card white-text text-darken-3">
                 <div class="card-header">
                     <div class="row">

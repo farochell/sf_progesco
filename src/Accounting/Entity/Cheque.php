@@ -12,7 +12,6 @@ namespace App\Accounting\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Cheque
@@ -21,7 +20,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="cheque")
  * @ORM\Entity(repositoryClass="App\Accounting\Repository\ChequeRepository")
  * @ORM\HasLifecycleCallbacks()
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ * @UniqueEntity("number",message="Numéro de chèque déjà utilisé.")
  */
 class Cheque
 {
@@ -36,10 +35,15 @@ class Cheque
     
     /**
      * @ORM\OneToOne(targetEntity="App\Accounting\Entity\PaymentPlan", inversedBy="cheque")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull(message="Ce champ doit être renseigné")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $paymentPlan;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Accounting\Entity\ScholarshipPaymentPlan", inversedBy="cheque")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $scholarshipPaymentPlan;
     
     /**
      * @var float
@@ -71,16 +75,12 @@ class Cheque
     
     /**
      * @var \DateTime $created
-     *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
     
     /**
      * @var \DateTime $updated
-     *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -286,6 +286,22 @@ class Cheque
     public function __toString()
     {
         return $this->holder;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getScholarshipPaymentPlan()
+    {
+        return $this->scholarshipPaymentPlan;
+    }
+    
+    /**
+     * @param mixed $scholarshipPaymentPlan
+     */
+    public function setScholarshipPaymentPlan($scholarshipPaymentPlan): void
+    {
+        $this->scholarshipPaymentPlan = $scholarshipPaymentPlan;
     }
     
 }

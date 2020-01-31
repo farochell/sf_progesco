@@ -12,6 +12,7 @@ namespace App\Accounting\Form;
 
 use App\Accounting\Entity\Cheque;
 use App\Accounting\Entity\PaymentPlan;
+use App\Accounting\Entity\ScholarshipPaymentPlan;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -34,20 +35,41 @@ class ChequeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add(
-                'paymentPlan',
-                EntityType::class,
-                [
-                    'class'         => PaymentPlan::class,
-                    'query_builder' => function (EntityRepository $er) use ($options) {
-                        return $er->createQueryBuilder('u')
-                                  ->where("u.id =".$options['paymentplan_id']);
-                    },
-                    'label' => 'Plan de paiement',
-                    'attr'  => ['class' => 'form-control col-sm-12 col-md-4'],
-                ]
-            )->add(
+        if(isset($options['paymentplan_id'])) {
+            $builder
+                ->add(
+                    'paymentPlan',
+                    EntityType::class,
+                    [
+                        'class'         => PaymentPlan::class,
+                        'query_builder' => function (EntityRepository $er) use ($options) {
+                            return $er->createQueryBuilder('u')
+                                      ->where("u.id =".$options['paymentplan_id']);
+                        },
+                        'label' => 'Plan de paiement',
+                        'attr'  => ['class' => 'form-control col-sm-12 col-md-4'],
+                    ]
+                );
+        }
+    
+        if(isset($options['scholarshippaymentplan_id'])) {
+            $builder
+                ->add(
+                    'scholarshipPaymentPlan',
+                    EntityType::class,
+                    [
+                        'class'         => ScholarshipPaymentPlan::class,
+                        'query_builder' => function (EntityRepository $er) use ($options) {
+                            return $er->createQueryBuilder('u')
+                                      ->where("u.id =".$options['scholarshippaymentplan_id']);
+                        },
+                        'label' => 'Plan de paiement',
+                        'attr'  => ['class' => 'form-control col-sm-12 col-md-4'],
+                    ]
+                );
+        }
+        
+            $builder->add(
                 'holder',
                 TextType::class,
                 [
@@ -80,6 +102,7 @@ class ChequeType extends AbstractType
             'data_class' => Cheque::class,
             'id' => null,
             'paymentplan_id' => null,
+            'scholarshippaymentplan_id' => null,
         ]);
     }
 }

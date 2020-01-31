@@ -33,6 +33,7 @@ class Registration
     const NOT_VALIDED       = 1;
     const VALIDED           = 2;
     const CANCELED          = 3;
+    
     /**
      * @var int
      *

@@ -52,7 +52,6 @@ class ScholarshipPaymentListener
         $objectManager = $args->getObjectManager();
         
         $object->setBalance($object->getTuition());
-        
         $object->setUserCreation($user);
         $object->setCreated(new \DateTime('now'));
         $object->setUpdated(new \DateTime('now'));
@@ -78,7 +77,7 @@ class ScholarshipPaymentListener
         }
         
         $objectManager = $args->getObjectManager();
-        $reference = 'PAB'.date('mdY').'-'.$object->getId();
+        $reference = 'PAYB'.date('mdY').'-'.$object->getId();
         $object->setReference($reference);
         
         $objectManager->flush();
@@ -96,6 +95,10 @@ class ScholarshipPaymentListener
         
         if (!$object instanceof ScholarshipPayment) {
             return;
+        }
+        $leftToPay = $object->getBalance();
+        if ($leftToPay == 0) {
+            $object->setStatus(ScholarshipPayment::PAID);
         }
         $object->setUpdated(new \DateTime('now'));
         $user = $this->container->get('security.token_storage')->getToken()->getUser();

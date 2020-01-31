@@ -9,6 +9,7 @@
 
 namespace App\Accounting\Listener;
 
+use App\Accounting\Entity\Payment;
 use App\Accounting\Entity\PaymentPlan;
 use App\Payement\Entity\PlanPayement;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -62,7 +63,15 @@ class PaymentPlanListener
      */
     public function postPersist(LifecycleEventArgs $args)
     {
+        $object = $args->getObject();
     
+        if (!$object instanceof PaymentPlan) {
+            return;
+        }
+        $reference = 'PPnB'.str_pad($object->getId(), 10, "0", STR_PAD_LEFT);
+        $object->setReference($reference);
+        $objectManager = $args->getObjectManager();
+        $objectManager->flush();
     }
     
     /**
@@ -82,5 +91,26 @@ class PaymentPlanListener
         $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $object->setUserModification($user);
         
+    }
+    
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function preRemove(LifecycleEventArgs $args) {
+        $object = $args->getObject();
+    
+        if (!$object instanceof PaymentPlan) {
+            return;
+        }
+        $status = $object->getStatus();
+        if($status == PaymentPlan::PAYMENT_BANK_TFT_V || $status == PaymentPlan::PAYMENT_CHQ_V || $status == PaymentPlan::PAYMENT_CASH) {
+            $amount = $object->getAmount();
+            $payment = $object->getPayment();
+            $balance = $payment->getBalance() + $amount;
+            $payment->setBalance($balance);
+            $payment->setStatus(Payment::ACTIVE);
+            $objectManager = $args->getObjectManager();
+            $objectManager->flush();
+        }
     }
 }
