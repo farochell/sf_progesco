@@ -28,21 +28,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @package App\Accounting\Controller
  * @Route("/admin")
  */
-class ScholarshipPaymentPlan extends ManagerController
-{
+class ScholarshipPaymentPlan extends ManagerController {
     private $snappy;
     private $appKernel;
-    public static function getSubscribedServices(): array
-    {
-        return array_merge(parent::getSubscribedServices(), [ // on merge le tableau des services par defaut avec notre tableau personnalisé
-                                                              'knp_snappy.pdf' => 'Knp\Snappy\Pdf',
-                                                              'organization.service' => 'App\Configuration\Service\OrganizationService'
-        ]);
+    
+    public static function getSubscribedServices(): array {
+        return array_merge(
+            parent::getSubscribedServices(), [ // on merge le tableau des services par defaut avec notre tableau personnalisé
+                                               'knp_snappy.pdf'       => 'Knp\Snappy\Pdf',
+                                               'organization.service' => 'App\Configuration\Service\OrganizationService',
+            ]
+        );
     }
     
-    public function __construct(KernelInterface $appKernel, OrmService $ormService, ScholarshipPaymentPlanService $scholarshipPaymentPlanService,
-        Breadcrumbs $breadcrumbs)
-    {
+    public function __construct(
+        KernelInterface $appKernel,
+        OrmService $ormService,
+        ScholarshipPaymentPlanService $scholarshipPaymentPlanService,
+        Breadcrumbs $breadcrumbs
+    ) {
         $this->appKernel = $appKernel;
         $this->setController('ScholarshipPaymentPlan');
         $this->setBundle('App\\Accounting\\Controller');
@@ -62,8 +66,7 @@ class ScholarshipPaymentPlan extends ManagerController
     /**
      * @return Response
      */
-    public function getByPayment()
-    {
+    public function getByPayment() {
         return parent::customFunction('getByPayment');
     }
     
@@ -74,8 +77,7 @@ class ScholarshipPaymentPlan extends ManagerController
      *
      * @return Response
      */
-    public function add()
-    {
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Paiements étudiants boursiers', 'url' => 'scholarshippayment_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'scholarshippaymentplan_add'];
@@ -92,8 +94,7 @@ class ScholarshipPaymentPlan extends ManagerController
      *
      * @return Response
      */
-    public function updateStatus()
-    {
+    public function updateStatus() {
         $this->getService()->updateStatus();
         $redirect = $this->getRequest()->get('redirect');
         if (isset($redirect)) {
@@ -111,8 +112,7 @@ class ScholarshipPaymentPlan extends ManagerController
      *
      * @return Response
      */
-    public function delete()
-    {
+    public function delete() {
         $this->setUrl('scholarshippayment_edit', ['id' => $this->getRequest()->get('scholarshippayment_id')]);
         
         return parent::deleteRecord();
@@ -122,27 +122,105 @@ class ScholarshipPaymentPlan extends ManagerController
      * @Route("/scholarshippaymentplans/payment-receipt", name="scholarshippaymentplan_payment_receipt")
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
      */
-    public function downloadPaymentReceipt()
-    {
-        $filename = 'recu-paiement.pdf';
+    public function downloadPaymentReceipt() {
+        $filename     = 'recu-paiement.pdf';
         $organization = $this->get('organization.service')->find();
-        $data = $this->getService()->downloadPaymentReceipt();
-        $html = $this->renderView(
+        $data         = $this->getService()->downloadPaymentReceipt();
+        $html         = $this->renderView(
             $this->getTag().'\\ScholarshipPaymentPlan\\payment-receip.html.twig',
             [
-                'data' => $data,
-                'organization' => $organization
+                'data'         => $data,
+                'organization' => $organization,
             ]
         );
         
         return new PdfResponse(
-            $this->snappy->getOutputFromHtml($html, [
-                'orientation'=>'Landscape',
-                'page-size' => 'A6',
-                'footer-center'=>utf8_decode($organization->getName(). ' - ' . $organization->getAddress()),
-                'footer-font-size' => '8'
-                ]),
+            $this->snappy->getOutputFromHtml(
+                $html, [
+                    'orientation'      => 'Landscape',
+                    'page-size'        => 'A6',
+                    'footer-center'    => utf8_decode($organization->getName().' - '.$organization->getAddress()),
+                    'footer-font-size' => '8',
+                ]
+            ),
             $filename
         );
+    }
+    
+    /**
+     * @Route("/scholarshippaymentplans/pending-operations", name="scholarshippaymentplan_pending_operations")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
+     * @return Response
+     */
+    public function pendingOperations() {
+        $breads   = [];
+        $breads[] =
+            ['name' => 'Etudiants boursiers: Opérations de paiement en attente de validation', 'url' => 'scholarshippaymentplan_pending_operations'];
+        $this->setBreadcrumbs($breads);
+        $this->addAction(['function' => 'pendingScholarshipPaymentPlan', 'params' => []]);
+        $this->addAction(['function' => 'noValidBankTransfert', 'params' => []]);
+        $this->addAction(['function' => 'pendingCheque', 'params' => []]);
+        
+        return parent::index();
+    }
+    
+    /**
+     * @return Response
+     */
+    public function pendingScholarshipPaymentPlan() {
+        $this->setCardTitle("Liste des plans de paiements en attente de validations");
+        
+        return parent::customFunction('pendingScholarshipPaymentPlan');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function noValidBankTransfert() {
+        $this->setCardTitle("Liste des virements en attente de validation");
+        
+        return parent::customFunction('noValidBankTransfert');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function pendingCheque() {
+        $this->setCardTitle("Liste des chèques à encaisser");
+        
+        return parent::customFunction('pendingCheque');
+    }
+    
+    /**
+     * @Route("/scholarshippaymentplans/valided-operations", name="scholarshippaymentplan_valided_operations")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
+     * @return Response
+     */
+    public function validedOperations() {
+        $breads   = [];
+        $breads[] = ['name' => 'Etudiants boursiers: Opérations de paiement validées', 'url' => 'paymentplan_valided_operations'];
+        $this->setBreadcrumbs($breads);
+        $this->addAction(['function' => 'chequeValidedScholarshipPaymentPlan', 'params' => []]);
+        $this->addAction(['function' => 'transfertValidedScholarshipPaymentPlan', 'params' => []]);
+        
+        return parent::index();
+    }
+    
+    /**
+     * @return Response
+     */
+    public function chequeValidedScholarshipPaymentPlan() {
+        $this->setCardTitle("Liste des paiements par chèque validés");
+    
+        return parent::customFunction('chequeValidedScholarshipPaymentPlan');
+    }
+    
+    /**
+     * @return Response
+     */
+    public function transfertValidedScholarshipPaymentPlan() {
+        $this->setCardTitle("Liste des paiements par transfert bancaire validés");
+    
+        return parent::customFunction('transfertValidedScholarshipPaymentPlan');
     }
 }

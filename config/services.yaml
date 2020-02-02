@@ -193,11 +193,13 @@ services:
         tags: [form.type]
 
     App\Accounting\Form\PaymentPlanType:
+        arguments: ['@doctrine.orm.entity_manager']
         autowire: false
         public: true
         tags: [form.type]
 
     App\Accounting\Form\ScholarshipPaymentPlanType:
+        arguments: ['@doctrine.orm.entity_manager']
         autowire: false
         public: true
         tags: [form.type]

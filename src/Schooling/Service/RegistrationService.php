@@ -11,7 +11,9 @@ namespace App\Schooling\Service;
 
 
 use App\Manager\Service\ManagerService;
+use App\Pedagogy\Entity\Group;
 use App\Schooling\Entity\Registration;
+use App\Schooling\Entity\RegistrationGroup;
 
 /**
  * Class RegistrationService
@@ -19,20 +21,18 @@ use App\Schooling\Entity\Registration;
  * @package App\Schooling\Service
  *
  */
-class RegistrationService extends ManagerService
-{
+class RegistrationService extends ManagerService {
     /**
      * @return array
      */
-    public function findAll()
-    {
+    public function findAll() {
     
     }
     
     /**
      * @return array
      */
-    public function getRegistrationsToBeValided(){
+    public function getRegistrationsToBeValided() {
         $headers = [
             'Etudiant',
             'Année scolaire',
@@ -42,7 +42,7 @@ class RegistrationService extends ManagerService
         ];
         $table   = $this->getTable("registration");
         $table->addHeaders($headers);
-    
+        
         if ($this->getSchoolYearHelper()
                  ->getActiveYear()) {
             $records = $this->getEm()
@@ -51,7 +51,7 @@ class RegistrationService extends ManagerService
                                 [
                                     'schoolYear' => $this->getSchoolYearHelper()
                                                          ->getActiveYear(),
-                                    'status' => Registration::NOT_VALIDED
+                                    'status'     => Registration::NOT_VALIDED,
                                 ]
                             );
             if ($records) {
@@ -61,29 +61,30 @@ class RegistrationService extends ManagerService
                     $row->addCells($this->getCell("schoolyear", $record->getSchoolYear()));
                     $row->addCells($this->getCell("grade", $record->getGrade()));
                     
-        
+                    
                     // Set action cell
                     $cell       = $this->getCell("action", "", "cell-action");
                     $cellAction = $this->getCellAction("upd", "link");
                     // Add attribute
                     $params = [
-                        'id'       => $record->getId(),
+                        'id' => $record->getId(),
                     ];
-                    if($record->getHasStateScholarship() == 0) {
+                    if ($record->getHasStateScholarship() == 0) {
                         $cellAction->setCellattribute(
                             $this->getCellAttribute("fa fa-plus", "Ajouter un payement", "payment_add", "green darken-3 white-text", "", $params)
                         );
                     } else {
                         $cellAction->setCellattribute(
-                            $this->getCellAttribute("fa fa-plus", "Ajouter un payement", "scholarshippayment_add", "green darken-3 white-text", "", $params)
+                            $this->getCellAttribute(
+                                "fa fa-plus", "Ajouter un payement", "scholarshippayment_add", "green darken-3 white-text", "", $params
+                            )
                         );
                     }
                     
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
-        
                     
-        
+                    
                     $cell       = $this->getCell("action", "", "cell-action");
                     $cellAction = $this->getCellAction("del", "link");
                     // Add attribute
@@ -93,12 +94,12 @@ class RegistrationService extends ManagerService
                     $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "group_del", "bg-danger", "", $params));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
-        
+                    
                     $table->addRows($row);
                 }
             }
         }
-    
+        
         return ['table' => $table, 'pagination' => null];
         
     }
@@ -108,8 +109,7 @@ class RegistrationService extends ManagerService
      *
      * @return array
      */
-    public function getRegistrationsByStudent($params)
-    {
+    public function getRegistrationsByStudent($params) {
         $headers = [
             'Année scolaire',
             'Classe',
@@ -147,10 +147,12 @@ class RegistrationService extends ManagerService
                     'grade_id' => $record->getGrade()
                                          ->getId(),
                 ];
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "group_upd", "light-blue darken-3 white-text", "", $params));
+                $cellAction->setCellattribute(
+                    $this->getCellAttribute("fa fa-edit", "Modifier", "group_upd", "light-blue darken-3 white-text", "", $params)
+                );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
-               
+                
                 $cell       = $this->getCell("action", "", "cell-action");
                 $cellAction = $this->getCellAction("del", "link");
                 // Add attribute
@@ -173,8 +175,7 @@ class RegistrationService extends ManagerService
      *
      * @return string
      */
-    public function getStatusLabel($statut_id)
-    {
+    public function getStatusLabel($statut_id) {
         switch ($statut_id) {
             case Registration::NOT_VALIDED:
                 return 'Non validée';
@@ -202,5 +203,63 @@ class RegistrationService extends ManagerService
                 return 'Non';
                 break;
         }
+    }
+    
+    /**
+     * @param $response
+     *
+     * @return mixed
+     */
+    public function addInscriptionGroup($response) {
+       try {
+           // Get student list
+           $students = $this->getRequest()->get('list');
+           if ($students) {
+               $students = explode(",", $students);
+           }
+           $group_id = $this->getRequest()->get('group_id');
+           $group = $this->getEm()
+                         ->getRepository(Group::class)
+                         ->find($group_id);
+           $schoolyear = $group->getSchoolyear();
+           // Delete students from the group
+           $this->getEm()
+                ->getRepository(RegistrationGroup::class)
+                ->removeRegistrationGroupByGroupId($group_id);
+    
+           if ($students) {
+               foreach ($students as $student) {
+                   // Get student registration
+                   $registration = $this->getEm()
+                                       ->getRepository(Registration::class)
+                                       ->findOneBy(
+                                           [
+                                               'schoolYear' => $schoolyear->getId(),
+                                               'student' => $student
+                                           ]);
+                   $em = $this->getEm();
+                   $registration_group = new RegistrationGroup();
+                   $registration_group->setRegistration($registration);
+                   $registration_group->setGroup($group);
+                   $em->persist($registration_group);
+                   $em->flush();
+               }
+           }
+    
+           $response->setData(
+               [
+                   'status' => 'OK',
+                   'message' => ''
+               ]);
+       } catch (\Exception $e) {
+           $response->setData(
+               [
+                   'status' => 'KO',
+                   'message' => 'Une erreur est intervenue!' .
+                       $e->getMessage()
+               ]);
+       }
+       
+       return $response;
     }
 }

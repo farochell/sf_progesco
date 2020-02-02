@@ -54,7 +54,7 @@ class PaymentPlan extends ManagerController
     public function pendingOperations()
     {
         $breads   = [];
-        $breads[] = ['name' => 'Opérations de paiement en attente de validation', 'url' => 'paymentplan_pending_operations'];
+        $breads[] = ['name' => 'Etudiants réguliers: Opérations de paiement en attente de validation', 'url' => 'paymentplan_pending_operations'];
         $this->setBreadcrumbs($breads);
         $this->addAction(['function' => 'pendingPaymentPlan', 'params' => []]);
         $this->addAction(['function' => 'noValidBankTransfert', 'params' => []]);
@@ -71,7 +71,7 @@ class PaymentPlan extends ManagerController
     public function validedOperations()
     {
         $breads   = [];
-        $breads[] = ['name' => 'Opérations de paiement validées', 'url' => 'paymentplan_valided_operations'];
+        $breads[] = ['name' => 'Etudiants réguliers: Opérations de paiement validées', 'url' => 'paymentplan_valided_operations'];
         $this->setBreadcrumbs($breads);
         $this->addAction(['function' => 'cashValidedPaymentPlan', 'params' => []]);
         $this->addAction(['function' => 'chequeValidedPaymentPlan', 'params' => []]);
@@ -135,7 +135,7 @@ class PaymentPlan extends ManagerController
      */
     public function transfertValidedPaymentPlan()
     {
-        $this->setCardTitle("Liste des paiements par transferts bancaires validés");
+        $this->setCardTitle("Liste des paiements par transfert bancaire validés");
         
         return parent::customFunction('transfertValidedPaymentPlan');
     }

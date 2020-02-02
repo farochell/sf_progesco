@@ -9,16 +9,15 @@ use App\IHM\Model\Table\CellAttribute;
 use App\IHM\Model\Table\Row;
 use App\IHM\Model\Table\Table;
 use App\Pedagogy\Helper\SchoolYearHelper;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
-
 /**
  * Class ManagerService
  * @package App\Manager\Service
  */
-class ManagerService
-{
+class ManagerService {
     /**
      */
     const PER_PAGE = 10;
@@ -88,23 +87,32 @@ class ManagerService
      */
     private $security;
     
+    /**
+     * @var RouterInterface|null
+     */
     private $router;
     
+    /**
+     * @var SchoolYearHelper
+     */
     private $schoolYearHelper;
+    
+    /**
+     * @var
+     */
+    private $logger;
     
     /**
      *
      * @return mixed
      */
-    public function getPaginator()
-    {
+    public function getPaginator() {
         return $this->paginator;
     }
     
     /**
      */
-    public function setPaginator()
-    {
+    public function setPaginator() {
         $this->paginator = $this->container->get('knp_paginator');
     }
     
@@ -112,16 +120,14 @@ class ManagerService
      *
      * @return array
      */
-    public function getButtons()
-    {
+    public function getButtons() {
         return $this->buttons;
     }
     
     /**
      * @param $button
      */
-    public function setButtons($button)
-    {
+    public function setButtons($button) {
         $this->buttons[] = $button;
     }
     
@@ -131,8 +137,7 @@ class ManagerService
      *
      * @return object|\App\IHM\Model\Table\Table
      */
-    public function getTable(string $id)
-    {
+    public function getTable(string $id) {
         $this->table = new Table($id);
         
         return $this->table;
@@ -146,8 +151,7 @@ class ManagerService
      *
      * @return Cell|object
      */
-    public function getCell(string $name, $value = "", string $className = "", string $format = "string")
-    {
+    public function getCell(string $name, $value = "", string $className = "", string $format = "string") {
         $this->cell = new Cell($name, $value, $className, $format);
         
         return $this->cell;
@@ -160,8 +164,7 @@ class ManagerService
      *
      * @return object|\App\IHM\Model\Table\CellAction
      */
-    public function getCellAction(string $name, string $type)
-    {
+    public function getCellAction(string $name, string $type) {
         $this->cellAction = new CellAction($name, $type);
         
         return $this->cellAction;
@@ -178,8 +181,14 @@ class ManagerService
      *
      * @return object|\App\IHM\Model\Table\CellAttribute
      */
-    public function getCellAttribute(string $icon, string $title, string $url = "", string $color = "btn-dark", string $ajax = "", array $params = [])
-    {
+    public function getCellAttribute(
+        string $icon,
+        string $title,
+        string $url = "",
+        string $color = "btn-dark",
+        string $ajax = "",
+        array $params = []
+    ) {
         $this->cellAttribute = new CellAttribute($icon, $title, $url, $color, $params);
         
         if ($ajax != null) {
@@ -195,8 +204,7 @@ class ManagerService
      *
      * @return object|Row
      */
-    public function getRow(string $id)
-    {
+    public function getRow(string $id) {
         $this->row = new Row($id);
         
         return $this->row;
@@ -206,8 +214,7 @@ class ManagerService
      *
      * @return string|ContainerInterface
      */
-    public function getContainer()
-    {
+    public function getContainer() {
         return $this->container;
     }
     
@@ -215,8 +222,7 @@ class ManagerService
      *
      * @param ContainerInterface $container
      */
-    public function setContainer(ContainerInterface $container)
-    {
+    public function setContainer(ContainerInterface $container) {
         $this->container = $container;
     }
     
@@ -224,8 +230,7 @@ class ManagerService
      *
      * @return object|string
      */
-    public function getEm()
-    {
+    public function getEm() {
         return $this->em;
     }
     
@@ -233,8 +238,7 @@ class ManagerService
      *
      * @param object|string $em
      */
-    public function setEm($em)
-    {
+    public function setEm($em) {
         $this->em = $em;
     }
     
@@ -242,8 +246,7 @@ class ManagerService
      *
      * @return object|string
      */
-    public function getRequest()
-    {
+    public function getRequest() {
         return $this->request;
     }
     
@@ -251,57 +254,64 @@ class ManagerService
      *
      * @param object|string $request
      */
-    public function setRequest($request)
-    {
+    public function setRequest($request) {
         $this->request = $request;
     }
     
     /**
      * @return Security
      */
-    public function getSecurity(): Security
-    {
+    public function getSecurity(): Security {
         return $this->security;
     }
     
     /**
      * @param Security $security
      */
-    public function setSecurity(Security $security): void
-    {
+    public function setSecurity(Security $security): void {
         $this->security = $security;
     }
     
     /**
      * @return SchoolYearHelper
      */
-    public function getSchoolYearHelper(): SchoolYearHelper
-    {
+    public function getSchoolYearHelper(): SchoolYearHelper {
         return $this->schoolYearHelper;
     }
     
     /**
      * @param SchoolYearHelper $schoolYearHelper
      */
-    public function setSchoolYearHelper(SchoolYearHelper $schoolYearHelper): void
-    {
+    public function setSchoolYearHelper(SchoolYearHelper $schoolYearHelper): void {
         $this->schoolYearHelper = $schoolYearHelper;
     }
     
     /**
      * @return RouterInterface
      */
-    public function getRouter(): RouterInterface
-    {
+    public function getRouter(): RouterInterface {
         return $this->router;
     }
     
     /**
      * @param RouterInterface $router
      */
-    public function setRouter(RouterInterface $router): void
-    {
+    public function setRouter(RouterInterface $router): void {
         $this->router = $router;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getLogger() {
+        return $this->logger;
+    }
+    
+    /**
+     * @param mixed $logger
+     */
+    public function setLogger($logger): void {
+        $this->logger = $logger;
     }
     
     /**
@@ -310,12 +320,14 @@ class ManagerService
      * @param ContainerInterface   $container
      * @param SchoolYearHelper     $schoolYearHelper
      * @param Security             $security
+     * @param LoggerInterface      $logger
      * @param RouterInterface|null $router
      */
     public function __construct(
         ContainerInterface $container,
         SchoolYearHelper $schoolYearHelper,
         Security $security,
+        LoggerInterface $logger,
         RouterInterface $router = null
     ) {
         $this->container = $container;
@@ -325,6 +337,7 @@ class ManagerService
         $this->schoolYearHelper = $schoolYearHelper;
         $this->security         = $security;
         $this->router           = $router;
+        $this->logger           = $logger;
     }
     
 }

@@ -15,5 +15,8 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    assets:
+        base_urls:
+            - 'http://sf-progesco/'
 
 

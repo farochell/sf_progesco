@@ -1,0 +1,97 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche du groupe <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card grey darken-3">
+                <div class="card-header grey darken-3">
+                    Informations générales
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><label class="col-sm-2">Nom du groupe</label>
+                        <span class="blue-text text-accent-1">{{ data.label }}</span>
+                    </li>
+                    <li class="list-group-item"><label class="col-sm-2">Niveau</label>
+                        <span class="blue-text text-accent-1">
+				        {{ data.level }}
+			        </span>
+                    </li>
+                    <li class="list-group-item"><label class="col-sm-2">Effectif maximum</label>
+                        <span class="blue-text text-accent-1">
+				        {{ data.effective }}
+			        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-sm-12">
+            <div class="card card grey darken-3">
+                <div class="card-header grey darken-3">
+                    Répartition des étudiants
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h5>Etudiants non inscrits dans le groupe ({{ registrations['notregistered']|length }})</h5>
+                            <select class="form-control" multiple id="source">
+                                {% if registrations['notregistered'] is not empty %}
+                                    {% for notregistered in registrations['notregistered'] %}
+                                        <option value="{{ notregistered.student.id }}">{{ notregistered.student}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnAllRight"><i class="fas fa-angle-double-right"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnRight"><i class="fas fa-angle-right"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnLeft"><i class="fas fa-angle-left"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnAllLeft"><i class="fas fa-angle-double-left"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <h5>Etudiants inscrits ({{ registrations['registered']|length }})</h5>
+                            <select class="form-control" multiple class="form-control" id="destination">
+                                {% if registrations['registered'] is not empty %}
+
+                                    {% for registered in registrations['registered'] %}
+                                        {% if registered is not empty %}
+                                            <option value="{{ registered.registration.student.id }}">
+                                                {{ registered.registration.student }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-2">
+                            <div class="btn btn-success col-sm-12" onclick="validSelection('{{ path('registrationgroup_add') }}', {{ data.effective }},{{ data.id }})">Valider</div>
+                        </div>
+                        <div class="col-sm-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

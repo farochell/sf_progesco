@@ -12,7 +12,6 @@ namespace App\Schooling\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Registration
@@ -26,13 +25,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     message="Cet étudiant est déjà inscrit."
  * )
  * @ORM\HasLifecycleCallbacks()
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
-class Registration
-{
-    const NOT_VALIDED       = 1;
-    const VALIDED           = 2;
-    const CANCELED          = 3;
+class Registration {
+    const NOT_VALIDED = 1;
+    const VALIDED     = 2;
+    const CANCELED    = 3;
     
     /**
      * @var int
@@ -101,7 +98,6 @@ class Registration
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -109,7 +105,6 @@ class Registration
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -126,176 +121,154 @@ class Registration
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
     
     /**
      * @param int $id
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
     
     /**
      * @return mixed
      */
-    public function getSchoolYear()
-    {
+    public function getSchoolYear() {
         return $this->schoolYear;
     }
     
     /**
      * @param mixed $schoolYear
      */
-    public function setSchoolYear($schoolYear): void
-    {
+    public function setSchoolYear($schoolYear): void {
         $this->schoolYear = $schoolYear;
     }
     
     /**
      * @return mixed
      */
-    public function getGrade()
-    {
+    public function getGrade() {
         return $this->grade;
     }
     
     /**
      * @param mixed $grade
      */
-    public function setGrade($grade): void
-    {
+    public function setGrade($grade): void {
         $this->grade = $grade;
     }
     
     /**
      * @return mixed
      */
-    public function getStudent()
-    {
+    public function getStudent() {
         return $this->student;
     }
     
     /**
      * @param mixed $student
      */
-    public function setStudent($student): void
-    {
+    public function setStudent($student): void {
         $this->student = $student;
     }
     
     /**
      * @return \DateTime
      */
-    public function getRegistrationDate(): ?\DateTime
-    {
+    public function getRegistrationDate(): ?\DateTime {
         return $this->registrationDate;
     }
     
     /**
      * @param \DateTime $registrationDate
      */
-    public function setRegistrationDate(?\DateTime $registrationDate): void
-    {
+    public function setRegistrationDate(?\DateTime $registrationDate): void {
         $this->registrationDate = $registrationDate;
     }
     
     /**
      * @return int
      */
-    public function getStatus(): int
-    {
+    public function getStatus(): int {
         return $this->status;
     }
     
     /**
      * @param int $status
      */
-    public function setStatus(int $status): void
-    {
+    public function setStatus(int $status): void {
         $this->status = $status;
     }
     
     /**
      * @return \DateTime
      */
-    public function getCreated(): \DateTime
-    {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
     
     /**
      * @param \DateTime $created
      */
-    public function setCreated(\DateTime $created): void
-    {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
     }
     
     /**
      * @return \DateTime
      */
-    public function getUpdated(): \DateTime
-    {
+    public function getUpdated(): \DateTime {
         return $this->updated;
     }
     
     /**
      * @param \DateTime $updated
      */
-    public function setUpdated(\DateTime $updated): void
-    {
+    public function setUpdated(\DateTime $updated): void {
         $this->updated = $updated;
     }
     
     /**
      * @return \DateTime
      */
-    public function getDeletedAt(): \DateTime
-    {
+    public function getDeletedAt(): \DateTime {
         return $this->deletedAt;
     }
     
     /**
      * @param \DateTime $deletedAt
      */
-    public function setDeletedAt(\DateTime $deletedAt): void
-    {
+    public function setDeletedAt(\DateTime $deletedAt): void {
         $this->deletedAt = $deletedAt;
     }
     
     /**
      * @return mixed
      */
-    public function getUserCreation()
-    {
+    public function getUserCreation() {
         return $this->userCreation;
     }
     
     /**
      * @param mixed $userCreation
      */
-    public function setUserCreation($userCreation): void
-    {
+    public function setUserCreation($userCreation): void {
         $this->userCreation = $userCreation;
     }
     
     /**
      * @return mixed
      */
-    public function getUserModification()
-    {
+    public function getUserModification() {
         return $this->userModification;
     }
     
     /**
      * @param mixed $userModification
      */
-    public function setUserModification($userModification): void
-    {
+    public function setUserModification($userModification): void {
         $this->userModification = $userModification;
     }
     
@@ -303,50 +276,44 @@ class Registration
      * Registration constructor.
      */
     public function __construct() {
-        $this->status = self::NOT_VALIDED;
+        $this->status              = self::NOT_VALIDED;
         $this->hasStateScholarship = 0;
-        $this->registrationDate = new \DateTime('now');
+        $this->registrationDate    = new \DateTime('now');
     }
     
     /**
      * @return mixed
      */
-    public function getLevel()
-    {
+    public function getLevel() {
         return $this->level;
     }
     
     /**
      * @param mixed $level
      */
-    public function setLevel($level): void
-    {
+    public function setLevel($level): void {
         $this->level = $level;
     }
     
     /**
      * @return int
      */
-    public function getHasStateScholarship(): int
-    {
+    public function getHasStateScholarship(): int {
         return $this->hasStateScholarship;
     }
     
     /**
      * @param int $hasStateScholarship
      */
-    public function setHasStateScholarship(?int $hasStateScholarship): void
-    {
+    public function setHasStateScholarship(?int $hasStateScholarship): void {
         $this->hasStateScholarship = $hasStateScholarship;
     }
     
     /**
      * @return string
      */
-    public function __toString()
-    {
-        return 'Année scolaire: ' . $this->getSchoolYear()->getLabel() . '- Classe:' . $this->getGrade(
-            )->getLabel();
+    public function __toString() {
+        return 'Année scolaire: '.$this->getSchoolYear()->getLabel().'- Classe: '.$this->getGrade()->getLabel();
     }
     
 }

@@ -20,13 +20,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * @package App\Accounting\Service
  *
  */
-class ScholarshipPaymentPlanService extends ManagerService
-{
+class ScholarshipPaymentPlanService extends ManagerService {
     /**
      * @return array
      */
-    public function getByPayment()
-    {
+    public function getByPayment() {
         $id      = $this->getRequest()->get('id');
         $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findByScholarshipPayment($id);
         
@@ -34,12 +32,148 @@ class ScholarshipPaymentPlanService extends ManagerService
     }
     
     /**
+     * @return array
+     */
+    public function pendingScholarshipPaymentPlan() {
+        $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findBy(['status' => ScholarshipPaymentPlan::PAYMENT_INIT]);
+        
+        return $this->getScholarshipPendingPaymentPlan($records);
+    }
+    
+    /**
+     * @return array
+     */
+    public function pendingCheque() {
+        $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findBy(['status' => ScholarshipPaymentPlan::PAYMENT_CHQ_W]);
+    
+        $headers = [
+            'Libellé',
+            'Montant',
+            'Date d\'enregistrement',
+            'Date de paiement',
+            'Statut',
+            '',
+            '',
+        ];
+        $table   = $this->getTable("pendingCheque");
+        $table->addHeaders($headers);
+    
+        if ($records) {
+            foreach ($records as $record) {
+                $row = $this->getRow($record->getId());
+                $row->addCells($this->getCell("libelle", $record->getLabel()));
+                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("pay", "link");
+                $params = ['scholarshippaymentplan_id' => $record->getId(),
+                           'scholarshippayment_id' => $record->getScholarshipPayment()->getId(),
+                           'mode' => 'CHQ_VALID',
+                           'redirect' => 'scholarshippaymentplan_pending_operations'
+                ];
+                $cellAction->setCellattribute(
+                    $this->getCellAttribute(
+                        "far fa-credit-card",
+                        "Valider l'encaissement du chèque",
+                        "scholarshippaymentplan_update_status",
+                        "green darken-2",
+                        "",
+                        $params
+                    )
+                );
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+            
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("delete", "link");
+                // Dell attribute
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "scholarshippaymentplan_del", "bg-danger"));
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+            
+                $table->addRows($row);
+            }
+        }
+    
+        return [
+            'table'      => $table,
+            'pagination' => null,
+        ];
+    }
+    
+    /**
+     * @return array
+     */
+    public function noValidBankTransfert() {
+        $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findBy(['status' => ScholarshipPaymentPlan::PAYMENT_BANK_TFT_W]);
+    
+        $headers = [
+            'Libellé',
+            'Montant',
+            'Date d\'enregistrement',
+            'Date de paiement',
+            'Statut',
+            '',
+            '',
+    
+        ];
+        $table   = $this->getTable("noValidBankTransfert");
+        $table->addHeaders($headers);
+    
+        if ($records) {
+            foreach ($records as $record) {
+                $row = $this->getRow($record->getId());
+                $row->addCells($this->getCell("label", $record->getLabel()));
+                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell("status", $this->getStatusLabel($record->getStatus())));
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("pay", "link");
+            
+                $params = ['paymentplan_id' => $record->getId(),
+                           'payment_id' => $record->getPayment()->getId(),
+                           'mode' => 'BANK_VALID',
+                           'redirect' => 'scholarshippaymentplan_pending_operations'
+                ];
+                $cellAction->setCellattribute(
+                    $this->getCellAttribute(
+                        "far fa-credit-card",
+                        "Valider la reception du paiement par virement bancaire",
+                        "paymentplan_update_status",
+                        "green darken-2",
+                        "",
+                        $params
+                    )
+                );
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+            
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("delete", "link");
+                // Dell attribute
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "scholarshippaymentplan_del", "bg-danger"));
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+            
+                $table->addRows($row);
+            }
+        }
+    
+        return [
+            'table'      => $table,
+            'pagination' => null,
+        ];
+    }
+    
+    /**
      * @param $records
      *
      * @return array
      */
-    public function getScholarshipPendingPaymentPlan($records)
-    {
+    public function getScholarshipPendingPaymentPlan($records) {
         $headers = [
             'Référence',
             'Libellé',
@@ -197,8 +331,7 @@ class ScholarshipPaymentPlanService extends ManagerService
     /**
      * @return JsonResponse
      */
-    public function updateStatus()
-    {
+    public function updateStatus() {
         $response = new JsonResponse();
         try {
             $mode          = $this->getRequest()->get('mode');
@@ -262,8 +395,7 @@ class ScholarshipPaymentPlanService extends ManagerService
      *
      * @return string
      */
-    public function getStatusLabel($statusID)
-    {
+    public function getStatusLabel($statusID) {
         switch ($statusID) {
             case ScholarshipPaymentPlan::PAYMENT_INIT:
                 return 'En attente de paiement';
@@ -297,8 +429,73 @@ class ScholarshipPaymentPlanService extends ManagerService
     /**
      * @return mixed
      */
-    public function downloadPaymentReceipt()
+    public function downloadPaymentReceipt() {
+        return $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->find($this->getRequest()->get('id'));
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function chequeValidedScholarshipPaymentPlan(){
+        $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findBy(['status' => ScholarshipPaymentPlan::PAYMENT_CHQ_V]);
+        return $this->getValidedPaymentPlan($records);
+    }
+    
+    /**
+     * @return array
+     */
+    public function transfertValidedScholarshipPaymentPlan()
     {
-        return  $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->find($this->getRequest()->get('id'));
+        $records = $this->getEm()->getRepository(ScholarshipPaymentPlan::class)->findBy(['status' => ScholarshipPaymentPlan::PAYMENT_BANK_TFT_V]);
+        return $this->getValidedPaymentPlan($records);
+    }
+    
+    /**
+     * @param $records
+     *
+     * @return array
+     */
+    public function getValidedPaymentPlan($records) {
+        $headers = [
+            'Référence',
+            'Libellé',
+            'Montant',
+            'Date d\'enregistrement',
+            'Date de paiement',
+            'Statut',
+            ''
+        
+        ];
+        $table   = $this->getTable("validedpayementplan");
+        $table->addHeaders($headers);
+        
+        if ($records) {
+            foreach ($records as $record) {
+                $row = $this->getRow($record->getId());
+                $row->addCells($this->getCell("reference", $record->getReference()));
+                $row->addCells($this->getCell("libelle", $record->getLabel()));
+                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+                
+                $cell       = $this->getCell("action");
+                $cellAction = $this->getCellAction("delete", "link");
+                // Dell attribute
+                $params = ['id' => $record->getId(), 'scholarshippayment_id' => $record->getScholarshipPayment()->getId()];
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "scholarshippaymentplan_del", "bg-danger", "",
+                    $params));
+                $cell->setCellAction($cellAction);
+                $row->addCells($cell);
+                
+                
+                $table->addRows($row);
+            }
+        }
+        
+        return [
+            'table'      => $table,
+            'pagination' => null,
+        ];
     }
 }

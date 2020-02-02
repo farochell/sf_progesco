@@ -11,7 +11,6 @@ namespace App\Pedagogy\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Level
@@ -21,7 +20,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="level")
  * @ORM\Entity(repositoryClass="App\Pedagogy\Repository\LevelRepository")
  * @UniqueEntity("label",message="Ce nom est déjà utilisé pour un autre niveau")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
 class Level
 {
@@ -71,7 +69,6 @@ class Level
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -79,7 +76,6 @@ class Level
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -110,7 +106,7 @@ class Level
     /**
      * @return string
      */
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }

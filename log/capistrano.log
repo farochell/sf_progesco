@@ -1,0 +1,89 @@
+# Logfile created on 2020-01-31 17:26:39 +0100 by logger.rb/61378
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:26:39 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [a198d074] Running /usr/bin/env mkdir -p /tmp as u94734452@home752037904.1and1-data.host
+ DEBUG [a198d074] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:32:50 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [953e49e8] Running /usr/bin/env mkdir -p /tmp as u94734452@home752037904.1and1-data.host
+ DEBUG [953e49e8] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:36:21 +0100 cap production composer:install
+  INFO ---------------------------------------------------------------------------
+ DEBUG [d96beb80] Running if test ! -d; then echo "Directory does not exist ''" 1>&2; false; fi as u94734452@home752037904.1and1-data.host
+ DEBUG [d96beb80] Command: if test ! -d; then echo "Directory does not exist ''" 1>&2; false; fi
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:42:13 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [b9209ca3] Running /usr/bin/env mkdir -p /tmp as u94734452@home752037904.1and1-data.host
+ DEBUG [b9209ca3] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:46:52 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [a142a5ab] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [a142a5ab] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:49:21 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d1ee8175] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [d1ee8175] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [32d396b9] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [32d396b9] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:51:06 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [56dddda4] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [56dddda4] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [ff46116b] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [ff46116b] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:53:07 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [85d6b090] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [85d6b090] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [054d484a] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [054d484a] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:53:42 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d1f575c4] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [d1f575c4] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [61950be7] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [61950be7] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:54:34 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [bb8da2a7] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [bb8da2a7] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [5c88a468] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [5c88a468] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 17:56:41 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d51dcf6e] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [d51dcf6e] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [b0dfcaac] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [b0dfcaac] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 18:01:00 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [97049010] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [97049010] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [045c0616] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [045c0616] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 18:01:54 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [7571d4f5] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [7571d4f5] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [7b61e122] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [7b61e122] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO ---------------------------------------------------------------------------
+  INFO START 2020-01-31 18:05:55 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [fee23b66] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [fee23b66] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )
+  INFO [e9a38ec1] Running /usr/bin/env mkdir -p /tmp/capistrano as u94734452@home752037904.1and1-data.host
+ DEBUG [e9a38ec1] Command: ( export APP_ENV="prod" ; /usr/bin/env mkdir -p /tmp/capistrano )

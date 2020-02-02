@@ -11,6 +11,7 @@ namespace App\Schooling\Controller;
 
 
 use App\Manager\Controller\ManagerController;
+use App\Manager\Util\Constant;
 use App\Schooling\Service\RegistrationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -144,5 +145,21 @@ class Registration extends ManagerController
      */
     public function delete() {
     
+    }
+    
+    /**
+     * @Route("/registrations/group/add", name="registrationgroup_add", options={"expose"=true})
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_REGISTRATION_ADD')")
+     */
+    public function addRegistrationGroup() {
+        $response = new JsonResponse();
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') && !$this->get('security.authorization_checker')->isGranted('ROLE_REGISTRATION_GROUP_ADD')) {
+            $response->setData(["statut" => "KO", "message" => "Vous n'avez pas les droits nécessaires pour effectuer cette action. Veuillez contacter l'administrateur."]);
+        }else {
+            $response = $this->getService()->addInscriptionGroup($response);
+        }
+    
+    
+        return $response;
     }
 }

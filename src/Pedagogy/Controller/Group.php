@@ -9,6 +9,7 @@
 namespace App\Pedagogy\Controller;
 
 use App\Calendar\Service\CalendarService;
+use App\Manager\Util\Constant;
 use App\Pedagogy\Service\GroupService;
 use App\Manager\Service\OrmService;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,20 +22,25 @@ use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 /**
  * Class GroupController
  *
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class Group extends ManagerController
-{
+class Group extends ManagerController {
+    
     /**
      * GroupController constructor.
+     *
+     * @param OrmService   $ormService
+     * @param Breadcrumbs  $breadcrumbs
+     * @param GroupService $groupService
      */
-    public function __construct()
-    {
+    public function __construct(OrmService $ormService, Breadcrumbs $breadcrumbs, GroupService $groupService) {
+        $this->setService($groupService);
+        $this->setOrmService($ormService);
+        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Group');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -45,16 +51,15 @@ class Group extends ManagerController
     /**
      * @Route("/groups", name="group_homepage")
      *
-     * @param GroupService $groupService
-     *
-     * @param Breadcrumbs  $breadcrumbs
-     *
      * @return Response
      */
-    public function home(GroupService $groupService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setService($groupService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home() {
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $breads   = [];
         $breads[] = ['name' => 'Groupes', 'url' => 'group_homepage'];
         $this->addAction(['function' => 'show', 'params' => []]);
@@ -69,8 +74,7 @@ class Group extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -84,10 +88,8 @@ class Group extends ManagerController
      *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
+        
         $breads   = [];
         $breads[] = ['name' => 'Groupes', 'url' => 'group_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'group_add'];
@@ -107,8 +109,7 @@ class Group extends ManagerController
      *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
+    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs) {
         $this->setOrmService($ormService);
         $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
@@ -127,8 +128,7 @@ class Group extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
+    public function delete(OrmService $ormService) {
         $this->setOrmService($ormService);
         $this->setUrl('group_homepage');
         
@@ -149,8 +149,14 @@ class Group extends ManagerController
      * @return Response
      * @throws \Exception
      */
-    public function scheduler(GroupEntity $group, $month = null, $year = null, GroupService $groupService, CalendarService $calendarService,
-        Breadcrumbs $breadcrumbs) {
+    public function scheduler(
+        GroupEntity $group,
+        $month = null,
+        $year = null,
+        GroupService $groupService,
+        CalendarService $calendarService,
+        Breadcrumbs $breadcrumbs
+    ) {
         $this->setService($groupService);
         $this->setBreadcrumbService($breadcrumbs);
         if ($month == null) {
@@ -159,33 +165,34 @@ class Group extends ManagerController
         if ($year == null) {
             $year = date("Y");
         }
-    
-        $breads = array();
-        $breads[] = array('name' => 'Groupes', 'url' => 'group_homepage');
+        
+        $breads   = [];
+        $breads[] = ['name' => 'Groupes', 'url' => 'group_homepage'];
         // $breads[] = array('name' => 'Fiche', 'url' => 'groupe_detail', 'params' => ['id' => $group->getId()]);
         // $breads[] = array('name' => 'Empoi du temps', 'url' => 'groupe_agenda_detail', 'params' => ['id' => $group->getId(), 'month' => $month,
         // 'year' => $year]);
         $this->setBreadcrumbs($breads);
         $agenda = $calendarService->getAgenda();
-        $id = $this->getRequest()->get("id");
-    
+        $id     = $this->getRequest()->get("id");
+        
         $schedules = $this->getService()->getSchedules($agenda);
+        
         return $this->render(
             $this->getTag().'/Group/schedule.html.twig',
             [
-                'controller'      => $this->getController(),
-                'bundle'          => $this->getBundle(),
-                'menuItem'        => $this->getMenuItem(),
-                'menuGroup'       => $this->getMenuGroup(),
-                'data'            => $this->getData(),
-                'tag'             => $this->getTag(),
-                'agenda'          => $agenda,
-                'id'              => $id,
-                'group'           => $group,
-                'template'        => $this->getTemplate(),
-                'schedules'       => $schedules,
-                'month'           => $month,
-                'year'            => $year,
+                'controller' => $this->getController(),
+                'bundle'     => $this->getBundle(),
+                'menuItem'   => $this->getMenuItem(),
+                'menuGroup'  => $this->getMenuGroup(),
+                'data'       => $this->getData(),
+                'tag'        => $this->getTag(),
+                'agenda'     => $agenda,
+                'id'         => $id,
+                'group'      => $group,
+                'template'   => $this->getTemplate(),
+                'schedules'  => $schedules,
+                'month'      => $month,
+                'year'       => $year,
             ]
         );
     }
@@ -195,11 +202,45 @@ class Group extends ManagerController
      *
      * @return Response
      */
-    public function getByLevel(GroupService $groupService)
-    {
+    public function getByLevel(GroupService $groupService) {
         $this->setService($groupService);
         $this->setCardTitle("Liste des groupes");
         
         return parent::customFunction('getByLevel');
+    }
+    
+    /**
+     * @Route("/groups/form", name="group_form")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_GROUP_SHOW')")
+     *
+     * @return Response
+     */
+    public function detail() {
+        
+        $breads   = [];
+        $breads[] = ['name' => 'Groupes', 'url' => 'group_homepage'];
+        $breads[] = ['name' => 'Fiche', 'url' => 'group_form', 'params' => ['id' => $this->getRequest()->get('id')]];
+        $this->setBreadcrumbs($breads);
+        $this->setTemplate('fiche.html.twig');
+        
+        $data = $this->getService()->find();
+        $registrations = $this->getService()->getGroupeInfo();
+        
+        return $this->render(
+            $this->getTag().'\\'.$this->getController().'\\'.$this->getTemplate(),
+            [
+                Constant::CTRL_LABEL        => $this->getController(),
+                Constant::BUNDLE_LABEL      => $this->getBundle(),
+                Constant::MENUITEM_LABEL    => $this->getMenuItem(),
+                Constant::MENUGROUP_LABEL   => $this->getMenuGroup(),
+                Constant::DATA_LABEL        => $data,
+                Constant::TAG_LABEL         => $this->getTag(),
+                Constant::TEMPLATE_LABEL    => $this->getTemplate(),
+                Constant::ENTITYNAME_LABEL  => $this->getEntityName(),
+                Constant::ENVTEMPLATE_LABEL => $this->getEnvTemplate(),
+                Constant::PREVIOUSURL_LABEL => $this->getPreviousUri(),
+                'registrations'             => $registrations,
+            ]
+        );
     }
 }
