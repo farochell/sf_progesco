@@ -28,8 +28,8 @@ class StudyService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter une filière", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("study_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une filière'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('study_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -41,11 +41,11 @@ class StudyService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
+            $this->getTranslator()->trans('Libellé'),
             '',
             '',
         ];
-        $table   = $this->getTable("study");
+        $table   = $this->getTable('study');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Study::class)
@@ -54,17 +54,17 @@ class StudyService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "study_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'study_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "study_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'study_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

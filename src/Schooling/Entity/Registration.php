@@ -313,7 +313,7 @@ class Registration {
      * @return string
      */
     public function __toString() {
-        return 'Année scolaire: '.$this->getSchoolYear()->getLabel().'- Classe: '.$this->getGrade()->getLabel();
+        return 'Etudiant: ' . $this->getStudent() . ' / Année scolaire: ' . $this->getSchoolYear();
     }
     
 }

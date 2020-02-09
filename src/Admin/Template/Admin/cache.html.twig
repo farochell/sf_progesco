@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="mui-panel grey darken-4 white-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <label class="col-sm-12 col-md-4">Taille du répertoire de cache</label>
+                        <span class="blue-text text-accent-1">{{ cache }} Mo</span>
+                        <a href="{{ path('clear_cache') }}" class="btn blue ml-5 white-text"><i class="fa fa-trash"></i> Vider le cache</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

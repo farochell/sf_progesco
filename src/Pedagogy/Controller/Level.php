@@ -14,6 +14,7 @@ use App\Pedagogy\Service\LevelService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +26,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class Level extends ManagerController
-{
+class Level extends ManagerController {
     /**
      * Level constructor.
+     *
+     * @param LevelService        $levelService
+     * @param OrmService          $ormService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
-    {
+    public function __construct(LevelService $levelService, OrmService $ormService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setOrmService($ormService);
+        $this->setService($levelService);
+        $this->setTranslator($translator);
         $this->setController('Level');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -42,15 +50,9 @@ class Level extends ManagerController
     /**
      * @Route("/levels", name="level_homepage")
      *
-     * @param LevelService $levelService
-     * @param Breadcrumbs  $breadcrumbs
-     *
      * @return Response
      */
-    public function home(LevelService $levelService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setBreadcrumbService($breadcrumbs);
-        $this->setService($levelService);
+    public function home() {
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des niveaux d'études");
         $breads   = [];
@@ -65,8 +67,7 @@ class Level extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -74,15 +75,9 @@ class Level extends ManagerController
      * @Route("/levels/add", name="level_add")
      *
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Niveaux', 'url' => 'level_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'level_add'];
@@ -96,15 +91,9 @@ class Level extends ManagerController
      * @Route("/levels/update", name="level_upd")
      *
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Niveaux', 'url' => 'level_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'level_upd'];
@@ -119,9 +108,7 @@ class Level extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('level_homepage');
         
         return parent::deleteRecord();

@@ -12,9 +12,11 @@ namespace App\Configuration\Controller;
 use App\Configuration\Service\OrganizationService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,20 +28,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @package App\Configuration\Controller
  * @Route("/admin")
  */
-class Organization extends ManagerController
-{
+class Organization extends ManagerController {
     /**
      * Organization constructor.
      *
      * @param OrmService          $ormService
      * @param OrganizationService $organizationService
      * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
+     * @param LoggerInterface     $logger
      */
-    public function __construct(OrmService $ormService, OrganizationService $organizationService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
+    public function __construct(
+        OrmService $ormService,
+        OrganizationService $organizationService,
+        Breadcrumbs $breadcrumbs,
+        TranslatorInterface $translator,
+        LoggerInterface $logger
+    ) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($organizationService);
-        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Organization');
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
@@ -53,8 +60,13 @@ class Organization extends ManagerController
      *
      * @return Response
      */
-    public function home()
-    {
+    public function home() {
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des établissements");
         $breads   = [];
@@ -69,8 +81,7 @@ class Organization extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -80,8 +91,7 @@ class Organization extends ManagerController
      *
      * @return Response
      */
-    public function add()
-    {
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Etablissements', 'url' => 'organization_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'organization_add'];
@@ -97,8 +107,7 @@ class Organization extends ManagerController
      *
      * @return Response
      */
-    public function update()
-    {
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Etablissements', 'url' => 'organization_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'organization_upd'];
@@ -114,8 +123,7 @@ class Organization extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete()
-    {
+    public function delete() {
         $this->setUrl('organization_homepage');
         
         return parent::deleteRecord();

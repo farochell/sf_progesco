@@ -31,8 +31,8 @@ class CourseService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Planifier un cours", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("course_add");
+            $fabrique->createButton($this->getTranslator()->trans('Planifier un cours'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('course_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -44,17 +44,17 @@ class CourseService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Matière',
-            'Groupe(s)',
-            'Période',
-            'Date du cours',
-            'Heure de début',
-            'Heure de fin',
-            'Salle',
+            $this->getTranslator()->trans( 'Matière'),
+            $this->getTranslator()->trans('Groupe(s)'),
+            $this->getTranslator()->trans('Période'),
+            $this->getTranslator()->trans('Date du cours'),
+            $this->getTranslator()->trans('Heure de début'),
+            $this->getTranslator()->trans('Heure de fin'),
+            $this->getTranslator()->trans('Salle'),
             '',
             '',
         ];
-        $table   = $this->getTable("course");
+        $table   = $this->getTable('course');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Course::class)
@@ -63,23 +63,23 @@ class CourseService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("teaching", $record->getTeaching()));
-                $row->addCells($this->getCell("group", $this->splitGroups($record->getGroups())));
-                $row->addCells($this->getCell("semester", $record->getSemester()));
-                $row->addCells($this->getCell("courseDate", $record->getCourseDate()->format("d/m/Y")));
-                $row->addCells($this->getCell("startDate", $record->getStartHour()->format("H:i")));
-                $row->addCells($this->getCell("endDate", $record->getEndHour()->format("H:i")));
-                $row->addCells($this->getCell("classroom", $record->getClassroom()));
+                $row->addCells($this->getCell('subject', $record->getTeaching()));
+                $row->addCells($this->getCell('group', $this->splitGroups($record->getGroups())));
+                $row->addCells($this->getCell('semester', $record->getSemester()));
+                $row->addCells($this->getCell('courseDate', $record->getCourseDate()->format('d/m/Y')));
+                $row->addCells($this->getCell('startDate', $record->getStartHour()->format('H:i')));
+                $row->addCells($this->getCell('endDate', $record->getEndHour()->format('H:i')));
+                $row->addCells($this->getCell('classroom', $record->getClassroom()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "course_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'course_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "course_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'course_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -104,7 +104,7 @@ class CourseService extends ManagerService
             $tab [] = $group->getLabel();
         }
         
-        return implode(",", $tab);
+        return implode(',', $tab);
     }
     
 }

@@ -7,8 +7,10 @@
  */
 
 namespace App\Configuration\Controller;
+
 use App\Configuration\Service\GenderService;
 use App\Manager\Service\OrmService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
@@ -24,19 +27,19 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
  * @package App\Configuration\Controller
  * @Route("/admin")
  */
-class Gender extends ManagerController
-{
+class Gender extends ManagerController {
     /**
      * GenderController constructor.
      *
-     * @param OrmService    $ormService
-     * @param GenderService $genderService
-     * @param Breadcrumbs   $breadcrumbs
+     * @param OrmService          $ormService
+     * @param GenderService       $genderService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
+     * @param LoggerInterface     $logger
      */
-    public function __construct(OrmService $ormService, GenderService $genderService, Breadcrumbs $breadcrumbs) {
-        $this->setOrmService($ormService);
+    public function __construct(OrmService $ormService, GenderService $genderService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator, LoggerInterface $logger) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($genderService);
-        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Gender');
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
@@ -50,11 +53,17 @@ class Gender extends ManagerController
      *
      * @return Response
      */
-    public function home(){
+    public function home() {
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des genres");
         $breads   = [];
-        $breads[] = [ 'name' => 'Genres', 'url' => 'gender_homepage' ];
+        $breads[] = ['name' => 'Genres', 'url' => 'gender_homepage'];
         $this->setBreadcrumbs($breads);
         
         return parent::index();
@@ -75,11 +84,10 @@ class Gender extends ManagerController
      *
      * @return Response
      */
-    public function add()
-    {
+    public function add() {
         $breads   = [];
-        $breads[] = [ 'name' => 'Genres', 'url' => 'gender_homepage' ];
-        $breads[] = [ 'name' => 'Formulaire ajout', 'url' => 'gender_add' ];
+        $breads[] = ['name' => 'Genres', 'url' => 'gender_homepage'];
+        $breads[] = ['name' => 'Formulaire ajout', 'url' => 'gender_add'];
         $this->setBreadcrumbs($breads);
         $this->setUrl('gender_homepage');
         
@@ -92,11 +100,10 @@ class Gender extends ManagerController
      *
      * @return Response
      */
-    public function update()
-    {
+    public function update() {
         $breads   = [];
-        $breads[] = [ 'name' => 'Genres', 'url' => 'gender_homepage' ];
-        $breads[] = [ 'name' => 'Formulaire modification', 'url' => 'gender_upd' ];
+        $breads[] = ['name' => 'Genres', 'url' => 'gender_homepage'];
+        $breads[] = ['name' => 'Formulaire modification', 'url' => 'gender_upd'];
         $this->setBreadcrumbs($breads);
         $this->setUrl('gender_homepage');
         
@@ -109,9 +116,9 @@ class Gender extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete()
-    {
+    public function delete() {
         $this->setUrl('gender_homepage');
+        
         return parent::deleteRecord();
     }
 }

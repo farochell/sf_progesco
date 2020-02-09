@@ -22,7 +22,7 @@
 									<td class="action">{% if cell.cellAction.type == 'link' %} {% if cell.cellAction.cellattribute.url is not empty %} {% if cell.cellAction.cellattribute.params
 											is not empty %}
 											<a href="{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}"
-											   class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}">
+											   class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}">
 												<i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% else %}
 											<a href="{{ generatePathForTabRows(cell.cellAction.cellattribute.url,'id',idElement) }}" class="btn btn-sm {{ cell.cellAction.cellattribute.color }}"
@@ -30,20 +30,20 @@
 												<i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% endif %} {% else %}
 											<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}"
-											   class="btn btn-sm {{ cell.cellAction.cellattribute.color }}">
+											   class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}">
 												<i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% endif %} {% else %} {% if cell.cellAction.cellattribute.url is not empty %} {% if cell.cellAction.cellattribute.params
 											is not empty %}
-											<a class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip" data-placement="bottom"
+											<a class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip" data-placement="bottom"
 											   title="{{ cell.cellAction.cellattribute.title }}" onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}')">
 												<i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% else %}
-											<a class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip" data-placement="bottom"
+											<a class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip" data-placement="bottom"
 											   title="{{ cell.cellAction.cellattribute.title }}" onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generatePathForTabRows(cell.cellAction.cellattribute.url,'id',idElement) }}')">
 												<i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% endif %} {% else %}
 											<a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}"
-											   class="btn btn-sm {{ cell.cellAction.cellattribute.color }}">
+											   class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}">
 												<i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
 											</a> {% endif %} {% endif %}</td>
 								{% else %}

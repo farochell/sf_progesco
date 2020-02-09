@@ -15,15 +15,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Class Teaching
+ * Class Subject
  *
  * @package App\Pedagogy\Entity
- * @ORM\Table(name="teaching")
- * @ORM\Entity(repositoryClass="App\Pedagogy\Repository\TeachingRepository")
+ * @ORM\Table(name="subject")
+ * @ORM\Entity(repositoryClass="App\Pedagogy\Repository\SubjectRepository")
  * @UniqueEntity("label",message="Ce nom est déjà utilisé")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  */
-class Teaching
+class Subject
 {
     /**
      * @var int
@@ -199,7 +199,7 @@ class Teaching
     }
     
     /**
-     * Teaching constructor.
+     * Subject constructor.
      */
     public function __construct() {
         $this->label = '';

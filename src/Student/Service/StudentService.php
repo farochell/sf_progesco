@@ -30,7 +30,7 @@ class StudentService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter un(e) étudiant(e)", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
+            $fabrique->createButton($this->getTranslator()->trans("Ajouter un(e) étudiant(e)"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
         $button->setUrl("student_add");
         $this->setButtons($button);
         
@@ -43,9 +43,9 @@ class StudentService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Matricule',
-            'Prénom',
-            'Nom',
+            $this->getTranslator()->trans('Matricule'),
+            $this->getTranslator()->trans('Prénom'),
+            $this->getTranslator()->trans('Nom'),
             '',
             '',
             '',
@@ -94,14 +94,14 @@ class StudentService extends ManagerService
                 $cell       = $this->getCell("action", "", "cell-action");
                 $cellAction = $this->getCellAction("edit", "link");
                 // Add attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "student_upd", "light-blue darken-3 white-text"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", $this->getTranslator()->trans("Modifier"), "student_upd", "light-blue darken-3 white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 // Set info cell
                 $cell       = $this->getCell("action", "", "cell-action");
                 $cellAction = $this->getCellAction("detail", "link");
                 // Detail attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fas fa-eye", "Détail", "student_edit", "grey darken-3 white-text"));
+                $cellAction->setCellattribute($this->getCellAttribute("fas fa-eye", $this->getTranslator()->trans("Détail"), "student_edit", "grey darken-3 white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             
@@ -109,7 +109,7 @@ class StudentService extends ManagerService
                 $cell       = $this->getCell("action", "", "cell-action");
                 $cellAction = $this->getCellAction("delete", "ajax");
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "student_del", "bg-danger"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "student_del", "bg-danger"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             

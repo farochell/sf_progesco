@@ -18,10 +18,10 @@ use App\Manager\Service\OrmService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 /**
  * Class ScholarshipPaymentPlan
  *
@@ -45,12 +45,14 @@ class ScholarshipPaymentPlan extends ManagerController {
         KernelInterface $appKernel,
         OrmService $ormService,
         ScholarshipPaymentPlanService $scholarshipPaymentPlanService,
-        Breadcrumbs $breadcrumbs
+        Breadcrumbs $breadcrumbs,
+        TranslatorInterface $translator
     ) {
         $this->appKernel = $appKernel;
         $this->setController('ScholarshipPaymentPlan');
         $this->setBundle('App\\Accounting\\Controller');
         $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('ScholarshipPaymentPlan');
         $this->setTag('@accounting');
@@ -148,18 +150,19 @@ class ScholarshipPaymentPlan extends ManagerController {
     }
     
     /**
-     * @Route("/scholarshippaymentplans/pending-operations", name="scholarshippaymentplan_pending_operations")
+     * @Route("/scholarshippaymentplans/pending-transactions", name="scholarshippaymentplan_pending_transactions")
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
      * @return Response
      */
     public function pendingOperations() {
         $breads   = [];
         $breads[] =
-            ['name' => 'Etudiants boursiers: Opérations de paiement en attente de validation', 'url' => 'scholarshippaymentplan_pending_operations'];
+            ['name' => 'Etudiants boursiers - Opérations de paiement en attente de validation', 'url' => 'scholarshippaymentplan_pending_transactions'];
         $this->setBreadcrumbs($breads);
-        $this->addAction(['function' => 'pendingScholarshipPaymentPlan', 'params' => []]);
-        $this->addAction(['function' => 'noValidBankTransfert', 'params' => []]);
-        $this->addAction(['function' => 'pendingCheque', 'params' => []]);
+        $this->setDisplayTabs(true);
+        $this->addAction(['function' => 'pendingScholarshipPaymentPlan', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Plans de paiements en attente')]]);
+        $this->addAction(['function' => 'noValidBankTransfert', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Virements bancaires en attente')]]);
+        $this->addAction(['function' => 'pendingCheque', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Chèques à encaisser')]]);
         
         return parent::index();
     }
@@ -192,16 +195,18 @@ class ScholarshipPaymentPlan extends ManagerController {
     }
     
     /**
-     * @Route("/scholarshippaymentplans/valided-operations", name="scholarshippaymentplan_valided_operations")
+     * @Route("/scholarshippaymentplans/validated-transactions", name="scholarshippaymentplan_validated_transactions")
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_PAYMENT_SHOW')")
      * @return Response
      */
-    public function validedOperations() {
+    public function validatedOperations() {
         $breads   = [];
-        $breads[] = ['name' => 'Etudiants boursiers: Opérations de paiement validées', 'url' => 'paymentplan_valided_operations'];
+        $breads[] = ['name' => 'Etudiants boursiers - Opérations de paiement validées', 'url' => 'paymentplan_validated_transactions'];
         $this->setBreadcrumbs($breads);
-        $this->addAction(['function' => 'chequeValidedScholarshipPaymentPlan', 'params' => []]);
-        $this->addAction(['function' => 'transfertValidedScholarshipPaymentPlan', 'params' => []]);
+        $this->setDisplayTabs(true);
+        $this->addAction(['function' => 'chequeValidedScholarshipPaymentPlan', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Chèques encaissés')]]);
+        $this->addAction(['function' => 'transfertValidedScholarshipPaymentPlan', 'params' => [], 'tab' => ['title' => $this->getTranslator()
+                                                                                                                            ->trans('Virements bancaires validés')]]);
         
         return parent::index();
     }
@@ -211,7 +216,7 @@ class ScholarshipPaymentPlan extends ManagerController {
      */
     public function chequeValidedScholarshipPaymentPlan() {
         $this->setCardTitle("Liste des paiements par chèque validés");
-    
+        
         return parent::customFunction('chequeValidedScholarshipPaymentPlan');
     }
     
@@ -220,7 +225,7 @@ class ScholarshipPaymentPlan extends ManagerController {
      */
     public function transfertValidedScholarshipPaymentPlan() {
         $this->setCardTitle("Liste des paiements par transfert bancaire validés");
-    
+        
         return parent::customFunction('transfertValidedScholarshipPaymentPlan');
     }
 }

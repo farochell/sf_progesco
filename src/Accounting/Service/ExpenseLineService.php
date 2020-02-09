@@ -20,17 +20,17 @@ use App\Manager\Service\ManagerService;
  * @package App\Accounting\Service
  *
  */
-class ExpenseLineService extends ManagerService
-{
+class ExpenseLineService extends ManagerService {
     /**
      * @return array
      */
-    public function addButton()
-    {
+    public function addButton() {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter une dépense", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("expenseline_add");
+            $fabrique->createButton(
+                $this->getTranslator()->trans('Ajouter une dépense'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4'
+            );
+        $button->setUrl('expenseline_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -39,67 +39,75 @@ class ExpenseLineService extends ManagerService
     /**
      * @return array
      */
-    public function findAll()
-    {
-        $headers = [ 'Date', 'Type de dépense', 'Montant', 'Statut', '', '', '', '' ];
-        $table   = $this->getTable("expenseline");
+    public function findAll() {
+        $headers = [$this->getTranslator()->trans('Date'), $this->getTranslator()->trans('Type de dépense'), $this->getTranslator()->trans('Montant'),
+                    $this->getTranslator()->trans('Statut'), '', '', '', ''];
+        $table   = $this->getTable('expenseline');
         $table->addHeaders($headers);
         
         if ($this->getSchoolYearHelper()
                  ->getActiveYear()) {
             $records = $this->getEm()
                             ->getRepository(ExpenseLine::class)
-                            ->findBy([
-                                'schoolYear' => $this->getSchoolYearHelper()
-                                                        ->getActiveYear(),
-                            ]);
+                            ->findBy(
+                                [
+                                    'schoolYear' => $this->getSchoolYearHelper()
+                                                         ->getActiveYear(),
+                                ]
+                            );
             
             if ($records) {
                 foreach ($records as $record) {
                     $row = $this->getRow($record->getId());
-                    $row->addCells($this->getCell("expensedate", $record->getExpenseDate()
-                                                                        ->format('d/m/Y')));
-                    $row->addCells($this->getCell("expenseType", $record->getExpenseType()));
-                    $row->addCells($this->getCell("amount", $record->getAmount(), '', 'money'));
-                    $row->addCells($this->getCell("status", $this->statusToString($record->getStatus())));
+                    $row->addCells(
+                        $this->getCell(
+                            'expensedate', $record->getExpenseDate()
+                                                  ->format('d/m/Y')
+                        )
+                    );
+                    $row->addCells($this->getCell('expenseType', $record->getExpenseType()));
+                    $row->addCells($this->getCell('amount', $record->getAmount(), '', 'money'));
+                    $row->addCells($this->getCell('status', $this->statusToString($record->getStatus())));
                     // Set action cell
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("edit", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('edit', 'link');
                     // Add attribute
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "expenseline_upd"));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'expenseline_upd'));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     
                     if ($record->getStatus() == ExpenseLine::INIT) {
-                        $cell       = $this->getCell("action");
-                        $cellAction = $this->getCellAction("change", "ajax");
-                        $cellAction->setCellattribute($this->getCellAttribute("fa fa-toggle-off", "Valider la dépense", "", "cyan darken-3"));
+                        $cell       = $this->getCell('action');
+                        $cellAction = $this->getCellAction('change', 'ajax');
+                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-off', $this->getTranslator()->trans('Valider la dépense'), '', 'cyan darken-3'));
                         $cell->setCellAction($cellAction);
                         $row->addCells($cell);
                     }
                     
                     if ($record->getStatus() == ExpenseLine::VALIDED) {
-                        $cell       = $this->getCell("action");
-                        $cellAction = $this->getCellAction("change", "ajax");
-                        $cellAction->setCellattribute($this->getCellAttribute("fa fa-toggle-on", "Dépense validée", "", "deep-purple lighten-3"));
+                        $cell       = $this->getCell('action');
+                        $cellAction = $this->getCellAction('change', 'ajax');
+                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-on', $this->getTranslator()->trans('Dépense validée'), '', 'deep-purple lighten-3'));
                         $cell->setCellAction($cellAction);
                         $row->addCells($cell);
                     }
                     
                     // Set action cell
                     // Set action cell
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("edit", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('edit', 'link');
                     // Add attribute
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-list-alt", "Détail", "expenseline_detail", "blue-grey darken-3", ""));
+                    $cellAction->setCellattribute(
+                        $this->getCellAttribute('fa fa-list-alt', $this->getTranslator()->trans('Détail'), 'expenseline_detail', 'blue-grey darken-3', '')
+                    );
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     
                     // Set action cell
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("delete", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('delete', 'link');
                     // Add attribute
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "expenseline_del", "bg-danger"));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'expenseline_del', 'bg-danger'));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     
@@ -108,11 +116,11 @@ class ExpenseLineService extends ManagerService
             }
         }
         
-        return [ 'table' => $table, 'pagination' => null ];
+        return ['table' => $table, 'pagination' => null];
         
     }
     
-    public function find(){
+    public function find() {
         $request = $this->getRequest();
         $id      = $request->get('id');
         $record  = $this->getEm()
@@ -130,17 +138,16 @@ class ExpenseLineService extends ManagerService
      *
      * @return string
      */
-    public function statusToString($status)
-    {
+    public function statusToString($status) {
         switch ($status) {
             case ExpenseLine::INIT:
-                return "A valider";
+                return$this->getTranslator()->trans( 'A valider');
                 break;
             case ExpenseLine::VALIDED:
-                return "Validé";
+                return $this->getTranslator()->trans('Validée');
                 break;
             case ExpenseLine::REFUSED:
-                return "Refusé";
+                return $this->getTranslator()->trans('Refusée');
                 break;
         }
     }

@@ -21,6 +21,12 @@ use Doctrine\ORM\Mapping;
  */
 class CoursePeriodRepository extends EntityRepository
 {
+    /**
+     * CoursePeriodRepository constructor.
+     *
+     * @param EntityManagerInterface $em
+     * @param Mapping\ClassMetadata  $class
+     */
     public function __construct(EntityManagerInterface $em, Mapping\ClassMetadata $class) { parent::__construct($em, $class); }
     
 }

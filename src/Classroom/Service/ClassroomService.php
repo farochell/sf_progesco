@@ -29,8 +29,8 @@ class ClassroomService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter une salle de classe", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("classroom_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une salle de classe'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('classroom_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -42,12 +42,12 @@ class ClassroomService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
+            $this->getTranslator()->trans('Libellé'),
             '',
             '',
             '',
         ];
-        $table   = $this->getTable("classroom");
+        $table   = $this->getTable('classroom');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Classroom::class)
@@ -56,23 +56,23 @@ class ClassroomService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "classroom_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'classroom_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fas fa-eye", "Editer", "classroom_edit", "grey darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fas fa-eye', $this->getTranslator()->trans('Editer'), 'classroom_edit', 'grey darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "classroom_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'classroom_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

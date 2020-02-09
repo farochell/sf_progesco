@@ -14,6 +14,7 @@ use App\Pedagogy\Service\SchoolYearService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +26,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class SchoolYear extends ManagerController
-{
+class SchoolYear extends ManagerController {
     /**
      * SchoolYearController constructor.
+     *
+     * @param OrmService          $ormService
+     * @param SchoolYearService   $schoolyearService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
-    {
+    public function __construct(
+        OrmService $ormService,
+        SchoolYearService $schoolyearService,
+        Breadcrumbs $breadcrumbs,
+        TranslatorInterface $translator
+    ) {
+        $this->setOrmService($ormService);
+        $this->setService($schoolyearService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('SchoolYear');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -42,15 +55,10 @@ class SchoolYear extends ManagerController
     /**
      * @Route("/schoolyears", name="schoolyear_homepage")
      *
-     * @param SchoolYearService $schoolyearService
-     * @param Breadcrumbs       $breadcrumbs
-     *
      * @return Response
      */
-    public function home(SchoolYearService $schoolyearService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setService($schoolyearService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home() {
+        
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des années scolaires");
         $breads   = [];
@@ -65,8 +73,7 @@ class SchoolYear extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -76,10 +83,7 @@ class SchoolYear extends ManagerController
      *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Années scolaires', 'url' => 'schoolyear_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'schoolyear_add'];
@@ -93,15 +97,9 @@ class SchoolYear extends ManagerController
      * @Route("/schoolyears/update", name="schoolyear_upd")
      *
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Années scolaires', 'url' => 'schoolyear_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'schoolyear_upd'];
@@ -116,9 +114,7 @@ class SchoolYear extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('schoolyear_homepage');
         
         return parent::deleteRecord();

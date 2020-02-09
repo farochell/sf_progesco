@@ -11,9 +11,12 @@ namespace App\Schooling\Service;
 
 
 use App\Manager\Service\ManagerService;
+use App\Pedagogy\Entity\Grade;
 use App\Pedagogy\Entity\Group;
 use App\Schooling\Entity\Registration;
 use App\Schooling\Entity\RegistrationGroup;
+use App\Schooling\Model\Student;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class RegistrationService
@@ -34,9 +37,9 @@ class RegistrationService extends ManagerService {
      */
     public function getRegistrationsToBeValided() {
         $headers = [
-            'Etudiant',
-            'Année scolaire',
-            'Classe',
+            $this->getTranslator()->trans('Etudiant'),
+            $this->getTranslator()->trans('Année scolaire'),
+            $this->getTranslator()->trans('Classe'),
             '',
             '',
         ];
@@ -71,12 +74,12 @@ class RegistrationService extends ManagerService {
                     ];
                     if ($record->getHasStateScholarship() == 0) {
                         $cellAction->setCellattribute(
-                            $this->getCellAttribute("fa fa-plus", "Ajouter un payement", "payment_add", "green darken-3 white-text", "", $params)
+                            $this->getCellAttribute("fa fa-plus", $this->getTranslator()->trans("Ajouter un paiement"), "payment_add", "green darken-3 white-text", "", $params)
                         );
                     } else {
                         $cellAction->setCellattribute(
                             $this->getCellAttribute(
-                                "fa fa-plus", "Ajouter un payement", "scholarshippayment_add", "green darken-3 white-text", "", $params
+                                "fa fa-plus", $this->getTranslator()->trans("Ajouter un paiement"), "scholarshippayment_add", "green darken-3 white-text", "", $params
                             )
                         );
                     }
@@ -111,11 +114,11 @@ class RegistrationService extends ManagerService {
      */
     public function getRegistrationsByStudent($params) {
         $headers = [
-            'Année scolaire',
-            'Classe',
-            'Filière',
-            'Statut',
-            'Boursier',
+            $this->getTranslator()->trans('Année scolaire'),
+            $this->getTranslator()->trans('Classe'),
+            $this->getTranslator()->trans('Filière'),
+            $this->getTranslator()->trans('Statut'),
+            $this->getTranslator()->trans('Boursier'),
             '',
             '',
         ];
@@ -148,7 +151,8 @@ class RegistrationService extends ManagerService {
                                          ->getId(),
                 ];
                 $cellAction->setCellattribute(
-                    $this->getCellAttribute("fa fa-edit", "Modifier", "group_upd", "light-blue darken-3 white-text", "", $params)
+                    $this->getCellAttribute("fa fa-edit", $this->getTranslator()->trans("Modifier"), "group_upd", "light-blue darken-3 white-text",
+                        "", $params)
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
@@ -159,7 +163,8 @@ class RegistrationService extends ManagerService {
                 $params = [
                     'id' => $record->getId(),
                 ];
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "registration_del", "bg-danger", "", $params));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"),
+                    "registration_del", "bg-danger", "", $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -178,13 +183,13 @@ class RegistrationService extends ManagerService {
     public function getStatusLabel($statut_id) {
         switch ($statut_id) {
             case Registration::NOT_VALIDED:
-                return 'Non validée';
+                return $this->getTranslator()->trans('Non validée');
                 break;
             case Registration::VALIDED:
-                return 'Validée';
+                return $this->getTranslator()->trans('Validée');
                 break;
             case Registration::CANCELED:
-                return 'Annulée';
+                return $this->getTranslator()->trans('Annulée');
                 break;
         }
     }
@@ -197,10 +202,10 @@ class RegistrationService extends ManagerService {
     public function getScholarshipLabel($hasStateScholarship) {
         switch ($hasStateScholarship) {
             case 1:
-                return 'Oui';
+                return $this->getTranslator()->trans('Oui');
                 break;
             case 0:
-                return 'Non';
+                return $this->getTranslator()->trans('Non');
                 break;
         }
     }
@@ -261,5 +266,45 @@ class RegistrationService extends ManagerService {
        }
        
        return $response;
+    }
+    
+    /**
+     * @return JsonResponse
+     */
+    public function getStudentsByGrade() {
+        $response = new JsonResponse();
+        try {
+            $gradeId = $this->getRequest()->get('grade_id');
+            $groupId = $this->getRequest()->get('group_id');
+            $grade = $this->getEm()->getRepository(Grade::class)->find($gradeId);
+            $registrations = $this->getEm()->getRepository(Registration::class)->findStudentsNotRegistredInGroupByGrade($grade, $groupId);
+            $serialized = null;
+            $tab = [];
+            if($registrations) {
+                foreach ($registrations as $registration) {
+                    $student = new Student();
+                    $student->setId($registration->getStudent()->getId());
+                    $student->setName($registration->getStudent()->getFirstname(). ' '. $registration->getStudent()->getLastname(). ' ('
+                        .$registration->getStudent()->getMatricule(). ')');
+                    $serialized = $this->getSerializer()->serialize($student, 'json');
+                    $tab[] = $serialized;
+                }
+                
+            }
+            
+            $response->setData([
+                'status' => 'OK',
+                'message' => $tab
+            ]);
+        } catch (\Exception $e) {
+            $response->setData(
+                [
+                    'status' => 'KO',
+                    'message' => 'Une erreur est intervenue!' .
+                        $e->getMessage()
+                ]);
+        }
+        
+        return $response;
     }
 }

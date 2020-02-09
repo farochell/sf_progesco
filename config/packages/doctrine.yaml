@@ -58,3 +58,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Teacher/Entity'
                 prefix: 'App\Teacher\Entity'
                 alias: Teacher
+            Scoring:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Scoring/Entity'
+                prefix: 'App\Scoring\Entity'
+                alias: Scoring

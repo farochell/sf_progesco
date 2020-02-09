@@ -28,8 +28,8 @@ class MaritalStatusService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink;
         $button   =
-            $fabrique->createButton("Ajouter une situation matrimoniale", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("marital-status_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une situation matrimoniale'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('marital-status_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -41,10 +41,10 @@ class MaritalStatusService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
+            $this->getTranslator()->trans('Libellé'),
             ''
         ];
-        $table = $this->getTable("maritalStatus");
+        $table = $this->getTable('maritalStatus');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(MaritalStatus::class)
@@ -53,11 +53,12 @@ class MaritalStatusService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
                 
-                $cell = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "marital-status_upd", "light-blue darken-3 white-text"));
+                $cell = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 
+                    'marital-status_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

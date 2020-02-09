@@ -9,13 +9,14 @@
 
 namespace App\Accounting\Controller;
 
-
 use App\Accounting\Service\PaymentService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -26,20 +27,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * @package App\Accounting\Controller
  * @Route("/admin")
  */
-class Payment extends ManagerController
-{
+class Payment extends ManagerController {
     /**
      * Payment constructor.
      *
-     * @param OrmService     $ormService
-     * @param PaymentService $paymentService
-     * @param Breadcrumbs    $breadcrumbs
+     * @param OrmService          $ormService
+     * @param TranslatorInterface $translator
+     * @param LoggerInterface     $logger
+     * @param Breadcrumbs         $breadcrumbs
+     * @param PaymentService      $paymentService
      */
-    public function __construct(OrmService $ormService, PaymentService $paymentService, Breadcrumbs $breadcrumbs)
-    {
+    public function __construct(
+        OrmService $ormService,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        Breadcrumbs $breadcrumbs,
+        PaymentService $paymentService
+    ) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($paymentService);
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Payment');
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
@@ -52,22 +58,35 @@ class Payment extends ManagerController
      *
      * @return Response
      */
-    public function home()
-    {
+    public function home() {
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
+        
         $breads   = [];
-        $breads[] = [ 'name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage' ];
+        $breads[] = ['name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage'];
         $this->setBreadcrumbs($breads);
-        $this->addAction(['function' => 'getOpenPayments', 'params' => []]);
-        $this->addAction(['function' => 'getClosedPayments', 'params' => []]);
+        $this->setDisplayTabs(true);
+        $this->addAction(['function' => 'getOpenPayments', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Paiements soldés')]]);
+        $this->addAction(
+            ['function' => 'getClosedPayments', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans(
+                'Paiements
+        non soldés'
+            )]]
+        );
         
         return parent::index();
     }
-   
+    
     /**
      * @return Response
      */
     public function getOpenPayments() {
         $this->setCardTitle("Liste des paiements des étudiants réguliers non soldés");
+        
         return parent::customFunction("getOpenPayments");
     }
     
@@ -76,6 +95,7 @@ class Payment extends ManagerController
      */
     public function getClosedPayments() {
         $this->setCardTitle("Liste des paiements des étudiants réguliers soldés");
+        
         return parent::customFunction("getClosedPayments");
     }
     
@@ -86,8 +106,7 @@ class Payment extends ManagerController
      *
      * @return Response
      */
-    public function add()
-    {
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'payment_add'];

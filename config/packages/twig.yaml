@@ -1,16 +1,17 @@
 twig:
     paths:
-        '%kernel.project_dir%/src/Manager/Template': manager
-        '%kernel.project_dir%/src/IHM/Template': ihm
-        '%kernel.project_dir%/src/Admin/Template': admin
-        '%kernel.project_dir%/src/Configuration/Template': configuration
-        '%kernel.project_dir%/src/Student/Template': student
-        '%kernel.project_dir%/src/Pedagogy/Template': pedagogy
-        '%kernel.project_dir%/src/Classroom/Template': classroom
-        '%kernel.project_dir%/src/Teacher/Template': teacher
-        '%kernel.project_dir%/src/Security/Template': security
-        '%kernel.project_dir%/src/Schooling/Template': schooling
         '%kernel.project_dir%/src/Accounting/Template': accounting
+        '%kernel.project_dir%/src/Admin/Template': admin
+        '%kernel.project_dir%/src/Classroom/Template': classroom
+        '%kernel.project_dir%/src/Configuration/Template': configuration
+        '%kernel.project_dir%/src/IHM/Template': ihm
+        '%kernel.project_dir%/src/Manager/Template': manager
+        '%kernel.project_dir%/src/Pedagogy/Template': pedagogy
+        '%kernel.project_dir%/src/Schooling/Template': schooling
+        '%kernel.project_dir%/src/Scoring/Template': scoring
+        '%kernel.project_dir%/src/Security/Template': security
+        '%kernel.project_dir%/src/Student/Template': student
+        '%kernel.project_dir%/src/Teacher/Template': teacher
     debug: '%kernel.debug%'
     form_themes: ['bootstrap_4_layout.html.twig']
     strict_variables: '%kernel.debug%'

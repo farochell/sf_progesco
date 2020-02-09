@@ -45,7 +45,7 @@ class CourseRepository extends EntityRepository
             ->select('e, te, g, c')
             ->from('App\\Pedagogy\\Entity\\Course', 'e')
             ->join('e.groups', 'g')
-            ->join('e.teaching', 'te')
+            ->join('e.subject', 'te')
             ->join('e.classroom', 'c')
             ->where(
                 $qb->expr()

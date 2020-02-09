@@ -24,6 +24,11 @@ class UserPasswordEncoderService implements UserPasswordEncoderInterface
 {
     private $encoderFactory;
     
+    /**
+     * UserPasswordEncoderService constructor.
+     *
+     * @param EncoderFactoryInterface $encoderFactory
+     */
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;

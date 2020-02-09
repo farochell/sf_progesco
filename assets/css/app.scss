@@ -5,6 +5,7 @@
 @import 'table.scss';
 @import '~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css';
 @import 'mui.min.css';
+@import 'Chart.min.css';
 $green:#65BA99;
 $green-dark:#59A386;
 $size:50px;
@@ -339,5 +340,13 @@ a.header-accordion {
 
 .justify-content-center {
     justify-content: center!important;
+}
+
+a:not([href]):not([tabindex]) {
+    color: #BDBDBD;
+}
+
+a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+    color: #283593;
 }
 

@@ -29,8 +29,8 @@ class ExpenseTypeService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter un type de dépense", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("expensetype_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter un type de dépense'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('expensetype_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -42,11 +42,11 @@ class ExpenseTypeService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
+            $this->getTranslator()->trans('Libellé'),
             '',
             '',
         ];
-        $table   = $this->getTable("expensetype");
+        $table   = $this->getTable('expensetype');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(ExpenseType::class)
@@ -55,17 +55,18 @@ class ExpenseTypeService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "expensetype_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'expensetype_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "expensetype_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'expensetype_del',
+                    'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

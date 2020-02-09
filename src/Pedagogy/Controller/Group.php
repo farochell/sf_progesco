@@ -20,8 +20,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Pedagogy\Entity\Group as GroupEntity;
 use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 /**
  * Class GroupController
  *
@@ -33,14 +35,16 @@ class Group extends ManagerController {
     /**
      * GroupController constructor.
      *
-     * @param OrmService   $ormService
-     * @param Breadcrumbs  $breadcrumbs
-     * @param GroupService $groupService
+     * @param OrmService          $ormService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param GroupService        $groupService
+     * @param TranslatorInterface $translator
      */
-    public function __construct(OrmService $ormService, Breadcrumbs $breadcrumbs, GroupService $groupService) {
+    public function __construct(OrmService $ormService, Breadcrumbs $breadcrumbs, GroupService $groupService, TranslatorInterface $translator) {
         $this->setService($groupService);
         $this->setOrmService($ormService);
         $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('Group');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -82,10 +86,6 @@ class Group extends ManagerController {
      * @Route("/groups/add", name="group_add")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
     public function add() {
@@ -103,15 +103,9 @@ class Group extends ManagerController {
      * @Route("/groups/update", name="group_upd")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs) {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Groupes', 'url' => 'group_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'group_upd'];
@@ -124,12 +118,9 @@ class Group extends ManagerController {
     /**
      * @Route("/groups/delete", name="group_del")
      *
-     * @param OrmService $ormService
-     *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService) {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('group_homepage');
         
         return parent::deleteRecord();
@@ -141,10 +132,7 @@ class Group extends ManagerController {
      * @param GroupEntity     $group
      * @param null            $month
      * @param null            $year
-     * @param GroupService    $groupService
      * @param CalendarService $calendarService
-     *
-     * @param Breadcrumbs     $breadcrumbs
      *
      * @return Response
      * @throws \Exception
@@ -153,12 +141,9 @@ class Group extends ManagerController {
         GroupEntity $group,
         $month = null,
         $year = null,
-        GroupService $groupService,
-        CalendarService $calendarService,
-        Breadcrumbs $breadcrumbs
+        CalendarService $calendarService
     ) {
-        $this->setService($groupService);
-        $this->setBreadcrumbService($breadcrumbs);
+        
         if ($month == null) {
             $month = date("m");
         }
@@ -223,7 +208,7 @@ class Group extends ManagerController {
         $this->setBreadcrumbs($breads);
         $this->setTemplate('fiche.html.twig');
         
-        $data = $this->getService()->find();
+        $data          = $this->getService()->find();
         $registrations = $this->getService()->getGroupeInfo();
         
         return $this->render(

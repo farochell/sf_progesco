@@ -35,35 +35,52 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <form class="border p-2">
+                                <legend>Liste des classes</legend>
+                                <div class="row">
+                                    {% for grade in registrations['grades'] %}
+                                        <div class="col-sm-12 col-md-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="{{ grade.id }}" onclick="selectGrade('{{ path('get_students_by_grade') }}', {{ grade.id }}, {{ data.id }})">
+                                                <label class="form-check-label" for="{{ grade.id }}">{{ grade }}</label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
                         <div class="col-sm-5">
                             <h5>Etudiants non inscrits dans le groupe ({{ registrations['notregistered']|length }})</h5>
                             <select class="form-control" multiple id="source">
-                                {% if registrations['notregistered'] is not empty %}
-                                    {% for notregistered in registrations['notregistered'] %}
-                                        <option value="{{ notregistered.student.id }}">{{ notregistered.student}}</option>
-                                    {% endfor %}
-                                {% endif %}
+
                             </select>
                         </div>
                         <div class="col-sm-2">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnAllRight"><i class="fas fa-angle-double-right"></i></button>
+                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnAllRight"><i
+                                                class="fas fa-angle-double-right"></i></button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnRight"><i class="fas fa-angle-right"></i></button>
+                                    <button class="btn btn-primary ml-3 mb-2 mt-2 col-sm-9" id="btnRight"><i
+                                                class="fas fa-angle-right"></i></button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnLeft"><i class="fas fa-angle-left"></i></button>
+                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnLeft"><i
+                                                class="fas fa-angle-left"></i></button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnAllLeft"><i class="fas fa-angle-double-left"></i></button>
+                                    <button class="btn btn-secondary ml-3 mb-2 mt-2 col-sm-9" id="btnAllLeft"><i
+                                                class="fas fa-angle-double-left"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +103,10 @@
                     <div class="row">
                         <div class="col-sm-5"></div>
                         <div class="col-sm-2">
-                            <div class="btn btn-success col-sm-12" onclick="validSelection('{{ path('registrationgroup_add') }}', {{ data.effective }},{{ data.id }})">Valider</div>
+                            <div class="btn btn-success col-sm-12"
+                                 onclick="validSelection('{{ path('registrationgroup_add') }}', {{ data.effective }},{{ data.id }})">
+                                Valider
+                            </div>
                         </div>
                         <div class="col-sm-5"></div>
                     </div>

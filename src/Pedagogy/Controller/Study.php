@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
@@ -26,13 +27,20 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class Study extends ManagerController
-{
+class Study extends ManagerController {
     /**
      * StudyController constructor.
+     *
+     * @param StudyService        $studyService
+     * @param OrmService          $ormService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
-    {
+    public function __construct(StudyService $studyService, OrmService $ormService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
+        $this->setService($studyService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setOrmService($ormService);
+        $this->setTranslator($translator);
         $this->setController('Study');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -49,10 +57,7 @@ class Study extends ManagerController
      *
      * @return Response
      */
-    public function home(StudyService $studyService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setService($studyService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home() {
         $breads   = [];
         $breads[] = ['name' => 'Filières', 'url' => 'speciality_homepage'];
         $this->setBreadcrumbs($breads);
@@ -68,8 +73,7 @@ class Study extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -77,16 +81,9 @@ class Study extends ManagerController
      * @Route("/studies/add", name="study_add")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Filières', 'url' => 'study_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'study_add'];
@@ -100,16 +97,9 @@ class Study extends ManagerController
      * @Route("/studies/update", name="study_upd")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Filières', 'url' => 'study_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'study_upd'];
@@ -122,13 +112,10 @@ class Study extends ManagerController
     /**
      * @Route("/studies/delete", name="study_del")
      *
-     * @param OrmService $ormService
-     *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
+        
         $this->setUrl('study_homepage');
         
         return parent::deleteRecord();

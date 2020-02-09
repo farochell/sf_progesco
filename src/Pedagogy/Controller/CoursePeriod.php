@@ -18,19 +18,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use App\Manager\Controller\ManagerController;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class CoursePeriodController
  *
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class CoursePeriod extends ManagerController
-{
+class CoursePeriod extends ManagerController {
     /**
      * CoursePeriodController constructor.
+     *
+     * @param CoursePeriodService $courseperiodService
+     * @param OrmService          $ormService
+     * @param TranslatorInterface $translator
      */
-    public function __construct() {
+    public function __construct(CoursePeriodService $courseperiodService, OrmService $ormService, TranslatorInterface $translator) {
+        $this->setService($courseperiodService);
+        $this->setOrmService($ormService);
+        $this->setTranslator($translator);
         $this->setController('CoursePeriod');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -45,10 +51,11 @@ class CoursePeriod extends ManagerController
      *
      * @return Response
      */
-    public function home(CoursePeriodService $courseperiodService){
-        $this->setService($courseperiodService);
+    public function home() {
+        
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des types de vacation");
+        
         return parent::index();
     }
     
@@ -69,12 +76,11 @@ class CoursePeriod extends ManagerController
      *
      * @return Response
      */
-    public function add(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function add() {
+        
         $breads   = [];
-        $breads[] = [ 'name' => 'Types de vacation', 'url' => 'courseperiod_homepage' ];
-        $breads[] = [ 'name' => 'Formulaire ajout', 'url' => 'courseperiod_add' ];
+        $breads[] = ['name' => 'Types de vacation', 'url' => 'courseperiod_homepage'];
+        $breads[] = ['name' => 'Formulaire ajout', 'url' => 'courseperiod_add'];
         $this->setUrl('courseperiod_homepage');
         
         return parent::addRecord();
@@ -88,12 +94,10 @@ class CoursePeriod extends ManagerController
      *
      * @return Response
      */
-    public function update(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function update() {
         $breads   = [];
-        $breads[] = [ 'name' => 'Types de vacation', 'url' => 'courseperiod_homepage' ];
-        $breads[] = [ 'name' => 'Formulaire modification', 'url' => 'courseperiod_upd' ];
+        $breads[] = ['name' => 'Types de vacation', 'url' => 'courseperiod_homepage'];
+        $breads[] = ['name' => 'Formulaire modification', 'url' => 'courseperiod_upd'];
         $this->setUrl('courseperiod_homepage');
         
         return parent::updateRecord();
@@ -104,10 +108,9 @@ class CoursePeriod extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('courseperiod_homepage');
+        
         return parent::deleteRecord();
     }
 }

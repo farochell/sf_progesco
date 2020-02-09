@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr-FR" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="BSeAMTL" resname="Liste des établissements">
+        <source>Liste des établissements</source>
+        <target>Liste des établissements</target>
+      </trans-unit>
+      <trans-unit id="a6qJP5y" resname="Liste des genres">
+        <source>Liste des genres</source>
+        <target>Liste des genres</target>
+      </trans-unit>
+      <trans-unit id="WX_iW8t" resname="Liste des situations matrimoniales">
+        <source>Liste des situations matrimoniales</source>
+        <target>Liste des situations matrimoniales</target>
+      </trans-unit>
+      <trans-unit id="lbp.3Wh" resname="Liste des types de devoir">
+        <source>Liste des types de devoir</source>
+        <target>Liste des types de devoir</target>
+      </trans-unit>
+      <trans-unit id="3ZhpOq8" resname="Liste des salles de classe">
+        <source>Liste des salles de classe</source>
+        <target>Liste des salles de classe</target>
+      </trans-unit>
+      <trans-unit id="seIvbPr" resname="Liste des années scolaires">
+        <source>Liste des années scolaires</source>
+        <target>Liste des années scolaires</target>
+      </trans-unit>
+      <trans-unit id="VOhDX2T" resname="Liste des périodes">
+        <source>Liste des périodes</source>
+        <target>Liste des périodes</target>
+      </trans-unit>
+      <trans-unit id="XPmWgVo" resname="Liste des filières">
+        <source>Liste des filières</source>
+        <target>Liste des filières</target>
+      </trans-unit>
+      <trans-unit id="vjaTHK1" resname="Liste des niveaux d'études">
+        <source>Liste des niveaux d'études</source>
+        <target>Liste des niveaux d'études</target>
+      </trans-unit>
+      <trans-unit id="L6VxXOw" resname="Liste des types de vacation">
+        <source>Liste des types de vacation</source>
+        <target>Liste des types de vacation</target>
+      </trans-unit>
+      <trans-unit id="i8Mg.Ip" resname="Liste des spécialités">
+        <source>Liste des spécialités</source>
+        <target>Liste des spécialités</target>
+      </trans-unit>
+      <trans-unit id="u.9jR3l" resname="Liste des matières">
+        <source>Liste des matières</source>
+        <target>Liste des matières</target>
+      </trans-unit>
+      <trans-unit id="8S030WW" resname="Liste des classes">
+        <source>Liste des classes</source>
+        <target>Liste des classes</target>
+      </trans-unit>
+      <trans-unit id="7lsK5ut" resname="Liste des groupes">
+        <source>Liste des groupes</source>
+        <target>Liste des groupes</target>
+      </trans-unit>
+      <trans-unit id="pnIgYGE" resname="Liste des cours planifiés">
+        <source>Liste des cours planifiés</source>
+        <target>Liste des cours planifiés</target>
+      </trans-unit>
+      <trans-unit id="PiNT5Lg" resname="Liste des professeurs">
+        <source>Liste des professeurs</source>
+        <target>Liste des professeurs</target>
+      </trans-unit>
+      <trans-unit id="WsgAykn" resname="Liste des inscriptions à valider">
+        <source>Liste des inscriptions à valider</source>
+        <target>Liste des inscriptions à valider</target>
+      </trans-unit>
+      <trans-unit id="4lYOimX" resname="Paiements étudiants réguliers">
+        <source>Paiements étudiants réguliers</source>
+        <target>Paiements étudiants réguliers</target>
+      </trans-unit>
+      <trans-unit id="gxNSxql" resname="Etudiants réguliers - Opérations de paiement en attente de validation">
+        <source>Etudiants réguliers - Opérations de paiement en attente de validation</source>
+        <target>Etudiants réguliers - Opérations de paiement en attente de validation</target>
+      </trans-unit>
+      <trans-unit id="URNPwnp" resname="Etudiants réguliers - Opérations de paiement validées">
+        <source>Etudiants réguliers - Opérations de paiement validées</source>
+        <target>Etudiants réguliers - Opérations de paiement validées</target>
+      </trans-unit>
+      <trans-unit id="XdgjqXL" resname="Liste des paiements des étudiants réguliers non soldés">
+        <source>Liste des paiements des étudiants réguliers non soldés</source>
+        <target>Liste des paiements des étudiants réguliers non soldés</target>
+      </trans-unit>
+      <trans-unit id="UKdxOmT" resname="Liste des paiements des étudiants réguliers soldés">
+        <source>Liste des paiements des étudiants réguliers soldés</source>
+        <target>Liste des paiements des étudiants réguliers soldés</target>
+      </trans-unit>
+      <trans-unit id="IrtWxfL" resname="Liste des paiements en espèce validés">
+        <source>Liste des paiements en espèce validés</source>
+        <target>Liste des paiements en espèce validés</target>
+      </trans-unit>
+      <trans-unit id="z9A0DuK" resname="Liste des paiements par chèque validés">
+        <source>Liste des paiements par chèque validés</source>
+        <target>Liste des paiements par chèque validés</target>
+      </trans-unit>
+      <trans-unit id="_ig9US4" resname="Liste des paiements par transfert bancaire validés">
+        <source>Liste des paiements par transfert bancaire validés</source>
+        <target>Liste des paiements par transfert bancaire validés</target>
+      </trans-unit>
+      <trans-unit id="qIshIqx" resname="Liste des paiements des étudiants boursiers non soldés">
+        <source>Liste des paiements des étudiants boursiers non soldés</source>
+        <target>Liste des paiements des étudiants boursiers non soldés</target>
+      </trans-unit>
+      <trans-unit id="HQfhAtb" resname="Liste des paiements des étudiants boursiers soldés">
+        <source>Liste des paiements des étudiants boursiers soldés</source>
+        <target>Liste des paiements des étudiants boursiers soldés</target>
+      </trans-unit>
+      <trans-unit id="vptwE.w" resname="Etudiants boursiers - Opérations de paiement en attente de validation">
+        <source>Etudiants boursiers - Opérations de paiement en attente de validation</source>
+        <target>Etudiants boursiers - Opérations de paiement en attente de validation</target>
+      </trans-unit>
+      <trans-unit id="ogtcv7v" resname="Paiements des étudiants boursiers">
+        <source>Paiements des étudiants boursiers</source>
+        <target>Paiements des étudiants boursiers</target>
+      </trans-unit>
+      <trans-unit id="MbGjpjH" resname="Liste des plans de paiements en attente de validations">
+        <source>Liste des plans de paiements en attente de validations</source>
+        <target>Liste des plans de paiements en attente de validations</target>
+      </trans-unit>
+      <trans-unit id="zGRQq5M" resname="Liste des virements en attente de validation">
+        <source>Liste des virements en attente de validation</source>
+        <target>Liste des virements en attente de validation</target>
+      </trans-unit>
+      <trans-unit id="eXveAFt" resname="Liste des chèques à encaisser">
+        <source>Liste des chèques à encaisser</source>
+        <target>Liste des chèques à encaisser</target>
+      </trans-unit>
+      <trans-unit id="oAe61v5" resname="Liste des types de dépense">
+        <source>Liste des types de dépense</source>
+        <target>Liste des types de dépense</target>
+      </trans-unit>
+      <trans-unit id="FRGrv4J" resname="Liste des dépenses">
+        <source>Liste des dépenses</source>
+        <target>Liste des dépenses</target>
+      </trans-unit>
+      <trans-unit id="78jN7Qe" resname="Liste des rôles">
+        <source>Liste des rôles</source>
+        <target>Liste des rôles</target>
+      </trans-unit>
+      <trans-unit id="NGdqgWZ" resname="Liste des utilisateurs">
+        <source>Liste des utilisateurs</source>
+        <target>Liste des utilisateurs</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

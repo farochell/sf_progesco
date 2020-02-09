@@ -2,7 +2,6 @@
 
 namespace App\Manager\Service;
 
-use App\IHM\Model\Button\FabriqueButtonLink;
 use App\IHM\Model\Table\Cell;
 use App\IHM\Model\Table\CellAction;
 use App\IHM\Model\Table\CellAttribute;
@@ -13,6 +12,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 /**
  * Class ManagerService
  * @package App\Manager\Service
@@ -98,9 +103,16 @@ class ManagerService {
     private $schoolYearHelper;
     
     /**
-     * @var
+     * @var LoggerInterface
      */
     private $logger;
+    
+    /**
+     * @var Serializer
+     */
+    private $serializer;
+    
+    private $translator;
     
     /**
      *
@@ -315,12 +327,41 @@ class ManagerService {
     }
     
     /**
+     * @return Serializer
+     */
+    public function getSerializer(): Serializer {
+        return $this->serializer;
+    }
+    
+    /**
+     * @param Serializer $serializer
+     */
+    public function setSerializer(Serializer $serializer): void {
+        $this->serializer = $serializer;
+    }
+    
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator(): TranslatorInterface {
+        return $this->translator;
+    }
+    
+    /**
+     * @param TranslatorInterface $translator
+     */
+    public function setTranslator(TranslatorInterface $translator): void {
+        $this->translator = $translator;
+    }
+    
+    /**
      * AppAssembler constructor.
      *
      * @param ContainerInterface   $container
      * @param SchoolYearHelper     $schoolYearHelper
      * @param Security             $security
      * @param LoggerInterface      $logger
+     * @param TranslatorInterface  $translator
      * @param RouterInterface|null $router
      */
     public function __construct(
@@ -328,8 +369,10 @@ class ManagerService {
         SchoolYearHelper $schoolYearHelper,
         Security $security,
         LoggerInterface $logger,
+        TranslatorInterface $translator,
         RouterInterface $router = null
     ) {
+        
         $this->container = $container;
         $this->em        = $container->get('doctrine.orm.default_entity_manager');
         $this->request   = $container->get('request_stack')->getCurrentRequest();
@@ -338,6 +381,10 @@ class ManagerService {
         $this->security         = $security;
         $this->router           = $router;
         $this->logger           = $logger;
+        $encoders               = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers            = [new ObjectNormalizer()];
+        $this->serializer       = new Serializer($normalizers, $encoders);
+        $this->translator       = $translator;
     }
     
 }

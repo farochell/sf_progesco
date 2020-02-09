@@ -13,13 +13,14 @@ const $ = require('jquery');
 global.$ = global.jQuery = $;
 require('bootstrap');
 import dt from 'datatables.net-dt';
+import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+require('./Chart.bundle.min');
 require('bootstrap-datepicker')
 require('./mui.min');
 var bootbox = require('bootbox');
 dt(window, $);
 
 const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 require('../images/logo.png');
 require('../images/logoEcosup.png');
 Routing.setRoutingData(routes);
@@ -27,7 +28,8 @@ Routing.setRoutingData(routes);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-window.validSelection             = validSelection;
+window.validSelection = validSelection;
+window.selectGrade = selectGrade;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +49,7 @@ $.fn.datepicker.dates['fr'] = {
 $.fn.moveToListAndDelete = function (sourceList, destinationList) {
     var opts = $(sourceList + ' option:selected');
     if (opts.length == 0) {
-        alert("No account was selected");
+        bootbox.alert("Aucune donnée sélectionnée!");
     }
     $(opts).remove().appendTo($(destinationList));
 };
@@ -62,27 +64,27 @@ $.fn.moveAllToListAndDelete = function (sourceList, destinationList) {
 
 $(document).ready(function () {
     $('.ajaxtable').DataTable({
-        language:{
-            "decimal":        "",
-            "emptyTable":     "Aucune donnée disponible",
-            "info":           "Afficher _START_ à _END_ sur _TOTAL_ enregistrements",
-            "infoEmpty":      "Showing 0 to 0 of 0 entries",
-            "infoFiltered":   "(filtered from _MAX_ total entries)",
-            "infoPostFix":    "",
-            "thousands":      ",",
-            "lengthMenu":     "Afficher _MENU_ enregistrements",
+        language: {
+            "decimal": "",
+            "emptyTable": "Aucune donnée disponible",
+            "info": "Afficher _START_ à _END_ sur _TOTAL_ enregistrements",
+            "infoEmpty": "Showing 0 to 0 of 0 entries",
+            "infoFiltered": "(filtered from _MAX_ total entries)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Afficher _MENU_ enregistrements",
             "loadingRecords": "Chargement...",
-            "processing":     "Processing...",
-            "search":         "Rechercher:",
-            "zeroRecords":    "Aucun enregistrement",
+            "processing": "Processing...",
+            "search": "Rechercher:",
+            "zeroRecords": "Aucun enregistrement",
             "paginate": {
-                "first":      "Premier",
-                "last":       "Dernier",
-                "next":       "Suivant",
-                "previous":   "Précédent"
+                "first": "Premier",
+                "last": "Dernier",
+                "next": "Suivant",
+                "previous": "Précédent"
             },
             "aria": {
-                "sortAscending":  ": activate to sort column ascending",
+                "sortAscending": ": activate to sort column ascending",
                 "sortDescending": ": activate to sort column descending"
             }
         }
@@ -93,28 +95,28 @@ $(document).ready(function () {
     });
 
 
-    $('#btnRight').on('click',function (e) {
+    $('#btnRight').on('click', function (e) {
         $('select').moveToListAndDelete('#source', '#destination');
         e.preventDefault();
     });
 
-    $('#btnAllRight').on('click',function (e) {
+    $('#btnAllRight').on('click', function (e) {
         $('select').moveAllToListAndDelete('#source', '#destination');
         e.preventDefault();
     });
 
-    $('#btnLeft').on('click',function (e) {
+    $('#btnLeft').on('click', function (e) {
         $('select').moveToListAndDelete('#destination', '#source');
         e.preventDefault();
     });
 
-    $('#btnAllLeft').on('click',function (e) {
+    $('#btnAllLeft').on('click', function (e) {
         $('select').moveAllToListAndDelete('#destination', '#source');
         e.preventDefault();
     });
 
-    window.setTimeout(function() {
-        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
             $(this).remove();
         });
     }, 3000);
@@ -141,11 +143,11 @@ $(document).ready(function () {
 });
 
 $(document).on({
-    ajaxStart: function() {
-        $('.loading').removeClass('invisible');
+    ajaxStart: function () {
+        $('.spinner-border').show();
     },
-    ajaxStop: function() {
-        $('.loading').addClass('invisible');
+    ajaxStop: function () {
+        $('.spinner-border').hide();
     },
 });
 
@@ -175,8 +177,7 @@ function validSelection(url, max, group_id) {
             success: function (result) {
                 if (result.status == "OK") {
                     location.reload();
-                }
-                else {
+                } else {
                     dialog.find('.bootbox-body').html(result.message);
                 }
             },
@@ -185,6 +186,45 @@ function validSelection(url, max, group_id) {
             }
         });
     });
+}
+
+function selectGrade(url, grade_id, group_id) {
+    var box = $('#' + grade_id).is(':checked');
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: "grade_id=" + grade_id + "&group_id=" + group_id,
+        success: function (result) {
+            if (result.status == "OK") {
+                var options = $('#source option');
+                var values = $.map(options, function (option) {
+                    return parseInt(option.value);
+                });
+                if (box === true) {
+                    // populate select
+                    $.each(result.message, function (key, value) {
+                        var obj = JSON.parse(value);
+                        if (!values.includes(obj.id)) {
+                            $("#source").append('<option value="' + obj.id + '">' + obj.name + '</option>');
+                        }
+                    });
+                } else {
+                    $.each(result.message, function (key, value) {
+                        var obj = JSON.parse(value);
+                        if (values.includes(obj.id)) {
+                            $("select#source option[value='" + obj.id + "']").remove();
+                        }
+                    });
+                }
+
+            } else {
+                bootbox.alert(result.message);
+            }
+        },
+        error: function (err) {
+            bootbox.alert(err);
+        }
+    })
 
 }
 

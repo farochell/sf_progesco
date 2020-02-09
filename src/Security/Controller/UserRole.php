@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -30,9 +31,14 @@ class UserRole extends ManagerController
 {
     /**
      * Constructeur par défaut de la classe Etudiant
+     *
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
+    public function __construct(Breadcrumbs $breadcrumbs, TranslatorInterface $translator)
     {
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('UserRole');
         $this->setBundle('App\\Security\\Controller');
         $this->setEntityNamespace('App\\Security');
@@ -49,13 +55,11 @@ class UserRole extends ManagerController
      * @Route("/user-role-ajout", name="add_role_user")
      * @IsGranted("ROLE_ADMIN")
      *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return RedirectResponse|Response
      */
-    public function addUserRole(Breadcrumbs $breadcrumbs) {
+    public function addUserRole() {
         $params = $this->getParams();
-        $this->setBreadcrumbService($breadcrumbs);
+        
         $breads   = [];
         $breads[] = ['name' => 'Utilisateurs', 'url' => 'user_homepage'];
         $breads[] = ['name' => 'Fiche', 'url' => 'user_edit', 'params' => ['id' => $params['id']]];

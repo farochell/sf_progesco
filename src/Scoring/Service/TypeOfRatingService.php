@@ -3,25 +3,24 @@
  * sf_progesco
  *
  * @author: emile.camara
- * @date  :   22/11/2019
- * @time  :   17:12
+ * @date  :   03/02/2020
+ * @time  :   11:27
  */
 
-namespace App\Pedagogy\Service;
+namespace App\Scoring\Service;
 
 
 use App\IHM\Model\Button\FabriqueButtonLink;
 use App\Manager\Service\ManagerService;
-use App\Pedagogy\Entity\Teaching;
+use App\Scoring\Entity\TypeOfRating;
 
 /**
- * Class TeachingService
+ * Class TypeOfRatingService
  *
- * @package App\Pedagogy\Service
+ * @package App\Scoring\Service
  *
  */
-class TeachingService extends ManagerService
-{
+class TypeOfRatingService extends ManagerService {
     /**
      * @return array
      */
@@ -29,8 +28,8 @@ class TeachingService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter une matière", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("teaching_add");
+            $fabrique->createButton($this->getTranslator()->trans("Ajouter un type de devoir"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
+        $button->setUrl("typeofrating_add");
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -42,34 +41,31 @@ class TeachingService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Code',
-            'Libellé',
-            'Spécialité',
+            $this->getTranslator()->trans('Libellé'),
             '',
             '',
         ];
-        $table   = $this->getTable("teaching");
+        $table   = $this->getTable("typeoftypeofrating");
         $table->addHeaders($headers);
         $records = $this->getEm()
-                        ->getRepository(Teaching::class)
+                        ->getRepository(TypeOfRating::class)
                         ->findAll();
         
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("code", $record->getCode()));
                 $row->addCells($this->getCell("label", $record->getLabel()));
-                $row->addCells($this->getCell("speciality", $record->getSpeciality()));
                 
                 $cell       = $this->getCell("upd", "", "cell-action");
                 $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "teaching_upd", "light-blue darken-3 white-text"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", $this->getTranslator()->trans("Modifier"), "typeofrating_upd", "light-blue darken-3 white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
                 $cell       = $this->getCell("del", "", "cell-action");
                 $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "teaching_del", "red darken-3 white-text"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"),
+                    "typeofrating_del", "red darken-3 white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

@@ -14,10 +14,12 @@
                             <thead class="">
                             <tr>
                                 {% set i=0 %} {% for header in table.headers %} {% for entete in header %} {% if entete == '' %}
-                                    <th data-title="{{ entete | raw }}" class="light-blue-text text-lighten-1 {{ table.id }}_cell_{{ i }} actioncell">{{ entete | raw }}
+                                    <th data-title="{{ entete | raw }}"
+                                        class="light-blue-text text-lighten-1 {{ table.id }}_cell_{{ i }} actioncell">{{ entete | raw }}
                                     </th>
                                 {% else %}
-                                    <th data-title="{{ entete | raw }}" class="light-blue-text text-lighten-1 {{ table.id }}_cell_{{ i }}">{{ entete | raw }}</th>
+                                    <th data-title="{{ entete | raw }}"
+                                        class="light-blue-text text-lighten-1 {{ table.id }}_cell_{{ i }}">{{ entete | raw }}</th>
                                 {% endif %} {% set i=i+1 %} {% endfor %} {% endfor %}
                             </tr>
                             </thead>
@@ -27,46 +29,54 @@
                                     <tr id="{{ table.id }}_{{ row.id }}">
                                         {% for cell in row.cells %}
                                             {% if cell.cellAction is not empty %}
-                                            <td class="action">{% if cell.cellAction.type == 'link' %}
-                                                    {% if cell.cellAction.cellattribute.url is not empty %}
-                                                        {% if cell.cellAction.cellattribute.params is not empty %}
-                                                    <a href="{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}"
-                                                       class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" data-toggle="tooltip" data-placement="bottom"
-                                                       title="{{ cell.cellAction.cellattribute.title }}">
-                                                        <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% else %}
-                                                    <a href="{{ generatePathForTabRows(cell.cellAction.cellattribute.url,'id',idElement) }}"
-                                                       class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" data-toggle="tooltip" data-placement="bottom"
-                                                       title="{{ cell.cellAction.cellattribute.title }}">
-                                                        <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% endif %} {% else %}
-                                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}"
-                                                       class="btn btn-sm {{ cell.cellAction.cellattribute.color }}">
-                                                        <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% endif %} {% else %} {% if cell.cellAction.cellattribute.url is not empty %} {% if cell.cellAction.cellattribute.params
-                                                    is not empty %}
-                                                    <a class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip"
-                                                       data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}" onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}')">
-                                                        <i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% else %}
-                                                    <a class="btn btn-sm {{ cell.cellAction.cellattribute.color }}" href="#" data-toggle="tooltip"
-                                                       data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}" onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generatePathForTabRows(cell.cellAction.cellattribute.url, 'id', idElement) }}')">
-                                                        <i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% endif %} {% else %}
-                                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ cell.cellAction.cellattribute.title }}"
-                                                       class="btn btn-sm {{ cell.cellAction.cellattribute.color }}">
-                                                        <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
-                                                    </a> {% endif %} {% endif %}</td>
-                                        {% else %}
-                                            <td>{% if cell.type == "string" %} {{ cell.value | raw }} {% endif %} {% if cell.type == "money" %} {{ cell.value
-                                                | number_format(2, ',', ' ') ~ ' CFA' }} {% endif %} {% if cell.type == "notation" %} {{ cell.value
-                                                | number_format(2, ',', ' ') }}{% endif %} {% if cell.type == "time" %} {{ cell.value|date("H:i:s")
-                                                }} {% endif %} {% if cell.type == "date" %} {% if cell.value is not empty %} {{ cell.value|date("d/m/Y")
-                                                }} {% endif %} {% endif %} {% if cell.type == "image" %}
-                                                    <img src="{{ asset('uploads/'~cell.value) }}"
-                                                         width="30px"> {% endif %}
-                                            </td>
-                                        {% endif %} {% endfor %}
+                                                <td class="action">{% if cell.cellAction.type == 'link' %}
+                                                        {% if cell.cellAction.cellattribute.url is not empty %}
+                                                            {% if cell.cellAction.cellattribute.params is not empty %}
+                                                                <a href="{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}"
+                                                                   class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}"
+                                                                   data-toggle="tooltip" data-placement="bottom"
+                                                                   title="{{ cell.cellAction.cellattribute.title }}">
+                                                                    <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                                </a> {% else %}
+                                                                <a href="{{ generatePathForTabRows(cell.cellAction.cellattribute.url,'id',idElement) }}"
+                                                                   class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}"
+                                                                   data-toggle="tooltip" data-placement="bottom"
+                                                                   title="{{ cell.cellAction.cellattribute.title }}">
+                                                                    <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                                </a> {% endif %} {% else %}
+                                                            <a href="#" data-toggle="tooltip" data-placement="bottom"
+                                                               title="{{ cell.cellAction.cellattribute.title }}"
+                                                               class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}">
+                                                                <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                            </a> {% endif %} {% else %} {% if cell.cellAction.cellattribute.url is not empty %} {% if cell.cellAction.cellattribute.params
+                                                        is not empty %}
+                                                        <a class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}"
+                                                           href="#" data-toggle="tooltip"
+                                                           data-placement="bottom"
+                                                           title="{{ cell.cellAction.cellattribute.title }}"
+                                                           onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generateCustomUrl(cell.cellAction.cellattribute.url,cell.cellAction.cellattribute.params) }}')">
+                                                            <i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                        </a> {% else %}
+                                                        <a class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}"
+                                                           href="#" data-toggle="tooltip"
+                                                           data-placement="bottom"
+                                                           title="{{ cell.cellAction.cellattribute.title }}"
+                                                           onclick="{{ cell.cellAction.cellattribute.ajax }}('{{ generatePathForTabRows(cell.cellAction.cellattribute.url, 'id', idElement) }}')">
+                                                            <i class="fa {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                        </a> {% endif %} {% else %}
+                                                        <a href="#" data-toggle="tooltip" data-placement="bottom"
+                                                           title="{{ cell.cellAction.cellattribute.title }}"
+                                                           class="mui-btn btn-sm {{ cell.cellAction.cellattribute.color }}">
+                                                            <i class=" {{ cell.cellAction.cellattribute.icon }}"></i>
+                                                        </a> {% endif %} {% endif %}</td>
+                                            {% else %}
+                                                <td>{% if cell.type == "string" %} {{ cell.value | raw }} {% endif %} {% if cell.type == "money" %} {{ cell.value
+                                                    | number_format(2, ',', ' ') ~ ' CFA' }} {% endif %} {% if cell.type == "notation" %} {{ cell.value
+                                                    | number_format(2, ',', ' ') }}{% endif %} {% if cell.type == "time" %} {{ cell.value|date("H:i:s") }} {% endif %} {% if cell.type == "date" %} {% if cell.value is not empty %} {{ cell.value|date("d/m/Y") }} {% endif %} {% endif %} {% if cell.type == "image" %}
+                                                        <img src="{{ asset('uploads/'~cell.value) }}"
+                                                             width="30px"> {% endif %}
+                                                </td>
+                                            {% endif %} {% endfor %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>

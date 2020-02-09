@@ -27,8 +27,8 @@ class SemesterService extends ManagerService
     public function addButton()
     {
         $fabrique = new FabriqueButtonLink();
-        $button   = $fabrique->createButton("Ajouter une période", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("semester_add");
+        $button   = $fabrique->createButton($this->getTranslator()->trans('Ajouter une période'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('semester_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -40,14 +40,14 @@ class SemesterService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
-            'Date de début',
-            'Date de fin',
-            'Niveau',
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Date de début'),
+            $this->getTranslator()->trans('Date de fin'),
+            $this->getTranslator()->trans('Niveau'),
             '',
             '',
         ];
-        $table   = $this->getTable("semester");
+        $table   = $this->getTable('semester');
         $table->addHeaders($headers);
     
         if ($this->getSchoolYearHelper()
@@ -62,20 +62,21 @@ class SemesterService extends ManagerService
             if ($records) {
                 foreach ($records as $record) {
                     $row = $this->getRow($record->getId());
-                    $row->addCells($this->getCell("label", $record->getLabel()));
-                    $row->addCells($this->getCell("startDate", $record->getStartDate()->format('d/m/Y')));
-                    $row->addCells($this->getCell("endDate", $record->getEndDate()->format('d/m/Y')));
-                    $row->addCells($this->getCell("level", $record->getLevel()));
+                    $row->addCells($this->getCell('label', $record->getLabel()));
+                    $row->addCells($this->getCell('startDate', $record->getStartDate()->format('d/m/Y')));
+                    $row->addCells($this->getCell('endDate', $record->getEndDate()->format('d/m/Y')));
+                    $row->addCells($this->getCell('level', $record->getLevel()));
             
-                    $cell       = $this->getCell("upd", "", "cell-action");
-                    $cellAction = $this->getCellAction("upd", "link");
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "semester_upd", "light-blue darken-3 white-text"));
+                    $cell       = $this->getCell('upd', '', 'cell-action');
+                    $cellAction = $this->getCellAction('upd', 'link');
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'semester_upd', 'light-blue darken-3 white-text'));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
             
-                    $cell       = $this->getCell("del", "", "cell-action");
-                    $cellAction = $this->getCellAction("upd", "link");
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "semester_del", "red darken-3 white-text"));
+                    $cell       = $this->getCell('del', '', 'cell-action');
+                    $cellAction = $this->getCellAction('upd', 'link');
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 
+                        'semester_del', 'red darken-3 white-text'));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
             

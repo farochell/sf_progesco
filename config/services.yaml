@@ -27,6 +27,7 @@ parameters:
     # URL de redirection par défaut après l'authentification
     default_redirection: 'homepage'
     button_alignment: 'd-flex justify-content-center'
+    cache_directory: '%kernel.project_dir%/var/cache/'
 
 services:
     # default configuration for services in *this* file
@@ -123,7 +124,7 @@ services:
         public: true
         arguments: ['@service_container','@schoolyear.helper']
 
-    teaching.service:
+    subject.service:
         class: App\Pedagogy\Service\TeachingService
         autowire: true
         public: true
@@ -227,6 +228,12 @@ services:
         public: true
         tags: [form.type]
 
+    App\Scoring\Form\ClassNoteType:
+        arguments: ['@doctrine.orm.entity_manager','@schoolyear.helper']
+        autowire: false
+        public: true
+        tags: [form.type]
+
     App\Accounting\Listener\AddScholarshipAmountFieldSubscriber:
         autowire: false
         public: true
@@ -313,6 +320,8 @@ services:
     App\Security\Service\UserPasswordEncoderService: ~
 
     Symfony\Component\Security\Core\Authorization\AuthorizationChecker: ~
+
+    Symfony\Component\Serializer\Serializer: ~
 
 
     # controllers are imported separately to make sure services can be injected

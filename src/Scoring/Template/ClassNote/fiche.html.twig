@@ -1,0 +1,75 @@
+{% extends '@manager/fiche.html.twig' %}
+{% block cardheader %}
+    Fiche de la note <b>{{ data }}</b>
+{% endblock %}
+{% block cardbody %}
+    <div class="row mb-2">
+        <div class="col-sm-12">
+            <div id="accordionInfoGen" role="tablist" aria-multiselectable="true">
+                <div class="card ">
+                    <div class="card-header grey darken-3" role="tab" id="headingInfoGen">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionInfoGen"
+                           href="#infoGen"
+                           aria-expanded="false" aria-controls="collapseInfoGen">
+                            {% trans %} Informations générales {% endtrans %} - {{ data }}
+                        </a>
+                    </div>
+                    <div id="infoGen" class="collapse" role="tabpanel" aria-labelledby="headingInfoGen">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <label class="col-sm-12 col-md-4">{% trans %}Libellé{% endtrans %}</label>
+                                            <span class="blue-text text-accent-1">{{ data.label }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-12 col-md-4">{% trans %}Classe{% endtrans %}</label>
+                                            <span class="blue-text text-accent-1">{{ data.grade }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-12 col-md-4">{% trans %}Matière{% endtrans %}</label>
+                                            <span class="blue-text text-accent-1">{{ data.subject }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-12 col-md-4">{% trans %}Période{% endtrans %}</label>
+                                            <span class="blue-text text-accent-1">{{ data.semester }}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label class="col-sm-12 col-md-4">{% trans %}Professeur{% endtrans %}</label>
+                                            <span class="blue-text text-accent-1">{{ data.teacher }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-sm-12">
+            <div id="accordionClassNote" role="tablist" aria-multiselectable="true">
+                <div class="card  grey darken-3 mt-2">
+                    <div class="card-header grey darken-3" role="tab" id="headingClassNote">
+                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionClassNote" href="#classNote"
+                           aria-expanded="false" aria-controls="collapseClassNote">
+                            {% trans %}Notes saisies{% endtrans %}
+                        </a>
+                    </div>
+                    <div id="classNote" class="collapse" role="tabpanel" aria-labelledby="headingClassNote">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    {% set params = {'id': data.id} %}
+                                    {{ render(controller('App\\Scoring\\Controller\\ClassNoteForm:getClassNoteFormsByClassNote', { 'params': params })) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

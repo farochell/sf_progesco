@@ -14,12 +14,12 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping;
 
 /**
- * Class TeachingRepository
+ * Class SubjectRepository
  *
  * @package App\Pedagogy\Repository
  *
  */
-class TeachingRepository extends EntityRepository
+class SubjectRepository extends EntityRepository
 {
     public function __construct(EntityManagerInterface $em, Mapping\ClassMetadata $class) { parent::__construct($em, $class); }
 }

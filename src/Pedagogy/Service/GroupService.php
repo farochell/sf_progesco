@@ -13,6 +13,7 @@ use App\Calendar\Model\Month;
 use App\IHM\Model\Button\FabriqueButtonLink;
 use App\Manager\Service\ManagerService;
 use App\Pedagogy\Entity\Course;
+use App\Pedagogy\Entity\Grade;
 use App\Pedagogy\Entity\Group;
 use App\Schooling\Entity\RegistrationGroup;
 
@@ -29,8 +30,8 @@ class GroupService extends ManagerService {
     public function addButton() {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter un groupe", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("group_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter un groupe'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('group_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -41,17 +42,17 @@ class GroupService extends ManagerService {
      */
     public function findAll() {
         $headers = [
-            'Libellé',
-            'Niveau',
-            'Année scolaire',
-            'Capacité d\'accueil',
-            'Effectif',
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Niveau'),
+            $this->getTranslator()->trans('Année scolaire'),
+            $this->getTranslator()->trans('Capacité d\'accueil'),
+            $this->getTranslator()->trans('Effectif'),
             '',
             '',
             '',
             '',
         ];
-        $table   = $this->getTable("group");
+        $table   = $this->getTable('group');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Group::class)
@@ -60,44 +61,44 @@ class GroupService extends ManagerService {
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
-                $row->addCells($this->getCell("level", $record->getLevel()));
-                $row->addCells($this->getCell("schoolyear", $record->getSchoolyear()));
-                $row->addCells($this->getCell("effective", $record->getEffective()));
-                $row->addCells($this->getCell("effective", $record->getRegistrationgroupsCount()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
+                $row->addCells($this->getCell('level', $record->getLevel()));
+                $row->addCells($this->getCell('schoolyear', $record->getSchoolyear()));
+                $row->addCells($this->getCell('effective', $record->getEffective()));
+                $row->addCells($this->getCell('effective', $record->getRegistrationgroupsCount()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "group_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'group_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("cal", "", "cell-action");
-                $cellAction = $this->getCellAction("cal", "link");
+                $cell       = $this->getCell('cal', '', 'cell-action');
+                $cellAction = $this->getCellAction('cal', 'link');
                 $cellAction->setCellattribute(
-                    $this->getCellAttribute("far fa-calendar-alt", "Emploi du temps", "group_schedule", "yellow darken-3 white-text")
+                    $this->getCellAttribute('far fa-calendar-alt', $this->getTranslator()->trans('Emploi du temps'), 'group_schedule', 'yellow darken-3 white-text')
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("edit", "link");
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('edit', 'link');
                 // Add attribute
                 $params = [
                     'id' => $record->getId(),
                 ];
                 $cellAction->setCellattribute(
                     $this->getCellAttribute(
-                        "fas fa-eye", "Editer", "group_form", "blue-grey darken-3 white-text", "",
+                        'fas fa-eye', 'Editer', 'group_form', 'blue-grey darken-3 white-text', '',
                         $params
                     )
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "group_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'group_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -116,15 +117,15 @@ class GroupService extends ManagerService {
      */
     public function getByLevel() {
         $headers = [
-            'libelle'       => 'Libellé',
-            'level'         => 'Niveau',
-            'anneeScolaire' => 'Année scolaire',
-            'nbEleves'      => 'Effectif maximum',
+            'libelle'       => $this->getTranslator()->trans('Libellé'),
+            'level'         => $this->getTranslator()->trans('Niveau'),
+            'anneeScolaire' => $this->getTranslator()->trans('Année scolaire'),
+            'nbEleves'      => $this->getTranslator()->trans('Effectif maximum'),
             
             '',
             '',
         ];
-        $table   = $this->getTable("group");
+        $table   = $this->getTable('group');
         $table->addHeaders($headers);
         if ($this->getSchoolYearHelper()
                  ->getActiveYear()) {
@@ -142,45 +143,45 @@ class GroupService extends ManagerService {
             if ($records) {
                 foreach ($records as $record) {
                     $row = $this->getRow($record->getId());
-                    $row->addCells($this->getCell("label", $record->getLabel()));
-                    $row->addCells($this->getCell("level", $record->getLevel()));
-                    $row->addCells($this->getCell("schoolyear", $record->getSchoolyear()));
-                    $row->addCells($this->getCell("effectif", $record->getEffective()));
+                    $row->addCells($this->getCell('label', $record->getLabel()));
+                    $row->addCells($this->getCell('level', $record->getLevel()));
+                    $row->addCells($this->getCell('schoolyear', $record->getSchoolyear()));
+                    $row->addCells($this->getCell('effectif', $record->getEffective()));
                     
                     // Set action cell
-                    $cell       = $this->getCell("action", "", "cell-action");
-                    $cellAction = $this->getCellAction("upd", "link");
+                    $cell       = $this->getCell('action', '', 'cell-action');
+                    $cellAction = $this->getCellAction('upd', 'link');
                     // Add attribute
                     $params = [
                         'id'       => $record->getId(),
                         'grade_id' => $record->getGrade()
                                              ->getId(),
                     ];
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "group_upd", "btn-dark", "", $params));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'group_upd', 'btn-dark', '', $params));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     
-                    /*$cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("upd", "link");
+                    /*$cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('upd', 'link');
                     // Add attribute
                     $params = [
                         'groupe_id' => $record->getId(),
                         'classe_id' => $record->getClasse()
                                               ->getId(),
                     ];
-                    $cellAction->setCellattribute($this->getCellAttribute("fas fa-file-pdf", "Imprimer la liste de présence", "impression_groupe", "blue-grey", "", $params));
+                    $cellAction->setCellattribute($this->getCellAttribute('fas fa-file-pdf', 'Imprimer la liste de présence', 'impression_groupe', 'blue-grey', '', $params));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);*/
                     
-                    $cell       = $this->getCell("action", "", "cell-action");
-                    $cellAction = $this->getCellAction("del", "link");
+                    $cell       = $this->getCell('action', '', 'cell-action');
+                    $cellAction = $this->getCellAction('del', 'link');
                     // Add attribute
                     $params = [
                         'id'       => $record->getId(),
                         'level_id' => $record->getLevel()
                                              ->getId(),
                     ];
-                    $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Editer", "group_del", "bg-danger", "", $params));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Editer'), 'group_del', 'bg-danger', '', $params));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     
@@ -200,13 +201,13 @@ class GroupService extends ManagerService {
     public function getSchedules(Month $month) {
         $start = $month->getStartingDayFormated();
         $weeks = $month->getWeeks();
-        $end   = (clone $start)->modify("+".(5 + 7 * ($weeks - 1))." days");
+        $end   = (clone $start)->modify('+'.(5 + 7 * ($weeks - 1)).' days');
         
         $pointages = $this->getEm()
                           ->getRepository(Course::class)
                           ->getCourseByGroupAndDate(
                               $start, $end, $this->getRequest()
-                                                 ->get("id")
+                                                 ->get('id')
                           );
         
         return $pointages;
@@ -234,18 +235,23 @@ class GroupService extends ManagerService {
      * @return array
      */
     public function getGroupeInfo() {
-        $tab = [];
-        $id  = $this->getRequest()->get('id');
+        $tab   = [];
+        $id    = $this->getRequest()->get('id');
         $group = $this->getEm()->getRepository(Group::class)->find($id);
         $level = $group->getLevel();
+        // retrieve grades of the level
+        $grades = $this->getEm()->getRepository(Grade::class)->findByLevel($level);
         // retrieve students registered in this group
-        $registrations        = $this->getEm()->getRepository(RegistrationGroup::class)->findByGroup($id);
+        $registrations = $this->getEm()->getRepository(RegistrationGroup::class)->findByGroup($id);
         // retrieve students of the level
         $studentsNotRegistered = $this->getEm()->getRepository(RegistrationGroup::class)->getStudentsNotRegistredInGroup($id, $level->getId());
-        $tab['registered'] = $registrations;
-        $tab['notregistered'] = $studentsNotRegistered;
+        $tab['registered']     = $registrations;
+        $tab['notregistered']  = $studentsNotRegistered;
+        $tab['grades']         = $grades;
         
         return $tab;
     }
+    
+    
     
 }

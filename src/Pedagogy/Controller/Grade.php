@@ -14,6 +14,7 @@ use App\Pedagogy\Service\GradeService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +30,18 @@ class Grade extends ManagerController
 {
     /**
      * GradeController constructor.
+     *
+     * @param GradeService        $gradeService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param OrmService          $ormService
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
+    public function __construct(GradeService $gradeService, Breadcrumbs $breadcrumbs, OrmService $ormService, TranslatorInterface $translator)
     {
+        $this->setService($gradeService);
+        $this->setOrmService($ormService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('Grade');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -47,10 +57,8 @@ class Grade extends ManagerController
      *
      * @return Response
      */
-    public function home(GradeService $gradeService, Breadcrumbs $breadcrumbs)
+    public function home()
     {
-        $this->setService($gradeService);
-        $this->setBreadcrumbService($breadcrumbs);
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des classes");
         $breads   = [];
@@ -74,15 +82,10 @@ class Grade extends ManagerController
      * @Route("/grades/add", name="grade_add")
      *
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function add()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = ['name' => 'Classes', 'url' => 'grade_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'grade_add'];
@@ -96,15 +99,10 @@ class Grade extends ManagerController
      * @Route("/grades/update", name="grade_upd")
      *
      *
-     * @param OrmService  $ormService
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
+    public function update()
     {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $breads   = [];
         $breads[] = ['name' => 'Classes', 'url' => 'grade_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'grade_upd'];
@@ -119,9 +117,8 @@ class Grade extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
+    public function delete()
     {
-        $this->setOrmService($ormService);
         $this->setUrl('grade_homepage');
         
         return parent::deleteRecord();
@@ -129,14 +126,9 @@ class Grade extends ManagerController
     
     /**
      * @Route("/grades/edit", name="grade_edit")
-     * @param GradeService $gradeService
-     * @param Breadcrumbs  $breadcrumbs
-     *
      * @return Response
      */
-    public function detail(GradeService $gradeService, Breadcrumbs $breadcrumbs){
-        $this->setService($gradeService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function detail(){
         $breads = array();
         $breads[] = array('name'=>'Classes','url'=>'grade_homepage');
         $breads[] = array('name'=>'Fiche','url'=>'grade_edit');

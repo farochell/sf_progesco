@@ -11,7 +11,7 @@ namespace App\Pedagogy\Form;
 
 
 use App\Pedagogy\Entity\Speciality;
-use App\Pedagogy\Entity\Teaching;
+use App\Pedagogy\Entity\Subject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,12 +19,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class TeachingType
+ * Class SubjectType
  *
  * @package App\Pedagogy\Form
  *
  */
-class TeachingType extends AbstractType
+class SubjectType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -54,7 +54,7 @@ class TeachingType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Teaching::class,
+                'data_class' => Subject::class,
                 'id'         => null,
             ]
         );

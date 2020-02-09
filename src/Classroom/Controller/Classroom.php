@@ -15,6 +15,7 @@ use App\Manager\Service\OrmService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,20 +25,20 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Classroom\Controller
  * @Route("/admin")
  */
-class Classroom extends ManagerController
-{
+class Classroom extends ManagerController {
     /**
      * ClassroomController constructor.
      *
-     * @param OrmService       $ormService
-     * @param ClassroomService $classroomService
-     * @param Breadcrumbs      $breadcrumbs
+     * @param OrmService          $ormService
+     * @param ClassroomService    $classroomService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct(OrmService $ormService, ClassroomService $classroomService, Breadcrumbs $breadcrumbs)
-    {
+    public function __construct(OrmService $ormService, ClassroomService $classroomService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
         $this->setOrmService($ormService);
         $this->setService($classroomService);
         $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('Classroom');
         $this->setBundle('App\\Classroom\\Controller');
         $this->setEntityNamespace('App\\Classroom');
@@ -50,9 +51,13 @@ class Classroom extends ManagerController
      *
      * @return Response
      */
-    public function home()
-    {
-        
+    public function home() {
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $this->setBreadcrumbs($breads);
@@ -68,8 +73,7 @@ class Classroom extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -79,8 +83,7 @@ class Classroom extends ManagerController
      *
      * @return Response
      */
-    public function add()
-    {
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'classroom_add'];
@@ -96,8 +99,7 @@ class Classroom extends ManagerController
      *
      * @return Response
      */
-    public function update()
-    {
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'classroom_upd'];
@@ -112,8 +114,7 @@ class Classroom extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete()
-    {
+    public function delete() {
         $this->setUrl('classroom_homepage');
         
         return parent::deleteRecord();
@@ -123,10 +124,10 @@ class Classroom extends ManagerController
      * @Route("/classrooms/edit", name="classroom_edit")
      * @return Response
      */
-    public function detail(){
-        $breads = array();
-        $breads[] = array('name'=>'Salles de classe','url'=>'classroom_homepage');
-        $breads[] = array('name'=>'Fiche','url'=>'classroom_edit');
+    public function detail() {
+        $breads   = [];
+        $breads[] = ['name' => 'Salles de classe', 'url' => 'classroom_homepage'];
+        $breads[] = ['name' => 'Fiche', 'url' => 'classroom_edit'];
         $this->setBreadcrumbs($breads);
         
         return parent::edit();

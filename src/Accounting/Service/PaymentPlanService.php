@@ -74,76 +74,76 @@ class PaymentPlanService extends ManagerService
      */
     public function getPendingPaymentPlan($records) {
         $headers = [
-            'Référence',
-            'Libellé',
-            'Montant',
-            'Date d\'enregistrement',
-            'Date de paiement',
-            'Statut',
+            $this->getTranslator()->trans('Référence'),
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Montant'),
+            $this->getTranslator()->trans('Date d\'enregistrement'),
+            $this->getTranslator()->trans('Date de paiement'),
+            $this->getTranslator()->trans('Statut'),
             '',
             '',
             '',
             '',
     
         ];
-        $table   = $this->getTable("payementplan");
+        $table   = $this->getTable('payementplan');
         $table->addHeaders($headers);
     
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("reference", $record->getReference()));
-                $row->addCells($this->getCell("libelle", $record->getLabel()));
-                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
-                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
-                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
-                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+                $row->addCells($this->getCell('reference', $record->getReference()));
+                $row->addCells($this->getCell('libelle', $record->getLabel()));
+                $row->addCells($this->getCell('montant', $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell('dateEnregistrement', $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell('dateEncaissement', $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell('label', $this->getStatusLabel($record->getStatus())));
             
                 if ($record->getStatus() == PaymentPlan::PAYMENT_INIT) {
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("pay", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('pay', 'link');
                 
                     $params = ['paymentplan_id' => $record->getId(), 'payment_id' => $record->getPayment()->getId(), 'mode' => 'CASH'];
                     $cellAction->setCellattribute(
                         $this->getCellAttribute(
-                            "fas fa-money-bill-wave",
-                            "Effectuer le paiement en espèce",
-                            "paymentplan_update_status",
-                            "green darken-1",
-                            "",
+                            'fas fa-money-bill-wave',
+                            'Effectuer le paiement en espèce',
+                            'paymentplan_update_status',
+                            'green darken-1',
+                            '',
                             $params
                         )
                     );
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                 
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("pay", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('pay', 'link');
                 
                     $params = ['paymentplan_id' => $record->getId(), 'payment_id' => $record->getPayment()->getId(), 'mode' => 'BANK'];
                     $cellAction->setCellattribute(
                         $this->getCellAttribute(
-                            "far fa-credit-card",
-                            "Effectuer le paiement par virement bancaire",
-                            "paymentplan_update_status",
-                            "grey darken-1",
-                            "",
+                            'far fa-credit-card',
+                            $this->getTranslator()->trans('Effectuer le paiement par virement bancaire'),
+                            'paymentplan_update_status',
+                            'grey darken-1',
+                            '',
                             $params
                         )
                     );
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                 
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("pay", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('pay', 'link');
                     $params     = ['paymentplan_id' => $record->getId()];
                     $cellAction->setCellattribute(
                         $this->getCellAttribute(
-                            "fas fa-money-check",
-                            "Effectuer le paiement par chèque",
-                            "cheque_add",
-                            "blue darken-4",
-                            "",
+                            'fas fa-money-check',
+                            $this->getTranslator()->trans('Effectuer le paiement par chèque'),
+                            'cheque_add',
+                            'blue darken-4',
+                            '',
                             $params
                         )
                     );
@@ -152,41 +152,41 @@ class PaymentPlanService extends ManagerService
                 }
             
                 if ($record->getStatus() == PaymentPlan::PAYMENT_BANK_TFT_W) {
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("pay", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('pay', 'link');
                 
                     $params = ['paymentplan_id' => $record->getId(), 'payment_id' => $record->getPayment()->getId(), 'mode' => 'BANK_VALID'];
                     $cellAction->setCellattribute(
                         $this->getCellAttribute(
-                            "far fa-credit-card",
-                            "Valider la reception du paiement par virement bancaire",
-                            "paymentplan_update_status",
-                            "green darken-2",
-                            "",
+                            'far fa-credit-card',
+                            $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
+                            'paymentplan_update_status',
+                            'green darken-2',
+                            '',
                             $params
                         )
                     );
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                 
-                    $cell       = $this->getCell("action");
+                    $cell       = $this->getCell('action');
                     $row->addCells($cell);
-                    $cell       = $this->getCell("action");
+                    $cell       = $this->getCell('action');
                     $row->addCells($cell);
                 }
                 
                 if ($record->getStatus() == PaymentPlan::PAYMENT_CHQ_W) {
-                    $cell       = $this->getCell("action");
-                    $cellAction = $this->getCellAction("pay", "link");
+                    $cell       = $this->getCell('action');
+                    $cellAction = $this->getCellAction('pay', 'link');
     
                     $params = ['paymentplan_id' => $record->getId(), 'payment_id' => $record->getPayment()->getId(), 'mode' => 'CHQ_VALID'];
                     $cellAction->setCellattribute(
                         $this->getCellAttribute(
-                            "fas fa-money-check",
-                            "Valider l'encaissement du chèque",
-                            "paymentplan_update_status",
-                            "green darken-2",
-                            "",
+                            'fas fa-money-check',
+                            $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
+                            'paymentplan_update_status',
+                            'green darken-2',
+                            '',
                             $params
                         )
                     );
@@ -194,11 +194,12 @@ class PaymentPlanService extends ManagerService
                     $row->addCells($cell);
                 }
             
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("delete", "link");
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
                 $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger", "", $params));
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
+                    'bg-danger', '', $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             
@@ -220,33 +221,34 @@ class PaymentPlanService extends ManagerService
      */
     public function getValidedPaymentPlan($records) {
         $headers = [
-            'Référence',
-            'Libellé',
-            'Montant',
-            'Date d\'enregistrement',
-            'Date de paiement',
-            'Statut',
+            $this->getTranslator()->trans('Référence'),
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Montant'),
+            $this->getTranslator()->trans('Date d\'enregistrement'),
+            $this->getTranslator()->trans('Date de paiement'),
+            $this->getTranslator()->trans('Statut'),
             ''
         
         ];
-        $table   = $this->getTable("validedpayementplan");
+        $table   = $this->getTable('validedpayementplan');
         $table->addHeaders($headers);
         
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("reference", $record->getReference()));
-                $row->addCells($this->getCell("libelle", $record->getLabel()));
-                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
-                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
-                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
-                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
+                $row->addCells($this->getCell('reference', $record->getReference()));
+                $row->addCells($this->getCell('libelle', $record->getLabel()));
+                $row->addCells($this->getCell('montant', $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell('dateEnregistrement', $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell('dateEncaissement', $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell('label', $this->getStatusLabel($record->getStatus())));
                
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("delete", "link");
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
                 $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger", "", $params));
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
+                    'bg-danger', '', $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -339,51 +341,52 @@ class PaymentPlanService extends ManagerService
         $records = $this->getEm()->getRepository(PaymentPlan::class)->findBy(['status' => PaymentPlan::PAYMENT_BANK_TFT_W]);
     
         $headers = [
-            'Libellé',
+            $this->getTranslator()->trans('Libellé'),
             'Montant',
-            'Date d\'enregistrement',
-            'Date de paiement',
-            'Statut',
+            $this->getTranslator()->trans('Date d\'enregistrement'),
+            $this->getTranslator()->trans('Date de paiement'),
+            $this->getTranslator()->trans('Statut'),
             '',
             '',
     
         ];
-        $table   = $this->getTable("noValidBankTransfert");
+        $table   = $this->getTable('noValidBankTransfert');
         $table->addHeaders($headers);
     
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
-                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
-                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
-                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
-                $row->addCells($this->getCell("status", $this->getStatusLabel($record->getStatus())));
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("pay", "link");
+                $row->addCells($this->getCell('label', $record->getLabel()));
+                $row->addCells($this->getCell('montant', $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell('dateEnregistrement', $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell('dateEncaissement', $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell('status', $this->getStatusLabel($record->getStatus())));
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('pay', 'link');
     
                 $params = ['paymentplan_id' => $record->getId(),
                            'payment_id' => $record->getPayment()->getId(),
                            'mode' => 'BANK_VALID',
-                           'redirect' => 'paymentplan_pending_operations'
+                           'redirect' => 'paymentplan_pending_transactions'
                 ];
                 $cellAction->setCellattribute(
                     $this->getCellAttribute(
-                        "far fa-credit-card",
-                        "Valider la reception du paiement par virement bancaire",
-                        "paymentplan_update_status",
-                        "green darken-2",
-                        "",
+                        'far fa-credit-card',
+                        $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
+                        'paymentplan_update_status',
+                        'green darken-2',
+                        '',
                         $params
                     )
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("delete", "link");
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger"));
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
+                    'bg-danger'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
@@ -404,49 +407,50 @@ class PaymentPlanService extends ManagerService
         $records = $this->getEm()->getRepository(PaymentPlan::class)->findBy(['status' => PaymentPlan::PAYMENT_CHQ_W]);
         
         $headers = [
-            'Libellé',
-            'Montant',
-            'Date d\'enregistrement',
-            'Date de paiement',
-            'Statut',
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Montant'),
+            $this->getTranslator()->trans('Date d\'enregistrement'),
+            $this->getTranslator()->trans('Date de paiement'),
+            $this->getTranslator()->trans('Statut'),
             '',
             '',
         ];
-        $table   = $this->getTable("pendingCheque");
+        $table   = $this->getTable('pendingCheque');
         $table->addHeaders($headers);
         
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("libelle", $record->getLabel()));
-                $row->addCells($this->getCell("montant", $record->getAmount(), '', 'money'));
-                $row->addCells($this->getCell("dateEnregistrement", $record->getRegistrationDate(), '', 'date'));
-                $row->addCells($this->getCell("dateEncaissement", $record->getDateOfCollection(), '', 'date'));
-                $row->addCells($this->getCell("label", $this->getStatusLabel($record->getStatus())));
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("pay", "link");
+                $row->addCells($this->getCell('libelle', $record->getLabel()));
+                $row->addCells($this->getCell('montant', $record->getAmount(), '', 'money'));
+                $row->addCells($this->getCell('dateEnregistrement', $record->getRegistrationDate(), '', 'date'));
+                $row->addCells($this->getCell('dateEncaissement', $record->getDateOfCollection(), '', 'date'));
+                $row->addCells($this->getCell('label', $this->getStatusLabel($record->getStatus())));
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('pay', 'link');
                 $params = ['paymentplan_id' => $record->getId(),
                            'payment_id' => $record->getPayment()->getId(),
                            'mode' => 'CHQ_VALID',
-                           'redirect' => 'paymentplan_pending_operations'
+                           'redirect' => 'paymentplan_pending_transactions'
                 ];
                 $cellAction->setCellattribute(
                     $this->getCellAttribute(
-                        "far fa-credit-card",
-                        "Valider l'encaissement du chèque",
-                        "paymentplan_update_status",
-                        "green darken-2",
-                        "",
+                        'far fa-credit-card',
+                        $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
+                        'paymentplan_update_status',
+                        'green darken-2',
+                        '',
                         $params
                     )
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
-                $cell       = $this->getCell("action");
-                $cellAction = $this->getCellAction("delete", "link");
+                $cell       = $this->getCell('action');
+                $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "paymentplan_del", "bg-danger"));
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
+                    'bg-danger'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
@@ -469,30 +473,30 @@ class PaymentPlanService extends ManagerService
     {
         switch ($statusID) {
             case PaymentPlan::PAYMENT_INIT:
-                return 'En attente de paiement';
+                return $this->getTranslator()->trans('En attente de paiement');
                 break;
             case PaymentPlan::PAYMENT_CASH:
-                return 'Paiement en espèce';
+                return $this->getTranslator()->trans('Paiement en espèce');
                 break;
             case PaymentPlan::PAYMENT_CHQ_W:
-                return 'Chèque en attente';
+                return $this->getTranslator()->trans('Chèque en attente');
             case PaymentPlan::PAYMENT_CHQ_V:
-                return 'Chèque encaissé';
+                return $this->getTranslator()->trans('Chèque encaissé');
                 break;
             case PaymentPlan::PAYMENT_CHQ_C:
-                return 'Chèque rejetté';
+                return $this->getTranslator()->trans('Chèque rejetté');
                 break;
             case PaymentPlan::PAYMENT_BANK_TFT_W:
-                return 'Virement bancaire en attente';
+                return $this->getTranslator()->trans('Virement bancaire en attente');
                 break;
             case PaymentPlan::PAYMENT_BANK_TFT_V:
-                return 'Virement bancaire effectué';
+                return $this->getTranslator()->trans('Virement bancaire effectué');
                 break;
             case PaymentPlan::PAYMENT_BANK_TFT_C:
-                return 'Virement bancaire annulé';
+                return $this->getTranslator()->trans('Virement bancaire annulé');
                 break;
             case PaymentPlan::PAYMENT_CNL:
-                return 'Paiement annulé';
+                return $this->getTranslator()->trans('Paiement annulé');
                 break;
         }
     }

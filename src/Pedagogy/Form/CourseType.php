@@ -15,7 +15,7 @@ use App\Pedagogy\Entity\Course;
 use App\Pedagogy\Entity\Group;
 use App\Pedagogy\Entity\Level;
 use App\Pedagogy\Entity\Semester;
-use App\Pedagogy\Entity\Teaching;
+use App\Pedagogy\Entity\Subject;
 use App\Teacher\Entity\Teacher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -42,11 +42,11 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'teaching',
+            'subject',
             EntityType::class,
             [
                 'label'        => 'Matière',
-                'class'        => Teaching::class,
+                'class'        => Subject::class,
                 'choice_label' => 'label',
                 'attr'         => ['class' => 'form-control col-sm-12'],
             ]

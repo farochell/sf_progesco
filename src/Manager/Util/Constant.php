@@ -53,4 +53,5 @@ class Constant {
     const PWD_LABEL          = "password";
     const ENTITYNAME_LABEL   = "entityName";
     const DATA_LABEL         = "data";
+    const DISPLAY_TABS       = "displayTabs";
 }

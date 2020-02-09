@@ -15,24 +15,31 @@ use App\Pedagogy\Service\SemesterService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 /**
  * Class Semester
  *
  * @package App\Pedagogy\Controller
  * @Route("/admin")
  */
-class Semester extends ManagerController
-{
+class Semester extends ManagerController {
     /**
      * SemesterController constructor.
+     *
+     * @param OrmService          $ormService
+     * @param SemesterService     $semesterService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
-    {
+    public function __construct(OrmService $ormService, SemesterService $semesterService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
+        $this->setOrmService($ormService);
+        $this->setService($semesterService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('Semester');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
@@ -43,16 +50,9 @@ class Semester extends ManagerController
     /**
      * @Route("/semesters", name="semester_homepage")
      *
-     * @param SemesterService $semesterService
-     *
-     * @param Breadcrumbs  $breadcrumbs
-     *
      * @return Response
      */
-    public function home(SemesterService $semesterService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setService($semesterService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home() {
         $breads   = [];
         $breads[] = ['name' => 'Périodes', 'url' => 'semester_homepage'];
         $this->addAction(['function' => 'show', 'params' => []]);
@@ -67,8 +67,7 @@ class Semester extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -76,16 +75,9 @@ class Semester extends ManagerController
      * @Route("/semesters/add", name="semester_add")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Périodes', 'url' => 'semester_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'semester_add'];
@@ -99,16 +91,9 @@ class Semester extends ManagerController
      * @Route("/semesters/update", name="semester_upd")
      *
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Périodes', 'url' => 'semester_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'semester_upd'];
@@ -121,13 +106,9 @@ class Semester extends ManagerController
     /**
      * @Route("/semesters/delete", name="semester_del")
      *
-     * @param OrmService $ormService
-     *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('semester_homepage');
         
         return parent::deleteRecord();

@@ -1,1 +1,1 @@
-{"base_url":"","routes":[],"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}
+{"base_url":"","routes":{"registrationgroup_add":{"tokens":[["text","\/admin\/registrations\/group\/add"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]},"get_students_by_grade":{"tokens":[["text","\/admin\/registrations\/grade\/students"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

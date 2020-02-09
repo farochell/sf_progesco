@@ -29,8 +29,8 @@ class TuitionService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter des frais de scolarité", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("tuition_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter des frais de scolarité'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('tuition_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -42,13 +42,13 @@ class TuitionService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Montant',
-            'Niveau',
-            'Filières',
-            'Année scolaire',
+            $this->getTranslator()->trans('Montant'),
+            $this->getTranslator()->trans('Niveau'),
+            $this->getTranslator()->trans('Filières'),
+            $this->getTranslator()->trans('Année scolaire'),
             '',
         ];
-        $table   = $this->getTable("tuition");
+        $table   = $this->getTable('tuition');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Tuition::class)
@@ -57,15 +57,15 @@ class TuitionService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("fees", $record->getFees(), "",
-                    "money"));
-                $row->addCells($this->getCell("level", $record->getLevel()));
+                $row->addCells($this->getCell('fees', $record->getFees(), '',
+                    'money'));
+                $row->addCells($this->getCell('level', $record->getLevel()));
                 $row->addCells($this->getCell('studies', $this->splitStudies($record->getStudies())));
-                $row->addCells($this->getCell("schoolyear", $record->getSchoolYear()));
+                $row->addCells($this->getCell('schoolyear', $record->getSchoolYear()));
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "tuition_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'tuition_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -90,6 +90,6 @@ class TuitionService extends ManagerService
             $tab [] = $study->getLabel();
         }
         
-        return implode(",", $tab);
+        return implode(',', $tab);
     }
 }

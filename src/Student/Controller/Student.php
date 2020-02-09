@@ -9,30 +9,36 @@
 
 namespace App\Student\Controller;
 
-
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use App\Student\Service\StudentService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
-
 /**
  * Class Student
  *
  * @package App\Student\Controller
  * @Route("/admin")
  */
-class Student extends ManagerController
-{
+class Student extends ManagerController {
     /**
      * Student constructor.
+     *
+     * @param OrmService          $ormService
+     * @param StudentService      $studentService
+     * @param Breadcrumbs         $breadcrumbs
+     * @param TranslatorInterface $translator
      */
-    public function __construct()
-    {
+    public function __construct(OrmService $ormService, StudentService $studentService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
+        $this->setOrmService($ormService);
+        $this->setService($studentService);
+        $this->setBreadcrumbService($breadcrumbs);
+        $this->setTranslator($translator);
         $this->setController('Student');
         $this->setBundle('App\\Student\\Controller');
         $this->setEntityNamespace('App\\Student');
@@ -45,22 +51,17 @@ class Student extends ManagerController
      *
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_SHOW')")
      *
-     * @param StudentService $studentService
-     *
-     * @param Breadcrumbs    $breadcrumbs
-     *
      * @return Response
      */
-    public function home(StudentService $studentService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setService($studentService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function home() {
+        
         $breads   = [];
-        $breads[] = [ 'name' => 'Etudiants', 'url' => 'student_homepage' ];
+        $breads[] = ['name' => 'Etudiants', 'url' => 'student_homepage'];
         $this->setBreadcrumbs($breads);
         $this->addAction(['function' => 'show', 'params' => []]);
         $this->setCardTitle("Liste des étudiants");
         $this->setTableType('table.html.twig');
+        
         return parent::index();
     }
     
@@ -69,8 +70,7 @@ class Student extends ManagerController
      *
      * @return Response
      */
-    public function show($params)
-    {
+    public function show($params) {
         return parent::customFunction("findAll", $params);
     }
     
@@ -79,16 +79,9 @@ class Student extends ManagerController
      *
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_ADD')")
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function add(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function add() {
         $breads   = [];
         $breads[] = ['name' => 'Etudiants', 'url' => 'student_homepage'];
         $breads[] = ['name' => 'Formulaire ajout', 'url' => 'student_add'];
@@ -103,16 +96,9 @@ class Student extends ManagerController
      *
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_UPD')")
      *
-     * @param OrmService  $ormService
-     *
-     * @param Breadcrumbs $breadcrumbs
-     *
      * @return Response
      */
-    public function update(OrmService $ormService, Breadcrumbs $breadcrumbs)
-    {
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
+    public function update() {
         $breads   = [];
         $breads[] = ['name' => 'Etudiants', 'url' => 'student_homepage'];
         $breads[] = ['name' => 'Formulaire modification', 'url' => 'student_upd'];
@@ -131,9 +117,7 @@ class Student extends ManagerController
      *
      * @return JsonResponse|RedirectResponse
      */
-    public function delete(OrmService $ormService)
-    {
-        $this->setOrmService($ormService);
+    public function delete() {
         $this->setUrl('student_homepage');
         
         return parent::deleteRecord();
@@ -142,17 +126,12 @@ class Student extends ManagerController
     /**
      * @Route("/students/edit", name="student_edit")
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_SHOW')")
-     * @param StudentService $studentService
-     * @param Breadcrumbs    $breadcrumbs
-     *
      * @return Response
      */
-    public function detail(StudentService $studentService, Breadcrumbs $breadcrumbs){
-        $this->setService($studentService);
-        $this->setBreadcrumbService($breadcrumbs);
-        $breads = array();
-        $breads[] = array('name'=>'Etudiants','url'=>'student_homepage');
-        $breads[] = array('name'=>'Fiche','url'=>'student_edit');
+    public function detail() {
+        $breads   = [];
+        $breads[] = ['name' => 'Etudiants', 'url' => 'student_homepage'];
+        $breads[] = ['name' => 'Fiche', 'url' => 'student_edit'];
         $this->setBreadcrumbs($breads);
         
         return parent::edit();

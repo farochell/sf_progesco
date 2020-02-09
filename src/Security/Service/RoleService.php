@@ -24,7 +24,7 @@ class RoleService extends ManagerService
     public function addButton()
     {
         $fabrique = new FabriqueButtonLink();
-        $button   =  $fabrique->createButton("Ajouter un rôle", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
+        $button   =  $fabrique->createButton($this->getTranslator()->trans("Ajouter un rôle"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
         $button->setUrl("role_add");
         $this->setButtons($button);
         
@@ -36,10 +36,10 @@ class RoleService extends ManagerService
      */
     public function findAll()
     {
-        $headers = [  
-            'Libellé',                    
-            'Description',
-            'Menu',
+        $headers = [
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Description'),
+            $this->getTranslator()->trans('Menu'),
             '',                    
             ''
         ];

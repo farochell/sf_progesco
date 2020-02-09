@@ -40,7 +40,7 @@ class Course
     private $groups;
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Pedagogy\Entity\Teaching")
+     * @ORM\ManyToOne(targetEntity="App\Pedagogy\Entity\Subject")
      * @ORM\JoinColumn(nullable=false)
      */
     private $teaching;
@@ -163,7 +163,7 @@ class Course
      */
     public function getTeaching()
     {
-        return $this->teaching;
+        return $this->subject;
     }
     
     /**
@@ -171,7 +171,7 @@ class Course
      */
     public function setTeaching($teaching): void
     {
-        $this->teaching = $teaching;
+        $this->subject = $teaching;
     }
     
     /**

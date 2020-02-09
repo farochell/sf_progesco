@@ -28,8 +28,8 @@ class GradeService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton("Ajouter une classe", "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
-        $button->setUrl("grade_add");
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une classe'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button->setUrl('grade_add');
         $this->setButtons($button);
         
         return $this->getButtons();
@@ -41,14 +41,14 @@ class GradeService extends ManagerService
     public function findAll()
     {
         $headers = [
-            'Libellé',
-            'Filière',
-            'Niveaux',
+            $this->getTranslator()->trans('Libellé'),
+            $this->getTranslator()->trans('Filière'),
+            $this->getTranslator()->trans('Niveaux'),
             '',
             '',
             '',
         ];
-        $table   = $this->getTable("grade");
+        $table   = $this->getTable('grade');
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Grade::class)
@@ -57,25 +57,25 @@ class GradeService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell("label", $record->getLabel()));
-                $row->addCells($this->getCell("study", $record->getStudy()));
-                $row->addCells($this->getCell("level", $record->getLevel()));
+                $row->addCells($this->getCell('label', $record->getLabel()));
+                $row->addCells($this->getCell('study', $record->getStudy()));
+                $row->addCells($this->getCell('level', $record->getLevel()));
                 
-                $cell       = $this->getCell("upd", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-edit", "Modifier", "grade_upd", "light-blue darken-3 white-text"));
+                $cell       = $this->getCell('upd', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-edit', $this->getTranslator()->trans('Modifier'), 'grade_upd', 'light-blue darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fas fa-eye", "Editer", "grade_edit", "grey darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fas fa-eye', $this->getTranslator()->trans('Editer'), 'grade_edit', 'grey darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
-                $cell       = $this->getCell("del", "", "cell-action");
-                $cellAction = $this->getCellAction("upd", "link");
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "grade_del", "red darken-3 white-text"));
+                $cell       = $this->getCell('del', '', 'cell-action');
+                $cellAction = $this->getCellAction('upd', 'link');
+                $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'grade_del', 'red darken-3 white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -105,4 +105,5 @@ class GradeService extends ManagerService
         
         return $record;
     }
+    
 }

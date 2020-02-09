@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr-FR" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="S0LGaQ6" resname="Administration">
+        <source>Administration</source>
+        <target>__Administration</target>
+      </trans-unit>
+      <trans-unit id="f9UDoym" resname="Rôles">
+        <source>Rôles</source>
+        <target>__Rôles</target>
+      </trans-unit>
+      <trans-unit id="I9OTi17" resname="Utilisateurs">
+        <source>Utilisateurs</source>
+        <target>__Utilisateurs</target>
+      </trans-unit>
+      <trans-unit id="xuM59sO" resname="Gestion du cache">
+        <source>Gestion du cache</source>
+        <target>__Gestion du cache</target>
+      </trans-unit>
+      <trans-unit id="sYru0ag" resname="Se déconnecter">
+        <source>Se déconnecter</source>
+        <target>__Se déconnecter</target>
+      </trans-unit>
+      <trans-unit id="szLDSS1" resname="Configuration">
+        <source>Configuration</source>
+        <target>__Configuration</target>
+      </trans-unit>
+      <trans-unit id="NWGr.oB" resname="Genres">
+        <source>Genres</source>
+        <target>__Genres</target>
+      </trans-unit>
+      <trans-unit id="_7kim5i" resname="Situations maritales">
+        <source>Situations maritales</source>
+        <target>__Situations maritales</target>
+      </trans-unit>
+      <trans-unit id="7Su4UMO" resname="Etablissement">
+        <source>Etablissement</source>
+        <target>__Etablissement</target>
+      </trans-unit>
+      <trans-unit id="dGsVv_h" resname="Types de devoir">
+        <source>Types de devoir</source>
+        <target>__Types de devoir</target>
+      </trans-unit>
+      <trans-unit id="4fkGMtg" resname="Salles de classe">
+        <source>Salles de classe</source>
+        <target>__Salles de classe</target>
+      </trans-unit>
+      <trans-unit id="vc7KA8F" resname="Salles">
+        <source>Salles</source>
+        <target>__Salles</target>
+      </trans-unit>
+      <trans-unit id="xkyfGTr" resname="Années scolaires">
+        <source>Années scolaires</source>
+        <target>__Années scolaires</target>
+      </trans-unit>
+      <trans-unit id="5GlqgiG" resname="Périodes scolaires">
+        <source>Périodes scolaires</source>
+        <target>__Périodes scolaires</target>
+      </trans-unit>
+      <trans-unit id="d_DJVlv" resname="Filières">
+        <source>Filières</source>
+        <target>__Filières</target>
+      </trans-unit>
+      <trans-unit id="T6E0Omz" resname="Niveaux">
+        <source>Niveaux</source>
+        <target>__Niveaux</target>
+      </trans-unit>
+      <trans-unit id="e0f5BsY" resname="Types de vacation">
+        <source>Types de vacation</source>
+        <target>__Types de vacation</target>
+      </trans-unit>
+      <trans-unit id="WfL7rj." resname="Spécialités">
+        <source>Spécialités</source>
+        <target>__Spécialités</target>
+      </trans-unit>
+      <trans-unit id="ipqR2Xb" resname="Matières">
+        <source>Matières</source>
+        <target>__Matières</target>
+      </trans-unit>
+      <trans-unit id="hGNyhsW" resname="Classes">
+        <source>Classes</source>
+        <target>__Classes</target>
+      </trans-unit>
+      <trans-unit id="AUTb.4G" resname="Groupes">
+        <source>Groupes</source>
+        <target>__Groupes</target>
+      </trans-unit>
+      <trans-unit id="GjwB9qj" resname="Planification des cours">
+        <source>Planification des cours</source>
+        <target>__Planification des cours</target>
+      </trans-unit>
+      <trans-unit id="PnTZRCr" resname="Notation">
+        <source>Notation</source>
+        <target>__Notation</target>
+      </trans-unit>
+      <trans-unit id="E0l0ZR." resname="Liste des notes">
+        <source>Liste des notes</source>
+        <target>__Liste des notes</target>
+      </trans-unit>
+      <trans-unit id="oq1wSzs" resname="Professeurs">
+        <source>Professeurs</source>
+        <target>__Professeurs</target>
+      </trans-unit>
+      <trans-unit id="GS8LKi." resname="Liste des Professeurs">
+        <source>Liste des Professeurs</source>
+        <target>__Liste des Professeurs</target>
+      </trans-unit>
+      <trans-unit id="oj5_mEJ" resname="Etudiants">
+        <source>Etudiants</source>
+        <target>__Etudiants</target>
+      </trans-unit>
+      <trans-unit id="BvBzMEZ" resname="Liste des étudiants">
+        <source>Liste des étudiants</source>
+        <target>__Liste des étudiants</target>
+      </trans-unit>
+      <trans-unit id="fOdc_ki" resname="Comptabilité">
+        <source>Comptabilité</source>
+        <target>__Comptabilité</target>
+      </trans-unit>
+      <trans-unit id="D9vAi4r" resname="Frais de scolarité">
+        <source>Frais de scolarité</source>
+        <target>__Frais de scolarité</target>
+      </trans-unit>
+      <trans-unit id="lO25_1L" resname="Inscriptions à valider">
+        <source>Inscriptions à valider</source>
+        <target>__Inscriptions à valider</target>
+      </trans-unit>
+      <trans-unit id="eOImvFD" resname="Etudiants réguliers">
+        <source>Etudiants réguliers</source>
+        <target>__Etudiants réguliers</target>
+      </trans-unit>
+      <trans-unit id="aYPieVO" resname="Paiements">
+        <source>Paiements</source>
+        <target>__Paiements</target>
+      </trans-unit>
+      <trans-unit id="v0_Qfws" resname="Opérations en attente">
+        <source>Opérations en attente</source>
+        <target>__Opérations en attente</target>
+      </trans-unit>
+      <trans-unit id="mPqUdSp" resname="Opérations validées">
+        <source>Opérations validées</source>
+        <target>__Opérations validées</target>
+      </trans-unit>
+      <trans-unit id="s8s6p4s" resname="Etudiants boursiers">
+        <source>Etudiants boursiers</source>
+        <target>__Etudiants boursiers</target>
+      </trans-unit>
+      <trans-unit id="C4b0LQi" resname="Dépenses">
+        <source>Dépenses</source>
+        <target>__Dépenses</target>
+      </trans-unit>
+      <trans-unit id="qCXO99w" resname="Types de dépense">
+        <source>Types de dépense</source>
+        <target>__Types de dépense</target>
+      </trans-unit>
+      <trans-unit id="GLvMcpL" resname="Pédagogie">
+        <source>Pédagogie</source>
+        <target>__Pédagogie</target>
+      </trans-unit>
+      <trans-unit id="mcQKtAW" resname="Date">
+        <source>Date</source>
+        <target>__Date</target>
+      </trans-unit>
+      <trans-unit id="s1c.M3T" resname="Refusée">
+        <source>Refusée</source>
+        <target>__Refusée</target>
+      </trans-unit>
+      <trans-unit id="yqNZZCS" resname="Solde">
+        <source>Solde</source>
+        <target>__Solde</target>
+      </trans-unit>
+      <trans-unit id="wOWXuXu" resname="Frais de scolarite">
+        <source>Frais de scolarite</source>
+        <target>__Frais de scolarite</target>
+      </trans-unit>
+      <trans-unit id="mARyQy_" resname="Date de début">
+        <source>Date de début</source>
+        <target>__Date de début</target>
+      </trans-unit>
+      <trans-unit id="sTSqvuA" resname="Date de fin">
+        <source>Date de fin</source>
+        <target>__Date de fin</target>
+      </trans-unit>
+      <trans-unit id="dRSyQ47" resname="Periode">
+        <source>Periode</source>
+        <target>__Periode</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

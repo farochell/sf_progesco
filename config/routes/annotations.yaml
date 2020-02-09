@@ -45,3 +45,7 @@ accounting:
 schooling:
   resource: ../../src/Schooling/
   type: annotation
+
+schoring:
+  resource: ../../src/Scoring/
+  type: annotation
