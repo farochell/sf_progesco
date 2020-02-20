@@ -55,6 +55,7 @@ Encore
     .enableBuildNotifications()
     // uncomment for legacy applications that require $/jQuery as a global variable
     .autoProvidejQuery()
+    .enableVueLoader()
     .autoProvideVariables({
         $: 'jquery',
         jQuery: 'jquery',

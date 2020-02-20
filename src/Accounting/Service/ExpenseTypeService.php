@@ -29,7 +29,7 @@ class ExpenseTypeService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter un type de dépense'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter un type de dépense'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('expensetype_add');
         $this->setButtons($button);
         

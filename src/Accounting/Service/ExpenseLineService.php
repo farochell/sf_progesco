@@ -9,7 +9,6 @@
 
 namespace App\Accounting\Service;
 
-
 use App\Accounting\Entity\ExpenseLine;
 use App\IHM\Model\Button\FabriqueButtonLink;
 use App\Manager\Service\ManagerService;
@@ -28,7 +27,7 @@ class ExpenseLineService extends ManagerService {
         $fabrique = new FabriqueButtonLink();
         $button   =
             $fabrique->createButton(
-                $this->getTranslator()->trans('Ajouter une dépense'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4'
+                $this->getTranslator()->trans('Ajouter une dépense'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1'
             );
         $button->setUrl('expenseline_add');
         $this->setButtons($button);
@@ -79,7 +78,7 @@ class ExpenseLineService extends ManagerService {
                     if ($record->getStatus() == ExpenseLine::INIT) {
                         $cell       = $this->getCell('action');
                         $cellAction = $this->getCellAction('change', 'ajax');
-                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-off', $this->getTranslator()->trans('Valider la dépense'), '', 'cyan darken-3'));
+                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-off', $this->getTranslator()->trans('Valider la dépense'), '', 'cyan darken-3 white-text'));
                         $cell->setCellAction($cellAction);
                         $row->addCells($cell);
                     }
@@ -87,7 +86,7 @@ class ExpenseLineService extends ManagerService {
                     if ($record->getStatus() == ExpenseLine::VALIDED) {
                         $cell       = $this->getCell('action');
                         $cellAction = $this->getCellAction('change', 'ajax');
-                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-on', $this->getTranslator()->trans('Dépense validée'), '', 'deep-purple lighten-3'));
+                        $cellAction->setCellattribute($this->getCellAttribute('fa fa-toggle-on', $this->getTranslator()->trans('Dépense validée'), '', 'deep-purple lighten-3 white-text'));
                         $cell->setCellAction($cellAction);
                         $row->addCells($cell);
                     }
@@ -98,7 +97,7 @@ class ExpenseLineService extends ManagerService {
                     $cellAction = $this->getCellAction('edit', 'link');
                     // Add attribute
                     $cellAction->setCellattribute(
-                        $this->getCellAttribute('fa fa-list-alt', $this->getTranslator()->trans('Détail'), 'expenseline_detail', 'blue-grey darken-3', '')
+                        $this->getCellAttribute('fa fa-list-alt', $this->getTranslator()->trans('Détail'), 'expenseline_detail', 'blue-grey darken-3 white-text', '')
                     );
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
@@ -107,7 +106,7 @@ class ExpenseLineService extends ManagerService {
                     $cell       = $this->getCell('action');
                     $cellAction = $this->getCellAction('delete', 'link');
                     // Add attribute
-                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'expenseline_del', 'bg-danger'));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'expenseline_del', 'bg-danger  white-text'));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     

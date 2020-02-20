@@ -31,7 +31,7 @@ class UserService extends ManagerService {
     }
     
     /**
-     * @return Table
+     * @return array
      */
     public function findAll() {
         $headers = [
@@ -74,7 +74,7 @@ class UserService extends ManagerService {
                 $cell       = $this->getCell("action");
                 $cellAction = $this->getCellAction("delete", "ajax");
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "", "bg-danger", "deleteProfesseur"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "", "bg-danger white-text", ""));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -134,7 +134,7 @@ class UserService extends ManagerService {
                 $cellAction = $this->getCellAction("del", "link");
                 // Add attribute
                 $params = ['role_id' => $record->getId(), 'user_id' => $user->getId()];
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "user_role_del", "bg-danger", "", $params));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "user_role_del", "bg-danger white-text", "", $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 

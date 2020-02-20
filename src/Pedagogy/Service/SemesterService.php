@@ -27,7 +27,7 @@ class SemesterService extends ManagerService
     public function addButton()
     {
         $fabrique = new FabriqueButtonLink();
-        $button   = $fabrique->createButton($this->getTranslator()->trans('Ajouter une période'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+        $button   = $fabrique->createButton($this->getTranslator()->trans('Ajouter une période'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('semester_add');
         $this->setButtons($button);
         

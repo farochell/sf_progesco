@@ -28,7 +28,7 @@ class MaritalStatusService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink;
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter une situation matrimoniale'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une situation matrimoniale'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('marital-status_add');
         $this->setButtons($button);
         

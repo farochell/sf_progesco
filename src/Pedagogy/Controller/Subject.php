@@ -50,6 +50,8 @@ class Subject extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Subject');
+        $this->setMenuItem('Subject');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

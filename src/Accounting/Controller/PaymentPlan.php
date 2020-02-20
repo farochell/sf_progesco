@@ -31,9 +31,11 @@ class PaymentPlan extends ManagerController {
     /**
      * PaymentPlan constructor.
      *
-     * @param OrmService         $ormService
-     * @param PaymentPlanService $paymentPlanService
-     * @param Breadcrumbs        $breadcrumbs
+     * @param OrmService          $ormService
+     * @param TranslatorInterface $translator
+     * @param LoggerInterface     $logger
+     * @param Breadcrumbs         $breadcrumbs
+     * @param PaymentPlanService  $paymentPlanService
      */
     public function __construct(
         OrmService $ormService,
@@ -48,6 +50,8 @@ class PaymentPlan extends ManagerController {
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('PaymentPlan');
+        $this->setMenuItem('PaymentPlan');
+        $this->setMenuGroup('Accounting');
         $this->setTag('@accounting');
     }
     
@@ -57,6 +61,7 @@ class PaymentPlan extends ManagerController {
      * @return Response
      */
     public function pendingTransactions() {
+        $this->setMenuItem('PaymentPlanPending');
         $breads   = [];
         $breads[] = ['name' => 'Etudiants réguliers - Opérations de paiement en attente de validation', 'url' => 'paymentplan_pending_transactions'];
         $this->setBreadcrumbs($breads);
@@ -74,6 +79,7 @@ class PaymentPlan extends ManagerController {
      * @return Response
      */
     public function validatedTransactions() {
+        $this->setMenuItem('PaymentPlanValidated');
         $breads   = [];
         $breads[] = ['name' => 'Etudiants réguliers - Opérations de paiement validées', 'url' => 'paymentplan_validated_transactions'];
         $this->setBreadcrumbs($breads);

@@ -8,10 +8,12 @@
 
 namespace App\Security\Controller;
 
+use App\Manager\Service\OrmService;
 use App\Manager\Util\Constant;
 use App\Security\Entity\User;
 use App\Security\Form\UserType;
 use App\Security\Service\UserService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Manager\Controller\ManagerController;
@@ -21,6 +23,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAno;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -31,10 +34,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class Security extends ManagerController {
     /**
      * SecurityApp constructor.
+     *
+     * @param OrmService          $ormService
+     * @param LoggerInterface     $logger
+     * @param TranslatorInterface $translator
+     * @param UserService         $userService
+     * @param Breadcrumbs         $breadcrumbs
      */
-    public function __construct(UserService $userService, Breadcrumbs $breadcrumbs) {
+    public function __construct(OrmService $ormService,
+                                LoggerInterface $logger,
+                                TranslatorInterface $translator, UserService $userService, Breadcrumbs $breadcrumbs) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($userService);
-        $this->setBreadcrumbService($breadcrumbs);
+       
         $this->setController('Security');
         $this->setBundle('App\\Security\\Controller');
         $this->setEntityNamespace('App\\Security');
@@ -67,8 +79,6 @@ class Security extends ManagerController {
      * @IsGranted("ROLE_ADMIN")
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
-     *
-     * @param Breadcrumbs                  $breadcrumbs
      *
      * @return RedirectResponse|Response
      */
@@ -113,7 +123,12 @@ class Security extends ManagerController {
      * @return Response
      */
     public function home() {
-        
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $breads   = [];
         $breads[] = ['name' => 'Utilisateurs', 'url' => 'user_homepage'];
         $this->setBreadcrumbs($breads);

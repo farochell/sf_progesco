@@ -44,12 +44,14 @@ class Gender extends ManagerController {
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
         $this->setEntityName('Gender');
+        $this->setMenuItem('Gender');
+        $this->setMenuGroup('Configuration');
         $this->setTag('@configuration');
     }
     
     /**
      * @Route("/genders", name="gender_homepage")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_SHOW')")
      *
      * @return Response
      */
@@ -80,7 +82,7 @@ class Gender extends ManagerController {
     
     /**
      * @Route("/genders/add", name="gender_add")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_ADD')")
      *
      * @return Response
      */
@@ -96,7 +98,7 @@ class Gender extends ManagerController {
     
     /**
      * @Route("/genders/update", name="gender_upd")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_UPD') ")
      *
      * @return Response
      */
@@ -112,7 +114,7 @@ class Gender extends ManagerController {
     
     /**
      * @Route("/genders/delete", name="gender_del")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_DEL')")
      *
      * @return JsonResponse|RedirectResponse
      */

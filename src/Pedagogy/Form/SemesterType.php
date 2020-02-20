@@ -77,8 +77,7 @@ class SemesterType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(
             [
                 'data_class' => Semester::class,

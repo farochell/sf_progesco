@@ -9,9 +9,10 @@
 
 namespace App\Pedagogy\Controller;
 
+use App\Pedagogy\Service\CourseService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
-use App\Pedagogy\Service\CourseService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,17 +35,19 @@ class Course extends ManagerController {
      * @param CourseService       $courseService
      * @param OrmService          $ormService
      * @param Breadcrumbs         $breadcrumbs
+     * @param LoggerInterface     $logger
      * @param TranslatorInterface $translator
      */
-    public function __construct(CourseService $courseService, OrmService $ormService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
-        $this->setTranslator($translator);
+    public function __construct(CourseService $courseService, OrmService $ormService, Breadcrumbs $breadcrumbs, LoggerInterface $logger,
+                                TranslatorInterface $translator) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($courseService);
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
         $this->setController('Course');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Course');
+        $this->setMenuItem('Course');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

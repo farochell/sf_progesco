@@ -50,6 +50,8 @@ class Registration extends ManagerController {
         $this->setBundle('App\\Schooling\\Controller');
         $this->setEntityNamespace('App\\Schooling');
         $this->setEntityName('Registration');
+        $this->setMenuGroup('Accounting');
+        $this->setMenuItem('Registration');
         $this->setTag('@schooling');
     }
     

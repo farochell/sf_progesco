@@ -31,7 +31,7 @@ class CourseService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Planifier un cours'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Planifier un cours'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('course_add');
         $this->setButtons($button);
         
@@ -63,7 +63,7 @@ class CourseService extends ManagerService
         if ($records) {
             foreach ($records as $record) {
                 $row = $this->getRow($record->getId());
-                $row->addCells($this->getCell('subject', $record->getTeaching()));
+                $row->addCells($this->getCell('subject', $record->getSubject()));
                 $row->addCells($this->getCell('group', $this->splitGroups($record->getGroups())));
                 $row->addCells($this->getCell('semester', $record->getSemester()));
                 $row->addCells($this->getCell('courseDate', $record->getCourseDate()->format('d/m/Y')));

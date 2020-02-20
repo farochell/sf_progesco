@@ -44,6 +44,8 @@ class Semester extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Semester');
+        $this->setMenuItem('Semester');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

@@ -28,7 +28,7 @@ class SchoolYearService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter une année scolaire'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une année scolaire'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('schoolyear_add');
         $this->setButtons($button);
         

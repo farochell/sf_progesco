@@ -31,10 +31,11 @@ class ClassNoteForm extends ManagerController {
     /**
      * ClassNoteForm constructor.
      *
-     * @param OrmService          $ormService
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface     $logger
-     * @param Breadcrumbs         $breadcrumbs
+     * @param OrmService           $ormService
+     * @param TranslatorInterface  $translator
+     * @param LoggerInterface      $logger
+     * @param Breadcrumbs          $breadcrumbs
+     * @param ClassNoteFormService $classNoteFormService
      */
     public function __construct(
         OrmService $ormService,
@@ -49,6 +50,8 @@ class ClassNoteForm extends ManagerController {
         $this->setBundle('App\\Scoring\\Controller');
         $this->setEntityNamespace('App\\Scoring');
         $this->setEntityName('ClassNoteForm');
+        $this->setMenuItem('ClassNoteForm');
+        $this->setMenuGroup('Scoring');
         $this->setTag('@scoring');
     }
     

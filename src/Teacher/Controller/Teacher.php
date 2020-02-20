@@ -44,6 +44,8 @@ class Teacher extends ManagerController {
         $this->setBundle('App\\Teacher\\Controller');
         $this->setEntityNamespace('App\\Teacher');
         $this->setEntityName('Teacher');
+        $this->setMenuItem('Teacher');
+        $this->setMenuGroup('Teacher');
         $this->setTag('@teacher');
     }
     

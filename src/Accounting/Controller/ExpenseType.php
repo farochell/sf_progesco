@@ -52,6 +52,8 @@ class ExpenseType extends ManagerController
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('ExpenseType');
+        $this->setMenuItem('ExpenseType');
+        $this->setMenuGroup('Expense');
         $this->setTag('@accounting');
     }
    

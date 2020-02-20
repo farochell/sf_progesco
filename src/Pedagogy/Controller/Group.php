@@ -12,6 +12,7 @@ use App\Calendar\Service\CalendarService;
 use App\Manager\Util\Constant;
 use App\Pedagogy\Service\GroupService;
 use App\Manager\Service\OrmService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,17 +39,18 @@ class Group extends ManagerController {
      * @param OrmService          $ormService
      * @param Breadcrumbs         $breadcrumbs
      * @param GroupService        $groupService
+     * @param LoggerInterface     $logger
      * @param TranslatorInterface $translator
      */
-    public function __construct(OrmService $ormService, Breadcrumbs $breadcrumbs, GroupService $groupService, TranslatorInterface $translator) {
+    public function __construct(OrmService $ormService, Breadcrumbs $breadcrumbs, GroupService $groupService, LoggerInterface $logger, TranslatorInterface $translator) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($groupService);
-        $this->setOrmService($ormService);
-        $this->setBreadcrumbService($breadcrumbs);
-        $this->setTranslator($translator);
         $this->setController('Group');
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Group');
+        $this->setMenuItem('Group');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

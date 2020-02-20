@@ -51,12 +51,14 @@ class Organization extends ManagerController {
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
         $this->setEntityName('Organization');
+        $this->setMenuItem('Organization');
+        $this->setMenuGroup('Configuration');
         $this->setTag('@configuration');
     }
     
     /**
      * @Route("/organizations", name="organization_homepage")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_SHOW') ")
      *
      * @return Response
      */
@@ -87,7 +89,7 @@ class Organization extends ManagerController {
     
     /**
      * @Route("/organizations/add", name="organization_add")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_ADD') ")
      *
      * @return Response
      */
@@ -103,7 +105,7 @@ class Organization extends ManagerController {
     
     /**
      * @Route("/organizations/update", name="organization_upd")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_UPD') ")
      *
      * @return Response
      */
@@ -119,7 +121,7 @@ class Organization extends ManagerController {
     
     /**
      * @Route("/organizations/delete", name="organization_del")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_DEL')")
      *
      * @return JsonResponse|RedirectResponse
      */

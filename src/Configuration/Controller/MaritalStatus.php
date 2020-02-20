@@ -49,12 +49,14 @@ class MaritalStatus extends ManagerController {
         $this->setBundle('App\\Configuration\\Controller');
         $this->setEntityNamespace('App\\Configuration');
         $this->setEntityName('MaritalStatus');
+        $this->setMenuItem('MaritalStatus');
+        $this->setMenuGroup('Configuration');
         $this->setTag('@configuration');
     }
     
     /**
      * @Route("/marital-status", name="marital-status_homepage")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_SHOW') ")
      * @return Response
      */
     public function home() {
@@ -86,7 +88,7 @@ class MaritalStatus extends ManagerController {
     
     /**
      * @Route("/marital-status/add", name="marital-status_add")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_ADD') ")
      *
      * @return Response
      */
@@ -102,7 +104,7 @@ class MaritalStatus extends ManagerController {
     
     /**
      * @Route("/marital-status/update", name="marital-status_upd")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_UPD') ")
      *
      * @return Response
      */

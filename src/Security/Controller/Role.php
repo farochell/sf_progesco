@@ -10,14 +10,13 @@ namespace App\Security\Controller;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use App\Security\Service\RoleService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
 /**
  * Class Role
  *
@@ -53,7 +52,12 @@ class Role extends ManagerController {
      * @return Response
      */
     public function home() {
-        
+        $this->getRequest()
+             ->getSession()
+             ->set(
+                 'uri', $this->getRequest()
+                             ->getUri()
+             );
         $breads   = [];
         $breads[] = ['name' => 'Liste des rôles', 'url' => 'role_homepage'];
         $this->setBreadcrumbs($breads);

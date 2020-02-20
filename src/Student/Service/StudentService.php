@@ -30,7 +30,7 @@ class StudentService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans("Ajouter un(e) étudiant(e)"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
+            $fabrique->createButton($this->getTranslator()->trans("Ajouter un(e) étudiant(e)"), "fa fa-plus", "white-text btn-secondary");
         $button->setUrl("student_add");
         $this->setButtons($button);
         
@@ -109,7 +109,7 @@ class StudentService extends ManagerService
                 $cell       = $this->getCell("action", "", "cell-action");
                 $cellAction = $this->getCellAction("delete", "ajax");
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "student_del", "bg-danger"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", $this->getTranslator()->trans("Supprimer"), "student_del", "bg-danger white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             

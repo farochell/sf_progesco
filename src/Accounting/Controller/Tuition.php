@@ -50,6 +50,8 @@ class Tuition extends ManagerController {
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('Tuition');
+        $this->setMenuItem('Tuition');
+        $this->setMenuGroup('Accounting');
         $this->setTag('@accounting');
     }
     

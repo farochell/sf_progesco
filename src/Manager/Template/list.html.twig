@@ -1,6 +1,6 @@
-<div class="mui-panel grey darken-4 white-text">
-    <div class="">
-        {% if cardTitle is defined %} {{ cardTitle}}  {% endif %}
+<div class="card">
+    <div class="card-header">
+        <h5>{% if cardTitle is defined %} {{ cardTitle}}  {% endif %}</h5>
     </div>
     <div class="card-body">
         {% if form is defined %}

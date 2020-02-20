@@ -45,6 +45,8 @@ class Study extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Study');
+        $this->setMenuItem('Study');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

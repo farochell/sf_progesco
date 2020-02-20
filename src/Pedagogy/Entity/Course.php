@@ -21,7 +21,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @package App\Pedagogy\Entity
  * @ORM\Table(name="course")
  * @ORM\Entity(repositoryClass="App\Pedagogy\Repository\CourseRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ *
  */
 class Course
 {
@@ -43,7 +43,7 @@ class Course
      * @ORM\ManyToOne(targetEntity="App\Pedagogy\Entity\Subject")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $teaching;
+    private $subject;
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Classroom\Entity\Classroom")
@@ -98,7 +98,6 @@ class Course
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -106,7 +105,6 @@ class Course
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -161,17 +159,17 @@ class Course
     /**
      * @return mixed
      */
-    public function getTeaching()
+    public function getSubject()
     {
         return $this->subject;
     }
     
     /**
-     * @param mixed $teaching
+     * @param mixed $subject
      */
-    public function setTeaching($teaching): void
+    public function setSubject($subject): void
     {
-        $this->subject = $teaching;
+        $this->subject = $subject;
     }
     
     /**

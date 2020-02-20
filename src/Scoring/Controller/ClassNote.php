@@ -53,6 +53,8 @@ class ClassNote extends ManagerController {
         $this->setBundle('App\\Scoring\\Controller');
         $this->setEntityNamespace('App\\Scoring');
         $this->setEntityName('ClassNote');
+        $this->setMenuItem('ClassNote');
+        $this->setMenuGroup('Scoring');
         $this->setTag('@scoring');
     }
     
@@ -149,7 +151,6 @@ class ClassNote extends ManagerController {
      * @return Response
      */
     public function detail() {
-       
         $breads   = [];
         $breads[] = ['name' => 'Notes', 'url' => 'classnote_homepage'];
         $breads[] = ['name' => 'Fiche', 'url' => 'classnote_form'];

@@ -12,7 +12,6 @@ namespace App\Pedagogy\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class CoursePeriod
@@ -21,10 +20,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="course_period")
  * @ORM\Entity(repositoryClass="App\Pedagogy\Repository\CoursePeriodRepository")
  * @UniqueEntity("label",message="Ce nom est déjà utilisé")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
+ * @ORM\HasLifecycleCallbacks()
  */
-class CoursePeriod
-{
+class CoursePeriod {
     /**
      * @var int
      *
@@ -45,7 +43,6 @@ class CoursePeriod
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -53,7 +50,6 @@ class CoursePeriod
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -68,80 +64,70 @@ class CoursePeriod
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
     
     /**
      * @param int $id
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
     
     /**
      * @return string
      */
-    public function getLabel(): string
-    {
+    public function getLabel(): string {
         return $this->label;
     }
     
     /**
      * @param string $label
      */
-    public function setLabel(string $label): void
-    {
+    public function setLabel(string $label): void {
         $this->label = $label;
     }
     
     /**
      * @return \DateTime
      */
-    public function getCreated(): \DateTime
-    {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
     
     /**
      * @param \DateTime $created
      */
-    public function setCreated(\DateTime $created): void
-    {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
     }
     
     /**
      * @return \DateTime
      */
-    public function getUpdated(): \DateTime
-    {
+    public function getUpdated(): \DateTime {
         return $this->updated;
     }
     
     /**
      * @param \DateTime $updated
      */
-    public function setUpdated(\DateTime $updated): void
-    {
+    public function setUpdated(\DateTime $updated): void {
         $this->updated = $updated;
     }
     
     /**
      * @return \DateTime
      */
-    public function getDeletedAt(): \DateTime
-    {
+    public function getDeletedAt(): \DateTime {
         return $this->deletedAt;
     }
     
     /**
      * @param \DateTime $deletedAt
      */
-    public function setDeletedAt(\DateTime $deletedAt): void
-    {
+    public function setDeletedAt(\DateTime $deletedAt): void {
         $this->deletedAt = $deletedAt;
     }
     
@@ -155,8 +141,21 @@ class CoursePeriod
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return $this->label;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue() {
+        $this->created = new \DateTime();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue() {
+        $this->updated = new \DateTime();
     }
 }

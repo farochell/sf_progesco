@@ -15,8 +15,10 @@ require('bootstrap');
 import dt from 'datatables.net-dt';
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 require('./Chart.bundle.min');
-require('bootstrap-datepicker')
+require('bootstrap-datepicker');
 require('./mui.min');
+require('./jquery.slimscroll');
+require('./pcoded.min');
 var bootbox = require('bootbox');
 dt(window, $);
 
@@ -30,7 +32,7 @@ Routing.setRoutingData(routes);
 
 window.validSelection = validSelection;
 window.selectGrade = selectGrade;
-
+window.toggleFullScreen = toggleFullScreen;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $.fn.datepicker.dates['fr'] = {
@@ -45,6 +47,106 @@ $.fn.datepicker.dates['fr'] = {
     titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
     weekStart: 0
 };
+
+$.fn.pcodedmenu = function(e) {
+    var s = (this.attr("id"), {
+            themelayout: "vertical",
+            MenuTrigger: "click",
+            SubMenuTrigger: "click"
+        }),
+        e = $.extend({}, s, e),
+        d = {
+            PcodedMenuInit: function() {
+                d.HandleMenuTrigger(), d.HandleSubMenuTrigger(), d.HandleOffset()
+            },
+            HandleSubMenuTrigger: function() {
+                var s = $(window),
+                    d = s.width();
+                if (1 == $(".pcoded-navbar").hasClass("theme-horizontal"))
+                    if (d >= 768) {
+                        var i = $(".pcoded-inner-navbar .pcoded-submenu > li.pcoded-hasmenu");
+                        i.off("click").off("mouseenter mouseleave").hover(function() {
+                            $(this).addClass("pcoded-trigger")
+                        }, function() {
+                            $(this).removeClass("pcoded-trigger")
+                        })
+                    } else {
+                        var i = $(".pcoded-inner-navbar .pcoded-submenu > li > .pcoded-submenu > li");
+                        i.off("mouseenter mouseleave").off("click").on("click", function() {
+                            0 === $(this).closest(".pcoded-submenu").length ? $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-submenu > li > .pcoded-submenu > li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown()) : $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-submenu > li > .pcoded-submenu > li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-submenu").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                        }), $(".pcoded-inner-navbar .pcoded-submenu > li > .pcoded-submenu > li").on("click", function(e) {
+                            e.stopPropagation(), alert("click call"), 0 === $(this).closest(".pcoded-submenu").length ? $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-hasmenu li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown()) : $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-hasmenu li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-submenu").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                        })
+                    }
+                switch (e.SubMenuTrigger) {
+                    case "click":
+                        $(".pcoded-navbar .pcoded-hasmenu").removeClass("is-hover"), $(".pcoded-inner-navbar .pcoded-submenu > li > .pcoded-submenu > li").on("click", function(e) {
+                            e.stopPropagation(), 0 === $(this).closest(".pcoded-submenu").length ? $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-submenu > li > .pcoded-submenu > li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown()) : $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-submenu > li > .pcoded-submenu > li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-submenu").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                        }), $(".pcoded-submenu > li").on("click", function(e) {
+                            e.stopPropagation(), 0 === $(this).closest(".pcoded-submenu").length ? $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-hasmenu li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown()) : $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($(".pcoded-hasmenu li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-submenu").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                        })
+                }
+            },
+            HandleMenuTrigger: function() {
+                var s = $(window),
+                    d = s.width();
+                if (1 == $(".pcoded-navbar").hasClass("theme-horizontal")) {
+                    var i = $(".pcoded-inner-navbar > li");
+                    d >= 768 ? i.off("click").off("mouseenter mouseleave").hover(function() {
+                        if ($(this).addClass("pcoded-trigger"), $(".pcoded-submenu", this).length) {
+                            var e = $(".pcoded-submenu:first", this),
+                                s = e.offset(),
+                                d = s.left,
+                                i = e.width();
+                            $(window).height();
+                            if (d + i <= $(window).width()) $(this).removeClass("edge");
+                            else {
+                                var o = $(".sidenav-inner").attr("style");
+                                $(".sidenav-inner").css({
+                                    "margin-left": parseInt(o.slice(12, o.length - 3)) - 80
+                                }), $(".sidenav-horizontal-prev").removeClass("disabled")
+                            }
+                        }
+                    }, function() {
+                        $(this).removeClass("pcoded-trigger")
+                    }) : i.off("mouseenter mouseleave").off("click").on("click", function() {
+                        $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($("li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                    })
+                }
+                switch (e.MenuTrigger) {
+                    case "click":
+                        $(".pcoded-navbar").removeClass("is-hover"), $(".pcoded-inner-navbar > li:not(.pcoded-menu-caption) ").on("click", function() {
+                            $(this).hasClass("pcoded-trigger") ? ($(this).removeClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideUp()) : ($("li.pcoded-trigger").children(".pcoded-submenu").slideUp(), $(this).closest(".pcoded-inner-navbar").find("li.pcoded-trigger").removeClass("pcoded-trigger"), $(this).addClass("pcoded-trigger"), $(this).children(".pcoded-submenu").slideDown())
+                        })
+                }
+            },
+            HandleOffset: function() {
+                switch (e.themelayout) {
+                    case "horizontal":
+                        "hover" === e.SubMenuTrigger ? $("li.pcoded-hasmenu").on("mouseenter mouseleave", function(e) {
+                            if ($(".pcoded-submenu", this).length) {
+                                var s = $(".pcoded-submenu:first", this),
+                                    d = s.offset(),
+                                    i = d.left,
+                                    o = s.width();
+                                $(window).height();
+                                i + o <= $(window).width() ? $(this).removeClass("edge") : $(this).addClass("edge")
+                            }
+                        }) : $("li.pcoded-hasmenu").on("click", function(e) {
+                            if (e.preventDefault(), $(".pcoded-submenu", this).length) {
+                                var s = $(".pcoded-submenu:first", this),
+                                    d = s.offset(),
+                                    i = d.left,
+                                    o = s.width();
+                                $(window).height();
+                                i + o <= $(window).width() || $(this).toggleClass("edge")
+                            }
+                        })
+                }
+            }
+        };
+    d.PcodedMenuInit()
+}
 
 $.fn.moveToListAndDelete = function (sourceList, destinationList) {
     var opts = $(sourceList + ' option:selected');
@@ -63,6 +165,10 @@ $.fn.moveAllToListAndDelete = function (sourceList, destinationList) {
 };
 
 $(document).ready(function () {
+    $("#pcoded").pcodedmenu({
+        MenuTrigger: "click",
+        SubMenuTrigger: "click"
+    });
     $('.ajaxtable').DataTable({
         language: {
             "decimal": "",
@@ -226,5 +332,20 @@ function selectGrade(url, grade_id, group_id) {
         }
     })
 
+}
+
+function toggleFullScreen() {
+    $(window).height();
+    document.fullscreenElement
+    ||document.mozFullScreenElement
+    ||document.webkitFullscreenElement
+        ?document.cancelFullScreen
+        ?document.cancelFullScreen():document.mozCancelFullScreen
+            ?document.mozCancelFullScreen():document.webkitCancelFullScreen
+            &&document.webkitCancelFullScreen():document.documentElement.requestFullscreen
+        ?document.documentElement.requestFullscreen():document.documentElement.mozRequestFullScreen
+            ?document.documentElement.mozRequestFullScreen():document.documentElement.webkitRequestFullscreen
+            &&document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT),$(".full-screen > i")
+        .toggleClass("icon-maximize"),$(".full-screen > i").toggleClass("icon-minimize")
 }
 

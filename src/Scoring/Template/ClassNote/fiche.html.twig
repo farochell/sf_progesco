@@ -7,12 +7,14 @@
         <div class="col-sm-12">
             <div id="accordionInfoGen" role="tablist" aria-multiselectable="true">
                 <div class="card ">
-                    <div class="card-header grey darken-3" role="tab" id="headingInfoGen">
-                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionInfoGen"
-                           href="#infoGen"
-                           aria-expanded="false" aria-controls="collapseInfoGen">
-                            {% trans %} Informations générales {% endtrans %} - {{ data }}
-                        </a>
+                    <div class="card-header" role="tab" id="headingInfoGen">
+                        <h5>
+                            <a class="header-accordion" data-toggle="collapse" data-parent="#accordionInfoGen"
+                               href="#infoGen"
+                               aria-expanded="false" aria-controls="collapseInfoGen">
+                                {% trans %} Informations générales {% endtrans %} - {{ data }}
+                            </a>
+                        </h5>
                     </div>
                     <div id="infoGen" class="collapse" role="tabpanel" aria-labelledby="headingInfoGen">
                         <div class="card-body">
@@ -51,12 +53,14 @@
     <div class="row mb-2">
         <div class="col-sm-12">
             <div id="accordionClassNote" role="tablist" aria-multiselectable="true">
-                <div class="card  grey darken-3 mt-2">
-                    <div class="card-header grey darken-3" role="tab" id="headingClassNote">
-                        <a class="header-accordion" data-toggle="collapse" data-parent="#accordionClassNote" href="#classNote"
-                           aria-expanded="false" aria-controls="collapseClassNote">
-                            {% trans %}Notes saisies{% endtrans %}
-                        </a>
+                <div class="card mt-2">
+                    <div class="card-header" role="tab" id="headingClassNote">
+                        <h5>
+                            <a class="header-accordion" data-toggle="collapse" data-parent="#accordionClassNote" href="#classNote"
+                               aria-expanded="false" aria-controls="collapseClassNote">
+                                {% trans %}Notes saisies{% endtrans %}
+                            </a>
+                        </h5>
                     </div>
                     <div id="classNote" class="collapse" role="tabpanel" aria-labelledby="headingClassNote">
                         <div class="card-body">

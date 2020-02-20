@@ -47,6 +47,8 @@ class TypeOfRating extends ManagerController {
         $this->setBundle('App\\Scoring\\Controller');
         $this->setEntityNamespace('App\\Scoring');
         $this->setEntityName('TypeOfRating');
+        $this->setMenuItem('TypeOfRating');
+        $this->setMenuGroup('Configuration');
         $this->setTag('@scoring');
     }
     

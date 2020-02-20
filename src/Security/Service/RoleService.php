@@ -24,7 +24,7 @@ class RoleService extends ManagerService
     public function addButton()
     {
         $fabrique = new FabriqueButtonLink();
-        $button   =  $fabrique->createButton($this->getTranslator()->trans("Ajouter un rôle"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4");
+        $button   =  $fabrique->createButton($this->getTranslator()->trans("Ajouter un rôle"), "fa fa-plus", "white-text text-lighten-4 indigo lighten-1");
         $button->setUrl("role_add");
         $this->setButtons($button);
         
@@ -68,7 +68,7 @@ class RoleService extends ManagerService
                 $cell = $this->getCell("action");
                 $cellAction = $this->getCellAction("delete", "link");
                 // Dell attribute
-                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "role_del", "bg-danger"));
+                $cellAction->setCellattribute($this->getCellAttribute("fa fa-trash", "Supprimer", "role_del", "bg-danger white-text"));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
 

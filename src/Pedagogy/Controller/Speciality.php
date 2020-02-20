@@ -50,6 +50,8 @@ class Speciality extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Speciality');
+        $this->setMenuItem('Speciality');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

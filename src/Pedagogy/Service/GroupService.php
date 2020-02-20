@@ -30,7 +30,7 @@ class GroupService extends ManagerService {
     public function addButton() {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter un groupe'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter un groupe'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('group_add');
         $this->setButtons($button);
         
@@ -56,7 +56,10 @@ class GroupService extends ManagerService {
         $table->addHeaders($headers);
         $records = $this->getEm()
                         ->getRepository(Group::class)
-                        ->findAll();
+            ->findBy([
+                'schoolyear' => $this->getSchoolYearHelper()
+                                        ->getActiveYear(),
+            ]);
         
         if ($records) {
             foreach ($records as $record) {
@@ -181,7 +184,7 @@ class GroupService extends ManagerService {
                         'level_id' => $record->getLevel()
                                              ->getId(),
                     ];
-                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Editer'), 'group_del', 'bg-danger', '', $params));
+                    $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'group_del', 'bg-danger white-text', '', $params));
                     $cell->setCellAction($cellAction);
                     $row->addCells($cell);
                     

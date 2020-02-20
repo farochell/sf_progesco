@@ -11,7 +11,6 @@ namespace App\Pedagogy\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Grade
@@ -26,8 +25,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     message="Une classe déjà créée porte le même nom"
  * )
  */
-class Grade
-{
+class Grade {
     /**
      * @var int
      *
@@ -62,7 +60,7 @@ class Grade
     /**
      * @var \DateTime $created
      *
-     * @Gedmo\Timestampable(on="create")
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
@@ -70,7 +68,7 @@ class Grade
     /**
      * @var \DateTime $updated
      *
-     * @Gedmo\Timestampable(on="update")
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated;
@@ -85,112 +83,98 @@ class Grade
     /**
      * @return int
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
     
     /**
      * @param int $id
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
     
     /**
      * @return string
      */
-    public function getLabel(): string
-    {
+    public function getLabel(): string {
         return $this->label;
     }
     
     /**
      * @param string $label
      */
-    public function setLabel(string $label): void
-    {
+    public function setLabel(string $label): void {
         $this->label = $label;
     }
     
     /**
      * @return mixed
      */
-    public function getStudy()
-    {
+    public function getStudy() {
         return $this->study;
     }
     
     /**
      * @param mixed $study
      */
-    public function setStudy($study): void
-    {
+    public function setStudy($study): void {
         $this->study = $study;
     }
     
     /**
      * @return mixed
      */
-    public function getLevel()
-    {
+    public function getLevel() {
         return $this->level;
     }
     
     /**
      * @param mixed $level
      */
-    public function setLevel($level): void
-    {
+    public function setLevel($level): void {
         $this->level = $level;
     }
     
     /**
      * @return \DateTime
      */
-    public function getCreated(): \DateTime
-    {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
     
     /**
      * @param \DateTime $created
      */
-    public function setCreated(\DateTime $created): void
-    {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
     }
     
     /**
      * @return \DateTime
      */
-    public function getUpdated(): \DateTime
-    {
+    public function getUpdated(): \DateTime {
         return $this->updated;
     }
     
     /**
      * @param \DateTime $updated
      */
-    public function setUpdated(\DateTime $updated): void
-    {
+    public function setUpdated(\DateTime $updated): void {
         $this->updated = $updated;
     }
     
     /**
      * @return \DateTime
      */
-    public function getDeletedAt(): \DateTime
-    {
+    public function getDeletedAt(): \DateTime {
         return $this->deletedAt;
     }
     
     /**
      * @param \DateTime $deletedAt
      */
-    public function setDeletedAt(\DateTime $deletedAt): void
-    {
+    public function setDeletedAt(\DateTime $deletedAt): void {
         $this->deletedAt = $deletedAt;
     }
     
@@ -201,10 +185,9 @@ class Grade
         $this->label = "";
     }
     
-    public function __toString()
-    {
-        return $this->label. ' ( '.$this->study.' )';
+    public function __toString() {
+        return $this->label.' ( '.$this->study.' )';
     }
- 
+    
     
 }

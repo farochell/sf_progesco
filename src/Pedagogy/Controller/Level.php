@@ -44,6 +44,8 @@ class Level extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Level');
+        $this->setMenuItem('Level');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

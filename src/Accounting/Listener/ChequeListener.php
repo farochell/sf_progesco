@@ -16,8 +16,7 @@ use App\Accounting\Entity\ScholarshipPaymentPlan;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ChequeListener
-{
+class ChequeListener {
     /**
      * @var ContainerInterface
      */
@@ -26,8 +25,7 @@ class ChequeListener
     /**
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
     
@@ -36,16 +34,15 @@ class ChequeListener
      *
      * @throws \Exception
      */
-    public function prePersist(LifecycleEventArgs $args)
-    {
-        $object = $args->getObject();
+    public function prePersist(LifecycleEventArgs $args) {
+        $object        = $args->getObject();
         $objectManager = $args->getObjectManager();
         if (!$object instanceof Cheque) {
             return;
         }
-        $user          = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
         $object->setUserCreation($user);
-        if($object->getPaymentPlan() != null) {
+        if ($object->getPaymentPlan() != null) {
             $object->setAmount($object->getPaymentPlan()->getAmount());
         } else {
             $object->setAmount($object->getScholarshipPaymentPlan()->getAmount());
@@ -54,7 +51,7 @@ class ChequeListener
         $object->setCreated(new \DateTime('now'));
         $object->setUpdated(new \DateTime('now'));
         $objectManager->flush();
-        if($object->getPaymentPlan() != null) {
+        if ($object->getPaymentPlan() != null) {
             $paymentPlan = $object->getPaymentPlan();
             $paymentPlan->setStatus(PaymentPlan::PAYMENT_CHQ_W);
         } else {

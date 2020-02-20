@@ -78,7 +78,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                         'far fa-credit-card',
                         $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
                         'scholarshippaymentplan_update_status',
-                        'green darken-2',
+                        'green darken-2 white-text',
                         '',
                         $params
                     )
@@ -143,7 +143,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                         'far fa-credit-card',
                         $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
                         'paymentplan_update_status',
-                        'green darken-2',
+                        'green darken-2 white-text',
                         '',
                         $params
                     )
@@ -155,7 +155,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                 $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
                 $cellAction->setCellattribute(
-                    $this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger')
+                    $this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger white-text')
                 );
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
@@ -215,7 +215,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                             'far fa-credit-card',
                             $this->getTranslator()->trans('Effectuer le paiement par virement bancaire'),
                             'scholarshippaymentplan_update_status',
-                            'grey darken-1',
+                            'grey darken-1 white-text',
                             '',
                             $params
                         )
@@ -231,7 +231,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                             'fas fa-money-check',
                             $this->getTranslator()->trans('Effectuer le paiement par chèque'),
                             'cheque_add',
-                            'blue darken-4',
+                            'blue darken-4 white-text',
                             '',
                             $params
                         )
@@ -254,7 +254,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                             'far fa-credit-card',
                             $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
                             'scholarshippaymentplan_update_status',
-                            'green darken-2',
+                            'green darken-2 white-text',
                             '',
                             $params
                         )
@@ -280,7 +280,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                             'fas fa-money-check',
                             $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
                             'scholarshippaymentplan_update_status',
-                            'green darken-2',
+                            'green darken-2 white-text',
                             '',
                             $params
                         )
@@ -300,7 +300,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                             'far fa-file-pdf',
                             $this->getTranslator()->trans('Télécharger le reçu'),
                             'scholarshippaymentplan_payment_receipt',
-                            'yellow',
+                            'yellow white-text',
                             '',
                             $params
                         )
@@ -315,7 +315,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                 $params = ['id' => $record->getId(), 'scholarshippayment_id' => $record->getScholarshipPayment()->getId()];
                 $cellAction->setCellattribute(
                     $this->getCellAttribute(
-                        'fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger', '', $params
+                        'fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger white-text', '', $params
                     )
                 );
                 $cell->setCellAction($cellAction);
@@ -490,7 +490,7 @@ class ScholarshipPaymentPlanService extends ManagerService {
                 $params = ['id' => $record->getId(), 'scholarshippayment_id' => $record->getScholarshipPayment()->getId()];
                 $cellAction->setCellattribute(
                     $this->getCellAttribute(
-                        'fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger', '',
+                        'fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'scholarshippaymentplan_del', 'bg-danger white-text', '',
                         $params
                     )
                 );

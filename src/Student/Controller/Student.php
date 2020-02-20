@@ -12,6 +12,7 @@ namespace App\Student\Controller;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use App\Student\Service\StudentService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,18 +32,19 @@ class Student extends ManagerController {
      *
      * @param OrmService          $ormService
      * @param StudentService      $studentService
+     * @param LoggerInterface     $logger
      * @param Breadcrumbs         $breadcrumbs
      * @param TranslatorInterface $translator
      */
-    public function __construct(OrmService $ormService, StudentService $studentService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
-        $this->setOrmService($ormService);
+    public function __construct(OrmService $ormService, StudentService $studentService,LoggerInterface $logger, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($studentService);
-        $this->setBreadcrumbService($breadcrumbs);
-        $this->setTranslator($translator);
         $this->setController('Student');
         $this->setBundle('App\\Student\\Controller');
         $this->setEntityNamespace('App\\Student');
         $this->setEntityName('Student');
+        $this->setMenuItem('Student');
+        $this->setMenuGroup('Student');
         $this->setTag('@student');
     }
     

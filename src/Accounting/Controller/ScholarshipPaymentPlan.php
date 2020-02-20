@@ -63,6 +63,8 @@ class ScholarshipPaymentPlan extends ManagerController {
         $this->snappy->setOption('no-outline', true);
         $this->snappy->setOption('page-size', 'LETTER');
         $this->snappy->setOption('encoding', 'UTF-8');
+        $this->setMenuItem('ScholarshipPaymentPlan');
+        $this->setMenuGroup('Accounting');
     }
     
     /**
@@ -155,7 +157,7 @@ class ScholarshipPaymentPlan extends ManagerController {
      * @return Response
      */
     public function pendingOperations() {
-        $breads   = [];
+        $this->setMenuItem('ScholarshipPaymentPlanPending');
         $breads[] =
             ['name' => 'Etudiants boursiers - Opérations de paiement en attente de validation', 'url' => 'scholarshippaymentplan_pending_transactions'];
         $this->setBreadcrumbs($breads);
@@ -200,7 +202,7 @@ class ScholarshipPaymentPlan extends ManagerController {
      * @return Response
      */
     public function validatedOperations() {
-        $breads   = [];
+        $this->setMenuItem('ScholarshipPaymentPlanValidated');
         $breads[] = ['name' => 'Etudiants boursiers - Opérations de paiement validées', 'url' => 'paymentplan_validated_transactions'];
         $this->setBreadcrumbs($breads);
         $this->setDisplayTabs(true);

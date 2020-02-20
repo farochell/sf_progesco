@@ -50,6 +50,8 @@ class ScholarshipPayment extends ManagerController {
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('ScholarshipPayment');
+        $this->setMenuItem('ScholarshipPayment');
+        $this->setMenuGroup('Accounting');
         $this->setTag('@accounting');
     }
     

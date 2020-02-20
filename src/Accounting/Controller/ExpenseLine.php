@@ -51,6 +51,8 @@ class ExpenseLine extends ManagerController {
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('ExpenseLine');
+        $this->setMenuItem('ExpenseLine');
+        $this->setMenuGroup('Expense');
         $this->setTag('@accounting');
     }
     

@@ -49,6 +49,8 @@ class SchoolYear extends ManagerController {
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('SchoolYear');
+        $this->setMenuItem('SchoolYear');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

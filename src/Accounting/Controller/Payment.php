@@ -13,13 +13,13 @@ use App\Accounting\Service\PaymentService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Payment
@@ -50,6 +50,8 @@ class Payment extends ManagerController {
         $this->setBundle('App\\Accounting\\Controller');
         $this->setEntityNamespace('App\\Accounting');
         $this->setEntityName('Payment');
+        $this->setMenuItem('Payment');
+        $this->setMenuGroup('Accounting');
         $this->setTag('@accounting');
     }
     
@@ -70,11 +72,13 @@ class Payment extends ManagerController {
         $breads[] = ['name' => 'Paiements étudiants réguliers', 'url' => 'payment_homepage'];
         $this->setBreadcrumbs($breads);
         $this->setDisplayTabs(true);
-        $this->addAction(['function' => 'getOpenPayments', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Paiements soldés')]]);
+        $this->addAction(
+            ['function' => 'getOpenPayments', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans('Paiements non soldés'),
+            ]]
+        );
         $this->addAction(
             ['function' => 'getClosedPayments', 'params' => [], 'tab' => ['title' => $this->getTranslator()->trans(
-                'Paiements
-        non soldés'
+                'Paiements soldés'
             )]]
         );
         

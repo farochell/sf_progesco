@@ -9,9 +9,9 @@
 namespace App\Pedagogy\Service;
 
 
-use App\Pedagogy\Entity\CoursePeriod;
 use App\IHM\Model\Button\FabriqueButtonLink;
 use App\Manager\Service\ManagerService;
+use App\Pedagogy\Entity\CoursePeriod;
 
 /**
  * Class CoursePeriodService
@@ -24,11 +24,12 @@ class CoursePeriodService extends ManagerService
     /**
      * @return array
      */
-    public function addButton()
-    {
+    public function addButton() {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter un type de vacation'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton(
+                $this->getTranslator()->trans('Ajouter un type de vacation'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1'
+            );
         $button->setUrl('courseperiod_add');
         $this->setButtons($button);
         

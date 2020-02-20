@@ -29,7 +29,7 @@ class OrganizationService extends ManagerService
     {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter un établissement'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter un établissement'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('organization_add');
         $this->setButtons($button);
         

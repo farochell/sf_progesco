@@ -46,6 +46,8 @@ class Grade extends ManagerController
         $this->setBundle('App\\Pedagogy\\Controller');
         $this->setEntityNamespace('App\\Pedagogy');
         $this->setEntityName('Grade');
+        $this->setMenuItem('Grade');
+        $this->setMenuGroup('Pedagogy');
         $this->setTag('@pedagogy');
     }
     

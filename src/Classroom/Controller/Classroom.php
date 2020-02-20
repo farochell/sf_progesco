@@ -12,12 +12,14 @@ namespace App\Classroom\Controller;
 use App\Classroom\Service\ClassroomService;
 use App\Manager\Controller\ManagerController;
 use App\Manager\Service\OrmService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class Classroom
@@ -32,23 +34,28 @@ class Classroom extends ManagerController {
      * @param OrmService          $ormService
      * @param ClassroomService    $classroomService
      * @param Breadcrumbs         $breadcrumbs
+     * @param LoggerInterface     $logger
      * @param TranslatorInterface $translator
      */
-    public function __construct(OrmService $ormService, ClassroomService $classroomService, Breadcrumbs $breadcrumbs, TranslatorInterface $translator) {
-        $this->setOrmService($ormService);
+    public function __construct(OrmService $ormService,
+                                ClassroomService $classroomService,
+                                Breadcrumbs $breadcrumbs,
+                                LoggerInterface $logger,
+                                TranslatorInterface $translator) {
+        parent::__construct($ormService, $translator, $logger, $breadcrumbs);
         $this->setService($classroomService);
-        $this->setBreadcrumbService($breadcrumbs);
-        $this->setTranslator($translator);
         $this->setController('Classroom');
         $this->setBundle('App\\Classroom\\Controller');
         $this->setEntityNamespace('App\\Classroom');
         $this->setEntityName('Classroom');
+        $this->setMenuItem('Classroom');
+        $this->setMenuGroup('Classroom');
         $this->setTag('@classroom');
     }
     
     /**
      * @Route("/classrooms", name="classroom_homepage")
-     *
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_SHOW')")
      * @return Response
      */
     public function home() {
@@ -79,7 +86,7 @@ class Classroom extends ManagerController {
     
     /**
      * @Route("/classrooms/add", name="classroom_add")
-     *
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_ADD')")
      *
      * @return Response
      */
@@ -95,7 +102,7 @@ class Classroom extends ManagerController {
     
     /**
      * @Route("/classrooms/update", name="classroom_upd")
-     *
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_UPD')")
      *
      * @return Response
      */
@@ -111,7 +118,7 @@ class Classroom extends ManagerController {
     
     /**
      * @Route("/classrooms/delete", name="classroom_del")
-     *
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_DEL')")
      * @return JsonResponse|RedirectResponse
      */
     public function delete() {
@@ -122,6 +129,7 @@ class Classroom extends ManagerController {
     
     /**
      * @Route("/classrooms/edit", name="classroom_edit")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_SHOW')")
      * @return Response
      */
     public function detail() {

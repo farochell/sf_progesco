@@ -14,246 +14,93 @@
     {% endblock %}
 </head>
 <body>
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            <a href="{{path('admin_homepage')}}" class="b-brand">
 
-<div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>{{ app_title | raw }}</h3>
+                <span class="b-title">{{ app_title | raw }}</span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
         </div>
-
-        <ul class="list-unstyled components">
-            <!-- MENU CONFIGURATION -->
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_SHOW') %}
-                <li class="active">
-                    <a href="#configurationSubmenu" data-toggle="collapse" aria-expanded="false"
-                       class="dropdown-toggle">
-                        <i class="fas fa-cogs"></i>
-                        <span class="CTAs lead">{% trans %}Configuration{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="configurationSubmenu">
-                        <li>
-                            <a href="{{ path('gender_homepage') }}">{% trans %}Genres{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('marital-status_homepage') }}">{% trans %}Situations maritales{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('organization_homepage') }}">{% trans %}Etablissement{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('typeofrating_homepage') }}">{% trans %}Types de devoir{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-            <!-- MENU SALLE DE COURS -->
-            <li class="active">
-                <a href="#classroomSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="fas fa-building"></i>
-                    <span class="CTAs lead">{% trans %}Salles de classe{% endtrans %}</span>
-                </a>
-                <ul class="collapse list-unstyled" id="classroomSubmenu">
-                    <li>
-                        <a href="{{ path('classroom_homepage') }}">{% trans %}Salles{% endtrans %}</a>
-                    </li>
-
-                </ul>
-            </li>
-
-            <!-- MENU PEDAGOGY -->
-            <li class="active">
-                <a href="#pedagogySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span class="CTAs lead">{% trans %}Pédagogie{% endtrans %}</span>
-                </a>
-                <ul class="collapse list-unstyled" id="pedagogySubmenu">
-                    <li>
-                        <a href="{{ path('schoolyear_homepage') }}">{% trans %}Années scolaires{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('semester_homepage') }}">{% trans %}Périodes scolaires{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('study_homepage') }}">{% trans %}Filières{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('level_homepage') }}">{% trans %}Niveaux{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('courseperiod_homepage') }}">{% trans %}Types de vacation{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('speciality_homepage') }}">{% trans %}Spécialités{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('subject_homepage') }}">{% trans %}Matières{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('grade_homepage') }}">{% trans %}Classes{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('group_homepage') }}">{% trans %}Groupes{% endtrans %}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('course_homepage') }}">{% trans %}Planification des cours{% endtrans %}</a>
-                    </li>
-                </ul>
-            </li>
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_NOTATION_SHOW') %}
-                <!-- MENU NOTATION -->
-                <li class="active">
-                    <a href="#notationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-sort-numeric-up"></i>
-                        <span class="CTAs lead">{% trans %}Notation{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="notationSubmenu">
-                        <li>
-                            <a href="{{ path('classnote_homepage') }}">{% trans %}Liste des notes{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_SHOW') %}
-                <!-- MENU TEACHER -->
-                <li class="active">
-                    <a href="#teacherSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-user-tie"></i>
-                        <span class="CTAs lead">{% trans %}Professeurs{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="teacherSubmenu">
-                        <li>
-                            <a href="{{ path('teacher_homepage') }}">{% trans %}Liste des professeurs{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_SHOW') %}
-                <!-- MENU STUDENT -->
-                <li class="active">
-                    <a href="#studentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-user-graduate"></i>
-                        <span class="CTAs lead">{% trans %}Etudiants{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="studentSubmenu">
-                        <li>
-                            <a href="{{ path('student_homepage') }}">{% trans %}Liste des étudiants{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
-                <!-- MENU ACCOUNTING -->
-                <li class="active">
-                    <a href="#accountingSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-money-bill-alt"></i>
-                        <span class="CTAs lead">{% trans %}Comptabilité{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="accountingSubmenu">
-                        <li>
-                            <a href="{{ path('tuition_homepage') }}">{% trans %}Frais de scolarité{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('registration_to_be_validated_homepage') }}">{% trans %}Inscriptions à valider{% endtrans %}</a>
-                        </li>
-                        <li><span class="lead ml-4">{% trans %}Etudiants réguliers{% endtrans %}</span></li>
-                        <li>
-                            <a href="{{ path('payment_homepage') }}">{% trans %}Paiements{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('paymentplan_pending_transactions') }}">{% trans %}Opérations en attente{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('paymentplan_validated_transactions') }}">{% trans %}Opérations validées{% endtrans %}</a>
-                        </li>
-                        <li><span class="lead ml-4">{% trans %}Etudiants boursiers{% endtrans %}</span></li>
-                        <li>
-                            <a href="{{ path('scholarshippayment_homepage') }}">{% trans %}Paiements{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('scholarshippaymentplan_pending_transactions') }}">{% trans %}Opérations en attente{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('scholarshippaymentplan_validated_transactions') }}">{% trans %}Opérations validées{% endtrans %}</a>
-                        </li>
-
-                    </ul>
-                </li>
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
-                <!-- MENU EXPENSE -->
-                <li class="active">
-                    <a href="#expenseSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-money-bill-wave-alt"></i>
-                        <span class="CTAs lead">{% trans %}Dépenses{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="expenseSubmenu">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a href="{{ path('expensetype_homepage') }}">{% trans %}Types de dépense{% endtrans %}</a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="{{ path('expenseline_homepage') }}">{% trans %}Dépenses{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <!-- MENU SECURITY -->
-                <li class="active">
-                    <a href="#securitySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fas fa-users-cog"></i>
-                        <span class="CTAs lead">{% trans %}Administration{% endtrans %}</span>
-                    </a>
-                    <ul class="collapse list-unstyled" id="securitySubmenu">
-                        <li>
-                            <a href="{{ path('role_homepage') }}">{% trans %}Rôles{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('user_homepage') }}">{% trans %}Utilisateurs{% endtrans %}</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('cache_management') }}">{% trans %}Gestion du cache{% endtrans %}</a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-        </ul>
-        <hr>
-        <ul class="list-unstyled ">
-            <li><a href="{{ path('logout') }}"><i
-                            class="fas fa-sign-out-alt"></i>{% trans %} Se déconnecter{% endtrans %}</a></li>
-        </ul>
-    </nav>
-
-    <!-- Page Content -->
-    <div id="content">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg">
-                <button type="button" id="sidebarCollapse" class="btn white-text text-lighten-4 blue-grey darken-1">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-            </nav>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ wo_render_breadcrumbs({ viewTemplate: "breadcrumbs.html.twig" }) }}
-                </div>
+        <div class="navbar-content scroll-div">
+            {{ include('menu.html.twig') }}
+        </div>
+    </div>
+</nav>
+<!-- [ Header ] start -->
+<header class="navbar pcoded-header navbar-expand-lg navbar-light">
+    <div class="m-header">
+        <a class="mobile-menu" id="mobile-collapse1" href="javascript:"><span></span></a>
+        <a href="index.html" class="b-brand">
+            <div class="b-bg">
+                <i class="feather icon-trending-up"></i>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {% block body %}
-                    {% endblock %}
+            <span class="b-title">{{ app_title | raw }}</span>
+        </a>
+    </div>
+    <a class="mobile-menu" id="mobile-header" href="javascript:">
+        <i class="feather icon-more-horizontal"></i>
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <div class="dropdown drp-user">
+                    <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon feather icon-settings"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-notification">
+                        <div class="pro-head">
+
+                            <span>{{ app.user }}</span>
+                            <a href="{{ path('logout') }}" class="dud-logout" title="Logout">
+                                <i class="feather icon-log-out"></i>
+                            </a>
+                        </div>
+                        <!--<ul class="pro-body">
+                            <li><a href="javascript:" class="dropdown-item"><i class="feather icon-settings"></i> Settings</a></li>
+                            <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+                            <li><a href="message.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
+                            <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+                        </ul>-->
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+
+                <!-- [ breadcrumb ] end -->
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ wo_render_breadcrumbs({ viewTemplate: "breadcrumbs.html.twig" }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {% block body %}
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
 
 </body>
 </html>

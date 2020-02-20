@@ -1,0 +1,201 @@
+<ul class="nav pcoded-inner-navbar">
+    <!-- MENU CONFIGURATION -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CONFIGURATION_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Configuration') %}active{% endif %}">
+            <a href="javascript:" class="nav-link  ">
+                <span class="pcoded-micon"><i class="feather icon-box"></i></span>
+                <span class="pcoded-mtext">{% trans %}Configuration{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'Gender') %}active{% endif %}">
+                    <a href="{{ path('gender_homepage') }}">{% trans %}Genres{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'MaritalStatus') %}active{% endif %}">
+                    <a href="{{ path('marital-status_homepage') }}">{% trans %}Situations maritales{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Organization') %}active{% endif %}">
+                    <a href="{{ path('organization_homepage') }}">{% trans %}Etablissement{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'TypeOfRating') %}active{% endif %}">
+                    <a href="{{ path('typeofrating_homepage') }}">{% trans %}Types de devoir{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU SALLE DE COURS -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLASSROOM_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Classroom') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-building"></i></span>
+                <span class="pcoded-mtext">{% trans %}Salles de classe{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'Classroom') %}active{% endif %}">
+                    <a href="{{ path('classroom_homepage') }}">{% trans %}Salles{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU PEDAGOGY -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_PEDAGOGY_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Pedagogy') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-graduation-cap"></i></span>
+                <span class="pcoded-mtext">{% trans %}Pédagogie{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'SchoolYear') %}active{% endif %}">
+                    <a href="{{ path('schoolyear_homepage') }}">{% trans %}Années scolaires{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Semester') %}active{% endif %}">
+                    <a href="{{ path('semester_homepage') }}">{% trans %}Périodes scolaires{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Study') %}active{% endif %}">
+                    <a href="{{ path('study_homepage') }}">{% trans %}Filières{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Level') %}active{% endif %}">
+                    <a href="{{ path('level_homepage') }}">{% trans %}Niveaux{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'CoursePeriod') %}active{% endif %}">
+                    <a href="{{ path('courseperiod_homepage') }}">{% trans %}Types de vacation{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Speciality') %}active{% endif %}">
+                    <a href="{{ path('speciality_homepage') }}">{% trans %}Spécialités{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Subject') %}active{% endif %}">
+                    <a href="{{ path('subject_homepage') }}">{% trans %}Matières{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Grade') %}active{% endif %}">
+                    <a href="{{ path('grade_homepage') }}">{% trans %}Classes{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Group') %}active{% endif %}">
+                    <a href="{{ path('group_homepage') }}">{% trans %}Groupes{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'HourlyVolume') %}active{% endif %}">
+                    <a href="{{ path('hourly_volume_homepage') }}">{% trans %}Volumes horaires{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Course') %}active{% endif %}">
+                    <a href="{{ path('course_homepage') }}">{% trans %}Planification des cours{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU NOTATION -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_NOTATION_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Scoring') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-sort-numeric-up"></i></span>
+                <span class="pcoded-mtext">{% trans %}Notation{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'ClassNote') %}active{% endif %}">
+                    <a href="{{ path('classnote_homepage') }}">{% trans %}Liste des notes{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU TEACHER -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Teacher') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-user-tie"></i></span>
+                <span class="pcoded-mtext">{% trans %}Professeurs{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'Teacher') %}active{% endif %}">
+                    <a href="{{ path('teacher_homepage') }}">{% trans %}Liste des professeurs{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU STUDENT -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_STUDENT_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Student') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-user-graduate"></i></span>
+                <span class="pcoded-mtext">{% trans %}Etudiants{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'Student') %}active{% endif %}">
+                    <a href="{{ path('student_homepage') }}">{% trans %}Liste des étudiants{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU ACCOUNTING -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Accounting') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-money-bill-alt"></i></span>
+                <span class="pcoded-mtext">{% trans %}Comptabilité{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li class="{% if (menuItem is defined and menuItem == 'Tuition') %}active{% endif %}">
+                    <a href="{{ path('tuition_homepage') }}">{% trans %}Frais de scolarité{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'Registration') %}active{% endif %}">
+                    <a href="{{ path('registration_to_be_validated_homepage') }}">{% trans %}Inscriptions à valider{% endtrans %}</a>
+                </li>
+                <li><span class="lead ml-4">{% trans %}Etudiants réguliers{% endtrans %}</span></li>
+                <li class="{% if (menuItem is defined and menuItem == 'Payment') %}active{% endif %}">
+                    <a href="{{ path('payment_homepage') }}">{% trans %}Paiements{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'PaymentPlanPending') %}active{% endif %}">
+                    <a href="{{ path('paymentplan_pending_transactions') }}">{% trans %}Opérations en attente{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'PaymentPlanValidated') %}active{% endif %}">
+                    <a href="{{ path('paymentplan_validated_transactions') }}">{% trans %}Opérations validées{% endtrans %}</a>
+                </li>
+                <li><span class="lead ml-4">{% trans %}Etudiants boursiers{% endtrans %}</span></li>
+                <li class="{% if (menuItem is defined and menuItem == 'ScholarshipPayment') %}active{% endif %}">
+                    <a href="{{ path('scholarshippayment_homepage') }}">{% trans %}Paiements{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'ScholarshipPaymentPlanPending') %}active{% endif %}">
+                    <a href="{{ path('scholarshippaymentplan_pending_transactions') }}">{% trans %}Opérations en attente{% endtrans %}</a>
+                </li>
+                <li class="{% if (menuItem is defined and menuItem == 'ScholarshipPaymentPlanValidated') %}active{% endif %}">
+                    <a href="{{ path('scholarshippaymentplan_validated_transactions') }}">{% trans %}Opérations validées{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU EXPENSE -->
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ACCOUNTING_SHOW') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Expense') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-money-bill-wave-alt"></i></span>
+                <span class="pcoded-mtext">{% trans %}Dépenses{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="{% if (menuItem is defined and menuItem == 'ExpenseType') %}active{% endif %}">
+                        <a href="{{ path('expensetype_homepage') }}">{% trans %}Types de dépense{% endtrans %}</a>
+                    </li>
+                {% endif %}
+                <li class="{% if (menuItem is defined and menuItem == 'ExpenseLine') %}active{% endif %}">
+                    <a href="{{ path('expenseline_homepage') }}">{% trans %}Dépenses{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+    <!-- MENU SECURITY -->
+    {% if is_granted('ROLE_ADMIN') %}
+        <li class="nav-item pcoded-hasmenu {% if (menuGroup is defined and menuGroup == 'Security') %}active{% endif %}">
+            <a href="javascript:" class="nav-link ">
+                <span class="pcoded-micon"><i class="fas fa-users-cog"></i></span>
+                <span class="pcoded-mtext">{% trans %}Administration{% endtrans %}</span>
+            </a>
+            <ul class="pcoded-submenu">
+                <li>
+                    <a href="{{ path('role_homepage') }}">{% trans %}Rôles{% endtrans %}</a>
+                </li>
+                <li>
+                    <a href="{{ path('user_homepage') }}">{% trans %}Utilisateurs{% endtrans %}</a>
+                </li>
+                <li>
+                    <a href="{{ path('cache_management') }}">{% trans %}Gestion du cache{% endtrans %}</a>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+</ul>

@@ -28,6 +28,7 @@ parameters:
     default_redirection: 'homepage'
     button_alignment: 'd-flex justify-content-center'
     cache_directory: '%kernel.project_dir%/var/cache/'
+    expense_line_document_upload_destination: '%kernel.project_dir%/../public/supporting/expenses/'
 
 services:
     # default configuration for services in *this* file
@@ -45,6 +46,16 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+
+    App\Accounting\Service\ExpenseLineFileUploader:
+        arguments:
+            $targetDirectory: '%expense_line_document_upload_destination%'
+
+    App\Manager\EventListener\ExceptionListener:
+        arguments:
+            - '@monolog.logger'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
     App\Calendar\Twig\CalendarExtension:
         arguments: ['@service_container']
@@ -167,6 +178,12 @@ services:
             - { name: doctrine.event_listener, event: prePersist, lazy: true }
             - { name: doctrine.event_listener, event: postPersist, lazy: true }
 
+    hourlyvolume.listener:
+        class: App\Pedagogy\Listener\HourlyVolumeListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, lazy: true }
+            - { name: doctrine.event_listener, event: preUpdate, lazy: true }
+
     App\Student\Listener\StudentListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
@@ -178,6 +195,13 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: preUpdate }
+
+
+    expanselinedocument.listener:
+        class: App\Accounting\Listener\ExpenseLineDocumentListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, lazy: true }
 
     App\Accounting\Listener\AddFeesFieldSubscriber:
         autowire: false
@@ -230,6 +254,12 @@ services:
 
     App\Scoring\Form\ClassNoteType:
         arguments: ['@doctrine.orm.entity_manager','@schoolyear.helper']
+        autowire: false
+        public: true
+        tags: [form.type]
+
+    App\Pedagogy\Form\HourlyVolumeType:
+        arguments: ['@doctrine.orm.entity_manager','@schoolyear.helper', '@translator']
         autowire: false
         public: true
         tags: [form.type]
@@ -344,3 +374,36 @@ knp_paginator:
         pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'
         sortable: '@KnpPaginator/Pagination/sortable_link.html.twig'
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'
+
+
+monolog:
+    handlers:
+        main:
+            type:           fingers_crossed
+            action_level:   error
+            handler:        grouped
+
+        grouped:
+            type:           group
+            members:        [streamed, deduplication]
+
+        streamed:
+            type:           rotating_file
+            max_files:      15
+            path:           '%kernel.logs_dir%/%kernel.environment%.log'
+            level:          info
+
+        deduplication:
+            type:           deduplication
+            handler:        swift
+
+        swift:
+            type:           swift_mailer
+            from_email:     'error@example.com'
+            to_email:       'emile_cma@yahoo.fr'
+            # or list of recipients
+            # to_email:   ['dev1@example.com', 'dev2@example.com', ...]
+            subject:        'An Error Occurred! %%message%%'
+            level:          debug
+            formatter:      monolog.formatter.html
+            content_type:   text/html

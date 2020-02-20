@@ -16,6 +16,7 @@ use App\Schooling\Entity\Registration;
 use App\Scoring\Entity\ClassNote;
 use App\Scoring\Entity\ClassNoteForm;
 use App\Scoring\Entity\TypeOfRating;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ClassNoteService
@@ -30,7 +31,7 @@ class ClassNoteService extends ManagerService {
     public function addButton() {
         $fabrique = new FabriqueButtonLink();
         $button   =
-            $fabrique->createButton($this->getTranslator()->trans('Ajouter une note'), 'fa fa-plus', 'white-text text-lighten-4 light-green darken-4');
+            $fabrique->createButton($this->getTranslator()->trans('Ajouter une note'), 'fa fa-plus', 'white-text text-lighten-4 indigo lighten-1');
         $button->setUrl('classnote_add');
         $this->setButtons($button);
         
@@ -167,8 +168,7 @@ class ClassNoteService extends ManagerService {
                         ->getRepository(ClassNote::class)
                         ->find($id);
         if (!$record) {
-            $this->getLogger()->error('ClassNote ID not found :'.$id);
-            throw new \Exception('ClassNote ID not found :'.$id);
+            throw new NotFoundHttpException('ClassNote ID not found :'.$id);
         }
         
         return $record;

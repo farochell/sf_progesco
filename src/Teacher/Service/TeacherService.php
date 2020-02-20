@@ -28,7 +28,7 @@ class TeacherService extends ManagerService {
         $fabrique = new FabriqueButtonLink();
         $button   =
             $fabrique->createButton(
-                $this->getTranslator()->trans("Ajouter un professeur"), "fa fa-plus", "white-text text-lighten-4 light-green darken-4"
+                $this->getTranslator()->trans("Ajouter un professeur"), "fa fa-plus", "white-text text-lighten-4 indigo lighten-1"
             );
         $button->setUrl("teacher_add");
         $this->setButtons($button);

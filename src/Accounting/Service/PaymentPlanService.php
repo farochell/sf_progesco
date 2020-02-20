@@ -109,7 +109,7 @@ class PaymentPlanService extends ManagerService
                             'fas fa-money-bill-wave',
                             'Effectuer le paiement en espèce',
                             'paymentplan_update_status',
-                            'green darken-1',
+                            'green darken-1 white-text',
                             '',
                             $params
                         )
@@ -126,7 +126,7 @@ class PaymentPlanService extends ManagerService
                             'far fa-credit-card',
                             $this->getTranslator()->trans('Effectuer le paiement par virement bancaire'),
                             'paymentplan_update_status',
-                            'grey darken-1',
+                            'grey darken-1 white-text',
                             '',
                             $params
                         )
@@ -142,7 +142,7 @@ class PaymentPlanService extends ManagerService
                             'fas fa-money-check',
                             $this->getTranslator()->trans('Effectuer le paiement par chèque'),
                             'cheque_add',
-                            'blue darken-4',
+                            'blue darken-4 white-text',
                             '',
                             $params
                         )
@@ -161,7 +161,7 @@ class PaymentPlanService extends ManagerService
                             'far fa-credit-card',
                             $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
                             'paymentplan_update_status',
-                            'green darken-2',
+                            'green darken-2 white-text',
                             '',
                             $params
                         )
@@ -185,7 +185,7 @@ class PaymentPlanService extends ManagerService
                             'fas fa-money-check',
                             $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
                             'paymentplan_update_status',
-                            'green darken-2',
+                            'green darken-2 white-text',
                             '',
                             $params
                         )
@@ -199,7 +199,7 @@ class PaymentPlanService extends ManagerService
                 // Dell attribute
                 $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
                 $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
-                    'bg-danger', '', $params));
+                    'bg-danger white-text', '', $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
             
@@ -248,7 +248,7 @@ class PaymentPlanService extends ManagerService
                 // Dell attribute
                 $params = ['id' => $record->getId(), 'payment_id' => $record->getPayment()->getId()];
                 $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
-                    'bg-danger', '', $params));
+                    'bg-danger white-text', '', $params));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
                 
@@ -374,7 +374,7 @@ class PaymentPlanService extends ManagerService
                         'far fa-credit-card',
                         $this->getTranslator()->trans('Valider la reception du paiement par virement bancaire'),
                         'paymentplan_update_status',
-                        'green darken-2',
+                        'green darken-2 white-text',
                         '',
                         $params
                     )
@@ -386,7 +386,7 @@ class PaymentPlanService extends ManagerService
                 $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
                 $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
-                    'bg-danger'));
+                    'bg-danger white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
@@ -438,7 +438,7 @@ class PaymentPlanService extends ManagerService
                         'far fa-credit-card',
                         $this->getTranslator()->trans('Valider l\'encaissement du chèque'),
                         'paymentplan_update_status',
-                        'green darken-2',
+                        'green darken-2 white-text',
                         '',
                         $params
                     )
@@ -450,7 +450,7 @@ class PaymentPlanService extends ManagerService
                 $cellAction = $this->getCellAction('delete', 'link');
                 // Dell attribute
                 $cellAction->setCellattribute($this->getCellAttribute('fa fa-trash', $this->getTranslator()->trans('Supprimer'), 'paymentplan_del',
-                    'bg-danger'));
+                    'bg-danger white-text'));
                 $cell->setCellAction($cellAction);
                 $row->addCells($cell);
     
