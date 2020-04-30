@@ -37,7 +37,7 @@
         "datepicker-bootstrap": "^1.9.13",
         "encore": "^0.0.30-beta",
         "gijgo": "^1.9.13",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "jszip": "^3.2.2",
         "materialize-css": "^1.0.0-rc.2",
         "moment": "^2.24.0",
