@@ -4,7 +4,7 @@
         "@symfony/webpack-encore": "^0.28.0",
         "core-js": "^3.0.0",
         "datatables.net-bs": "^1.10.20",
-        "node-sass": "^4.12.0",
+        "node-sass": "^7.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "7.0.1",
         "vue": "^2.6.11",
