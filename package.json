@@ -38,7 +38,7 @@
         "encore": "^0.0.30-beta",
         "gijgo": "^1.9.13",
         "jquery": "^3.4.1",
-        "jszip": "^3.2.2",
+        "jszip": "^3.7.0",
         "materialize-css": "^1.0.0-rc.2",
         "moment": "^2.24.0",
         "momentjs": "^2.0.0",
